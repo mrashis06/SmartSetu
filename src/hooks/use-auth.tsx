@@ -13,7 +13,8 @@ import {
   User,
   onAuthStateChanged,
   GoogleAuthProvider,
-  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   signOut as firebaseSignOut,
 } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
@@ -42,33 +43,45 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     return () => unsubscribe();
   }, []);
+  
+  // Handle the redirect result from Google Sign-In
+  useEffect(() => {
+    const handleRedirect = async () => {
+      try {
+        const result = await getRedirectResult(auth);
+        if (result && result.user) {
+          const user = result.user;
+          // New user signed in via redirect. Check their application status.
+          const docRef = doc(db, "loan_applications", user.uid);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            router.push("/dashboard");
+          } else {
+            router.push("/questionnaire");
+          }
+        }
+      } catch (error) {
+         console.error("Error handling redirect result", error);
+      }
+    };
+    
+    // Only handle redirect if not loading and user is not yet set
+    if (!loading && !user) {
+        handleRedirect();
+    }
+  }, [router, loading, user]);
+
 
   const signInWithGoogle = useCallback(async () => {
     const provider = new GoogleAuthProvider();
     try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      
-      if (user) {
-        // Check if a loan application document exists for this user
-        const docRef = doc(db, "loan_applications", user.uid);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-          // If the document exists, they've already submitted the questionnaire.
-          router.push("/dashboard");
-        } else {
-          // Otherwise, they are a new user or haven't submitted.
-          router.push("/questionnaire");
-        }
-      } else {
-        // Fallback in case user is not available after sign-in
-        router.push("/signup");
-      }
+      // Use signInWithRedirect instead of signInWithPopup
+      await signInWithRedirect(auth, provider);
     } catch (error) {
       console.error("Error signing in with Google", error);
     }
-  }, [router]);
+  }, []);
 
   const signOut = useCallback(async () => {
     try {

@@ -17,10 +17,10 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['Space Mono', 'monospace'],
-        headline: ['Playfair Display', 'serif'],
-        sans: ['Space Mono', 'monospace'],
-        serif: ['Playfair Display', 'serif'],
+        body: ['Inter', 'sans-serif'],
+        headline: ['Merriweather', 'serif'],
+        sans: ['Inter', 'sans-serif'],
+        serif: ['Merriweather', 'serif'],
         code: ['monospace'],
       },
       colors: {

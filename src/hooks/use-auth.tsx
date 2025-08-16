@@ -16,6 +16,9 @@ import {
   signInWithRedirect,
   getRedirectResult,
   signOut as firebaseSignOut,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword as firebaseSignInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
@@ -25,6 +28,8 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   signInWithGoogle: () => Promise<void>;
+  signUpWithEmailAndPassword: (email: string, password: string, displayName: string) => Promise<void>;
+  signInWithEmailAndPassword: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -34,13 +39,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  
+  const handleUser = useCallback(async (user: User | null) => {
+    if (user) {
+      const docRef = doc(db, "loan_applications", user.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        router.push("/dashboard");
+      } else {
+        router.push("/questionnaire");
+      }
+    }
+  }, [router]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
       setLoading(false);
     });
-
     return () => unsubscribe();
   }, []);
   
@@ -51,16 +67,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       try {
         const result = await getRedirectResult(auth);
         if (result && result.user) {
-          const user = result.user;
-          // New user signed in via redirect. Check their application status.
-          const docRef = doc(db, "loan_applications", user.uid);
-          const docSnap = await getDoc(docRef);
-
-          if (docSnap.exists()) {
-            router.push("/dashboard");
-          } else {
-            router.push("/questionnaire");
-          }
+          await handleUser(result.user);
         }
       } catch (error) {
          console.error("Error handling redirect result", error);
@@ -69,20 +76,39 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     };
     
-    handleRedirect();
+    // Only call this on initial load
+    const isRedirectResultHandled = sessionStorage.getItem('redirectResultHandled');
+    if (!isRedirectResultHandled) {
+        handleRedirect();
+        sessionStorage.setItem('redirectResultHandled', 'true');
+    }
+    
+    // Cleanup sessionStorage on component unmount
+    return () => {
+      sessionStorage.removeItem('redirectResultHandled');
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
 
   const signInWithGoogle = useCallback(async () => {
     const provider = new GoogleAuthProvider();
     try {
-      // Use signInWithRedirect instead of signInWithPopup
       await signInWithRedirect(auth, provider);
     } catch (error) {
       console.error("Error signing in with Google", error);
     }
   }, []);
+
+  const signUpWithEmailAndPassword = useCallback(async (email: string, password: string, displayName: string) => {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(userCredential.user, { displayName });
+      await handleUser(userCredential.user);
+  }, [handleUser]);
+
+  const signInWithEmailAndPassword = useCallback(async (email: string, password: string) => {
+      const userCredential = await firebaseSignInWithEmailAndPassword(auth, email, password);
+      await handleUser(userCredential.user);
+  }, [handleUser]);
 
   const signOut = useCallback(async () => {
     try {
@@ -93,7 +119,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [router]);
 
-  const value = { user, loading, signInWithGoogle, signOut };
+  const value = { user, loading, signInWithGoogle, signUpWithEmailAndPassword, signInWithEmailAndPassword, signOut };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

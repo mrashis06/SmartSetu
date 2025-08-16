@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -14,6 +15,9 @@ import { Label } from "@/components/ui/label";
 import { Logo } from "@/components/logo";
 import { useAuth } from "@/hooks/use-auth";
 import { Separator } from "@/components/ui/separator";
+import { FormEvent, useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { Loader2 } from "lucide-react";
 
 function GoogleIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -46,12 +50,44 @@ function GoogleIcon(props: React.SVGProps<SVGSVGElement>) {
 
 
 export default function SignUpPage() {
-  const { signInWithGoogle } = useAuth();
+  const { signInWithGoogle, signUpWithEmailAndPassword } = useAuth();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
   const handleGoogleSignIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     await signInWithGoogle();
   };
+
+  const handleSignUp = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!firstName || !email || !password) {
+        toast({
+            variant: "destructive",
+            title: "Missing Fields",
+            description: "Please fill out all required fields.",
+        });
+        return;
+    }
+    setIsLoading(true);
+    try {
+        const displayName = `${firstName} ${lastName}`.trim();
+        await signUpWithEmailAndPassword(email, password, displayName);
+    } catch (error: any) {
+        toast({
+            variant: "destructive",
+            title: "Sign Up Failed",
+            description: error.message || "An unknown error occurred.",
+        });
+    } finally {
+        setIsLoading(false);
+    }
+  };
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-secondary/50 p-4">
@@ -72,15 +108,26 @@ export default function SignUpPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form className="grid gap-4">
+            <form className="grid gap-4" onSubmit={handleSignUp}>
               <div className="grid grid-cols-2 gap-4">
                 <div className="grid gap-2">
                   <Label htmlFor="first-name">First name</Label>
-                  <Input id="first-name" placeholder="Max" required />
+                  <Input 
+                    id="first-name" 
+                    placeholder="Max" 
+                    required 
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                  />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="last-name">Last name</Label>
-                  <Input id="last-name" placeholder="Robinson" required />
+                  <Input 
+                    id="last-name" 
+                    placeholder="Robinson" 
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                  />
                 </div>
               </div>
               <div className="grid gap-2">
@@ -90,13 +137,22 @@ export default function SignUpPage() {
                   type="email"
                   placeholder="m@example.com"
                   required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" required />
+                <Input 
+                    id="password" 
+                    type="password" 
+                    required 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
               </div>
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Create an account
               </Button>
             </form>
@@ -105,6 +161,7 @@ export default function SignUpPage() {
               variant="outline"
               className="w-full"
               onClick={handleGoogleSignIn}
+              disabled={isLoading}
             >
               <GoogleIcon className="mr-2 h-5 w-5" />
               Sign up with Google

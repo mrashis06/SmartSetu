@@ -67,10 +67,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
     
     // Only handle redirect if not loading and user is not yet set
-    if (!loading && !user) {
+    if (!loading) {
         handleRedirect();
     }
-  }, [router, loading, user]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading]);
 
 
   const signInWithGoogle = useCallback(async () => {

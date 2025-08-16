@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Loader2 } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const loadingTexts = [
   "SMARTSETU-AI IS ANALYZING YOUR DATA",
@@ -118,6 +119,7 @@ export default function CalculatingPage() {
             <Link href="/dashboard" className="transition-colors hover:text-primary font-bold">Dashboard</Link>
           </nav>
           <div className="flex items-center gap-4">
+            <ThemeToggle />
             <Avatar>
               <AvatarImage src={user.photoURL ?? ""} alt={user.displayName ?? ""} />
               <AvatarFallback>{user.displayName?.charAt(0).toUpperCase()}</AvatarFallback>

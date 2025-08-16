@@ -16,6 +16,7 @@ import { useQuestionnaire, QuestionnaireData } from "@/context/questionnaire-con
 import { calculateAltScore, AltScoreOutput } from "@/ai/flows/alt-score-flow";
 import { ScoreBar } from "@/components/score-bar";
 import { motion } from "framer-motion";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 // Extend QuestionnaireData to include the optional altScoreResult
 type ApplicationData = QuestionnaireData & {
@@ -107,6 +108,7 @@ export default function AltScorePage() {
             <Link href="/dashboard" className="transition-colors hover:text-primary-foreground/80 font-bold">Dashboard</Link>
           </nav>
           <div className="flex items-center gap-4">
+            <ThemeToggle />
             <Avatar>
               <AvatarImage src={user.photoURL ?? ""} alt={user.displayName ?? ""} />
               <AvatarFallback>{user.displayName?.charAt(0).toUpperCase()}</AvatarFallback>

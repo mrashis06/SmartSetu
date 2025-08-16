@@ -14,6 +14,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Menu, Loader2 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 function SparkleIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -148,6 +149,7 @@ export default function DashboardPage() {
             <Link href="/dashboard" className="transition-colors hover:text-primary font-bold">Dashboard</Link>
           </nav>
           <div className="flex items-center gap-4">
+            <ThemeToggle />
             <Avatar>
               <AvatarImage src={user.photoURL ?? ""} alt={user.displayName ?? ""} />
               <AvatarFallback>{user.displayName?.charAt(0).toUpperCase()}</AvatarFallback>

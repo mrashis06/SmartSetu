@@ -45,7 +45,7 @@ export function FinancialInfoForm({ onNext, onBack }: FinancialInfoFormProps) {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    values: {
       businessType: formData.financialInfo.businessType || "",
       businessDuration: formData.financialInfo.businessDuration || "",
       stockValue: formData.financialInfo.stockValue || "",

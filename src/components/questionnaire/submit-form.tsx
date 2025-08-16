@@ -99,6 +99,7 @@ export function SubmitForm({ onBack, goToStep }: SubmitFormProps) {
         createdAt: serverTimestamp(),
         userId: user.uid,
         userEmail: user.email,
+        status: "under-review",
       });
 
       console.log("Form Submitted:", cleanData);

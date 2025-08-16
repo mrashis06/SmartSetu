@@ -18,6 +18,7 @@ type PersonalInfoData = {
 type FinancialInfoData = {
   businessType?: string;
   businessDuration?: string;
+
   stockValue?: string;
   monthlyUpiTransactions?: string;
   monthlyCashIncome?: string;
@@ -76,50 +77,55 @@ export const QuestionnaireProvider = ({ children, user }: { children: ReactNode,
       if (savedData) {
         const parsedData = JSON.parse(savedData);
         // Ensure email and name are from the authenticated user, but keep other saved data
-        setFormData({
-            ...formData,
+        setFormData((prevData) => ({
+            ...prevData,
             ...parsedData,
             personalInfo: {
-                ...formData.personalInfo,
+                ...prevData.personalInfo,
                 ...parsedData.personalInfo,
-                firstName: user.displayName?.split(" ")[0] || parsedData.personalInfo.firstName,
-                lastName: user.displayName?.split(" ").slice(1).join(" ") || parsedData.personalInfo.lastName,
-                email: user.email || parsedData.personalInfo.email,
+                firstName: user.displayName?.split(" ")[0] || parsedData.personalInfo?.firstName,
+                lastName: user.displayName?.split(" ").slice(1).join(" ") || parsedData.personalInfo?.lastName,
+                email: user.email || parsedData.personalInfo?.email,
             }
-        });
+        }));
       }
     } catch (error) {
         console.error("Failed to parse questionnaire form data from localStorage", error);
     }
+  // We only want to run this on initial load for the user, so we keep the dependency array limited.
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.email, user.displayName]);
 
   useEffect(() => {
+    // This effect runs whenever formData changes, saving it to localStorage.
     try {
-        localStorage.setItem("questionnaireFormData", JSON.stringify(formData));
+        if (Object.keys(formData.personalInfo).length > 2 || Object.keys(formData.financialInfo).length > 0 || Object.keys(formData.additionalInfo).length > 0) {
+            localStorage.setItem("questionnaireFormData", JSON.stringify(formData));
+        }
     } catch (error) {
         console.error("Failed to save questionnaire form data to localStorage", error);
     }
   }, [formData]);
+
 
   const updateFormData = (data: Partial<QuestionnaireData>) => {
     setFormData((prev) => ({ ...prev, ...data }));
   };
 
   const setPersonalInfo = (data: PersonalInfoData) => {
-    updateFormData({ personalInfo: data });
+    setFormData(prev => ({ ...prev, personalInfo: data }));
   };
 
   const setFinancialInfo = (data: FinancialInfoData) => {
-    updateFormData({ financialInfo: data });
+    setFormData(prev => ({ ...prev, financialInfo: data }));
   };
 
   const setAdditionalInfo = (data: AdditionalInfoData) => {
-    updateFormData({ additionalInfo: data });
+    setFormData(prev => ({ ...prev, additionalInfo: data }));
   };
 
   const setDocuments = (data: DocumentUploadData) => {
-    updateFormData({ documents: data });
+    setFormData(prev => ({ ...prev, documents: data }));
   };
 
   return (

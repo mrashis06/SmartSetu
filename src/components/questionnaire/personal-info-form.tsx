@@ -45,7 +45,7 @@ export function PersonalInfoForm({ onNext }: PersonalInfoFormProps) {
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    values: {
       firstName: formData.personalInfo.firstName || "",
       middleName: formData.personalInfo.middleName || "",
       lastName: formData.personalInfo.lastName || "",

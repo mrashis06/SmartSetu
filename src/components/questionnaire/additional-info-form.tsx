@@ -44,7 +44,7 @@ export function AdditionalInfoForm({ onNext, onBack }: AdditionalInfoFormProps) 
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    values: {
       hasCibilScore: formData.additionalInfo.hasCibilScore || undefined,
       cibilScore: formData.additionalInfo.cibilScore || "",
       ownHouse: formData.additionalInfo.ownHouse || undefined,

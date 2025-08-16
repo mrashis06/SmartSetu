@@ -26,15 +26,13 @@ import { useQuestionnaire } from "@/context/questionnaire-context";
 import { useEffect } from "react";
 
 const formSchema = z.object({
-  businessType: z.string().min(1, "Business type is required"),
-  businessDuration: z.string().min(1, "Business duration is required"),
-  stockValue: z.string().min(1, "Daily stock/inventory value is required"),
-  monthlyUpiTransactions: z.string().min(1, "This field is required"),
-  monthlyCashIncome: z.string().min(1, "This field is required"),
-  monthlyExpenses: z.string().min(1, "This field is required"),
-  existingLoan: z.enum(["yes", "no"], {
-    required_error: "You need to select an option.",
-  }),
+  businessType: z.string().optional(),
+  businessDuration: z.string().optional(),
+  stockValue: z.string().optional(),
+  monthlyUpiTransactions: z.string().optional(),
+  monthlyCashIncome: z.string().optional(),
+  monthlyExpenses: z.string().optional(),
+  existingLoan: z.enum(["yes", "no"]).optional(),
 });
 
 type FinancialInfoFormProps = {

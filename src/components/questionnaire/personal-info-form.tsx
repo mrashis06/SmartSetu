@@ -25,15 +25,15 @@ import { useQuestionnaire } from "@/context/questionnaire-context";
 import { useEffect } from "react";
 
 const formSchema = z.object({
-  firstName: z.string().min(1, "First name is required"),
+  firstName: z.string().optional(),
   middleName: z.string().optional(),
-  lastName: z.string().min(1, "Last name is required"),
-  gender: z.string().min(1, "Gender is required"),
-  dob: z.string().min(1, "Date of birth is required."),
-  email: z.string().email("Invalid email address"),
-  phone: z.string().min(10, "Phone number must be at least 10 digits"),
+  lastName: z.string().optional(),
+  gender: z.string().optional(),
+  dob: z.string().optional(),
+  email: z.string().email("Invalid email address").optional(),
+  phone: z.string().optional(),
   altPhone: z.string().optional(),
-  address: z.string().min(1, "Address is required"),
+  address: z.string().optional(),
 });
 
 type PersonalInfoFormProps = {

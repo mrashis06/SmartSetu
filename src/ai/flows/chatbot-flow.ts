@@ -16,13 +16,13 @@ const MessageSchema = z.object({
   content: z.string(),
 });
 
-export const ChatInputSchema = z.object({
+const ChatInputSchema = z.object({
   history: z.array(MessageSchema),
   message: z.string().describe('The user\'s latest message.'),
 });
 export type ChatInput = z.infer<typeof ChatInputSchema>;
 
-export const ChatOutputSchema = z.string().describe("The bot's response.");
+const ChatOutputSchema = z.string().describe("The bot's response.");
 export type ChatOutput = z.infer<typeof ChatOutputSchema>;
 
 export async function chat(input: ChatInput): Promise<ChatOutput> {

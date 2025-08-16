@@ -223,9 +223,10 @@ export function AdditionalInfoForm({ onNext, onBack }: AdditionalInfoFormProps) 
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="benefit-1">Benefit 1</SelectItem>
-                          <SelectItem value="benefit-2">Benefit 2</SelectItem>
-                          <SelectItem value="benefit-3">Benefit 3</SelectItem>
+                          <SelectItem value="pm-svanidhi">PM Svanidhi</SelectItem>
+                          <SelectItem value="pm-mudra-loan">PM Mudra Loan</SelectItem>
+                          <SelectItem value="jan-dhan-dbt">Jan Dhan + DBT</SelectItem>
+                          <SelectItem value="ration-subsidy">Ration/Other Subsidy</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />

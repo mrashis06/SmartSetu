@@ -8,8 +8,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Edit2 } from "lucide-react";
+import { Edit2, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/use-auth";
+import { db } from "@/lib/firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { useRouter } from "next/navigation";
 
 type SubmitFormProps = {
   onBack: () => void;
@@ -56,10 +60,13 @@ const Section = ({ title, data, onEdit }: { title: string; data: Record<string, 
 
 export function SubmitForm({ onBack, goToStep }: SubmitFormProps) {
   const { formData } = useQuestionnaire();
+  const { user } = useAuth();
+  const router = useRouter();
   const [hasConsented, setHasConsented] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!hasConsented) {
       toast({
         variant: "destructive",
@@ -68,12 +75,49 @@ export function SubmitForm({ onBack, goToStep }: SubmitFormProps) {
       });
       return;
     }
-    console.log("Form Submitted:", formData);
-    // Here you would typically send the data to your backend
-    toast({
-      title: "Application Submitted!",
-      description: "Thank you for submitting your application. We will be in touch shortly.",
-    });
+
+    if (!user) {
+        toast({
+            variant: "destructive",
+            title: "Authentication Error",
+            description: "You must be logged in to submit the form.",
+        });
+        return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const docRef = doc(db, "questionnaires", user.uid);
+      await setDoc(docRef, {
+        ...formData,
+        submittedAt: new Date().toISOString(),
+        userId: user.uid,
+        userEmail: user.email,
+      });
+
+      console.log("Form Submitted:", formData);
+      
+      toast({
+        title: "Application Submitted!",
+        description: "Thank you for submitting your application. We will be in touch shortly.",
+      });
+
+      // Clear local storage after successful submission
+      localStorage.removeItem("questionnaireFormData");
+
+      router.push("/dashboard");
+
+    } catch (error) {
+        console.error("Error saving to Firestore:", error);
+        toast({
+            variant: "destructive",
+            title: "Submission Failed",
+            description: "There was an error saving your application. Please try again.",
+        });
+    } finally {
+        setIsSubmitting(false);
+    }
   };
 
   return (
@@ -104,8 +148,11 @@ export function SubmitForm({ onBack, goToStep }: SubmitFormProps) {
       </div>
       
       <div className="mt-8 flex justify-between">
-        <Button variant="outline" onClick={onBack}>Back</Button>
-        <Button onClick={handleSubmit} disabled={!hasConsented}>Submit Application</Button>
+        <Button variant="outline" onClick={onBack} disabled={isSubmitting}>Back</Button>
+        <Button onClick={handleSubmit} disabled={!hasConsented || isSubmitting}>
+            {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Submit Application
+        </Button>
       </div>
     </div>
   );

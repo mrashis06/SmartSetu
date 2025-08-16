@@ -84,10 +84,10 @@ export function FinancialInfoForm({ onNext, onBack }: FinancialInfoFormProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="retail">Retail</SelectItem>
-                      <SelectItem value="service">Service</SelectItem>
-                      <SelectItem value="manufacturing">Manufacturing</SelectItem>
-                       <SelectItem value="other">Other</SelectItem>
+                      <SelectItem value="fruits-vegetables">Fruits / Vegetables Shop</SelectItem>
+                      <SelectItem value="fish-meat-chicken">Fish / Meat / Chicken Shop</SelectItem>
+                      <SelectItem value="kirana-general">Small Kirana / General Shop</SelectItem>
+                       <SelectItem value="chai-thela">Chai / Thela</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -100,9 +100,17 @@ export function FinancialInfoForm({ onNext, onBack }: FinancialInfoFormProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Business Duration</FormLabel>
-                  <FormControl>
-                    <Input placeholder="e.g., 2 years" {...field} />
-                  </FormControl>
+                   <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select business duration" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="less-than-5">Less than 5 years</SelectItem>
+                      <SelectItem value="more-than-5">More than 5 years</SelectItem>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

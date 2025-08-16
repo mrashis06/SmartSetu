@@ -12,7 +12,7 @@ import { Edit2, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
 import { db } from "@/lib/firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 
 type SubmitFormProps = {
@@ -88,10 +88,10 @@ export function SubmitForm({ onBack, goToStep }: SubmitFormProps) {
     setIsSubmitting(true);
 
     try {
-      const docRef = doc(db, "questionnaires", user.uid);
+      const docRef = doc(db, "loan_applications", user.uid);
       await setDoc(docRef, {
         ...formData,
-        submittedAt: new Date().toISOString(),
+        createdAt: serverTimestamp(),
         userId: user.uid,
         userEmail: user.email,
       });

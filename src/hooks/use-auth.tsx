@@ -13,8 +13,7 @@ import {
   User,
   onAuthStateChanged,
   GoogleAuthProvider,
-  signInWithRedirect,
-  getRedirectResult,
+  signInWithPopup,
   signOut as firebaseSignOut,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword as firebaseSignInWithEmailAndPassword,
@@ -60,44 +59,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return () => unsubscribe();
   }, []);
   
-  // Handle the redirect result from Google Sign-In
-  useEffect(() => {
-    const handleRedirect = async () => {
-      setLoading(true);
-      try {
-        const result = await getRedirectResult(auth);
-        if (result && result.user) {
-          await handleUser(result.user);
-        }
-      } catch (error) {
-         console.error("Error handling redirect result", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    // Only call this on initial load
-    const isRedirectResultHandled = sessionStorage.getItem('redirectResultHandled');
-    if (!isRedirectResultHandled) {
-        handleRedirect();
-        sessionStorage.setItem('redirectResultHandled', 'true');
-    }
-    
-    // Cleanup sessionStorage on component unmount
-    return () => {
-      sessionStorage.removeItem('redirectResultHandled');
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const signInWithGoogle = useCallback(async () => {
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithRedirect(auth, provider);
-    } catch (error) {
-      console.error("Error signing in with Google", error);
+      const result = await signInWithPopup(auth, provider);
+      if (result.user) {
+        await handleUser(result.user);
+      }
+    } catch (error: any) {
+      // Don't log error if user closes popup
+      if (error.code !== 'auth/popup-closed-by-user') {
+          console.error("Error signing in with Google", error);
+      }
     }
-  }, []);
+  }, [handleUser]);
 
   const signUpWithEmailAndPassword = useCallback(async (email: string, password: string, displayName: string) => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);

@@ -88,15 +88,20 @@ export function SubmitForm({ onBack, goToStep }: SubmitFormProps) {
     setIsSubmitting(true);
 
     try {
+      // Deep clone and clean the form data to remove undefined values
+      const cleanData = JSON.parse(JSON.stringify(formData), (key, value) => {
+        return value === undefined ? null : value;
+      });
+
       const docRef = doc(db, "loan_applications", user.uid);
       await setDoc(docRef, {
-        ...formData,
+        ...cleanData,
         createdAt: serverTimestamp(),
         userId: user.uid,
         userEmail: user.email,
       });
 
-      console.log("Form Submitted:", formData);
+      console.log("Form Submitted:", cleanData);
       
       toast({
         title: "Application Submitted!",

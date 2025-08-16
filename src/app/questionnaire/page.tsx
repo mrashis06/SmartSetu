@@ -6,13 +6,13 @@ import { useAuth } from "@/hooks/use-auth";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { Logo } from "@/components/logo";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PersonalInfoForm } from "@/components/questionnaire/personal-info-form";
 import { FinancialInfoForm } from "@/components/questionnaire/financial-info-form";
 import { AdditionalInfoForm } from "@/components/questionnaire/additional-info-form";
 import { UploadDocumentsForm } from "@/components/questionnaire/upload-documents-form";
 import { QuestionnaireProvider } from "@/context/questionnaire-context";
+import { SubmitForm } from "@/components/questionnaire/submit-form";
 
 const steps = [
   { id: 1, name: "Personal Info" },
@@ -33,6 +33,12 @@ function QuestionnaireContent() {
   const handleBack = () => {
     setCurrentStep((prev) => (prev > 1 ? prev - 1 : prev));
   };
+  
+  const goToStep = (stepNumber: number) => {
+    if (stepNumber >= 1 && stepNumber <= steps.length) {
+      setCurrentStep(stepNumber);
+    }
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F0FFF0]">
@@ -71,14 +77,7 @@ function QuestionnaireContent() {
                     {currentStep === 2 && <FinancialInfoForm onNext={handleNext} onBack={handleBack} />}
                     {currentStep === 3 && <AdditionalInfoForm onNext={handleNext} onBack={handleBack} />}
                     {currentStep === 4 && <UploadDocumentsForm onNext={handleNext} onBack={handleBack} />}
-                    {currentStep === 5 && <div>Submit Form</div>}
-
-                    {currentStep === 5 && (
-                      <div className="mt-8 flex justify-between">
-                        <Button variant="outline" onClick={handleBack}>Back</Button>
-                        <Button>Submit</Button>
-                      </div>
-                    )}
+                    {currentStep === 5 && <SubmitForm onBack={handleBack} goToStep={goToStep} />}
                 </div>
             </div>
         </main>

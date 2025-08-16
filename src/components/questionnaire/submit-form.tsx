@@ -97,7 +97,7 @@ export function SubmitForm({ onBack, goToStep }: SubmitFormProps) {
               Consent & Agreement
             </Label>
             <p className="text-sm text-muted-foreground">
-              By checking this box, I consent to the collection and processing of my personal data as described in the Privacy Policy. I confirm that all information provided is accurate and complete to the best of my knowledge.
+              I agree that the data is mine and give consent for the next process.
             </p>
           </div>
         </div>

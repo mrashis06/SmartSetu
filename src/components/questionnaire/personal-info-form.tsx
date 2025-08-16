@@ -48,8 +48,6 @@ export function PersonalInfoForm({ onNext }: PersonalInfoFormProps) {
     defaultValues: formData.personalInfo,
   });
 
-  const watchedValues = form.watch();
-
   useEffect(() => {
     const subscription = form.watch((value) => {
       setPersonalInfo(value as z.infer<typeof formSchema>);
@@ -57,10 +55,6 @@ export function PersonalInfoForm({ onNext }: PersonalInfoFormProps) {
     return () => subscription.unsubscribe();
   }, [form, setPersonalInfo]);
   
-  useEffect(() => {
-    form.reset(formData.personalInfo);
-  }, [formData.personalInfo, form]);
-
   function onSubmit(values: z.infer<typeof formSchema>) {
     setPersonalInfo(values);
     onNext();

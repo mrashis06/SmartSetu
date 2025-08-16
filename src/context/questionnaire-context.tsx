@@ -15,14 +15,26 @@ type PersonalInfoData = {
   address: string;
 };
 
+type FinancialInfoData = {
+  businessType: string;
+  businessDuration: string;
+  stockValue: string;
+  monthlyUpiTransactions: string;
+  monthlyCashIncome: string;
+  monthlyExpenses: string;
+  existingLoan: "yes" | "no";
+};
+
 type QuestionnaireData = {
   personalInfo: PersonalInfoData;
+  financialInfo: FinancialInfoData;
 };
 
 interface QuestionnaireContextType {
   formData: QuestionnaireData;
   updateFormData: (data: Partial<QuestionnaireData>) => void;
   setPersonalInfo: (data: PersonalInfoData) => void;
+  setFinancialInfo: (data: FinancialInfoData) => void;
 }
 
 const QuestionnaireContext = createContext<QuestionnaireContextType | undefined>(undefined);
@@ -40,6 +52,15 @@ export const QuestionnaireProvider = ({ children, user }: { children: ReactNode,
       altPhone: "",
       address: "",
     },
+    financialInfo: {
+        businessType: "",
+        businessDuration: "",
+        stockValue: "",
+        monthlyUpiTransactions: "",
+        monthlyCashIncome: "",
+        monthlyExpenses: "",
+        existingLoan: "no",
+    }
   });
 
   useEffect(() => {
@@ -49,8 +70,10 @@ export const QuestionnaireProvider = ({ children, user }: { children: ReactNode,
         const parsedData = JSON.parse(savedData);
         // Ensure email and name are from the authenticated user, but keep other saved data
         setFormData({
+            ...formData,
             ...parsedData,
             personalInfo: {
+                ...formData.personalInfo,
                 ...parsedData.personalInfo,
                 firstName: user.displayName?.split(" ")[0] || parsedData.personalInfo.firstName,
                 lastName: user.displayName?.split(" ").slice(1).join(" ") || parsedData.personalInfo.lastName,
@@ -61,6 +84,7 @@ export const QuestionnaireProvider = ({ children, user }: { children: ReactNode,
     } catch (error) {
         console.error("Failed to parse questionnaire form data from localStorage", error);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.email, user.displayName]);
 
   useEffect(() => {
@@ -79,8 +103,12 @@ export const QuestionnaireProvider = ({ children, user }: { children: ReactNode,
     updateFormData({ personalInfo: data });
   };
 
+  const setFinancialInfo = (data: FinancialInfoData) => {
+    updateFormData({ financialInfo: data });
+  };
+
   return (
-    <QuestionnaireContext.Provider value={{ formData, updateFormData, setPersonalInfo }}>
+    <QuestionnaireContext.Provider value={{ formData, updateFormData, setPersonalInfo, setFinancialInfo }}>
       {children}
     </QuestionnaireContext.Provider>
   );

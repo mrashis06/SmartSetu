@@ -9,6 +9,7 @@ import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PersonalInfoForm } from "@/components/questionnaire/personal-info-form";
+import { FinancialInfoForm } from "@/components/questionnaire/financial-info-form";
 import { QuestionnaireProvider } from "@/context/questionnaire-context";
 
 const steps = [
@@ -65,12 +66,12 @@ function QuestionnaireContent() {
                 
                 <div className="bg-white/50 p-8 rounded-lg shadow-sm">
                     {currentStep === 1 && <PersonalInfoForm onNext={handleNext} />}
-                    {currentStep === 2 && <div>Financial Info Form</div>}
+                    {currentStep === 2 && <FinancialInfoForm onNext={handleNext} onBack={handleBack} />}
                     {currentStep === 3 && <div>Additional Info Form</div>}
                     {currentStep === 4 && <div>Upload Documents Form</div>}
                     {currentStep === 5 && <div>Submit Form</div>}
 
-                    {currentStep > 1 && currentStep < steps.length && (
+                    {currentStep > 2 && currentStep < steps.length && (
                       <div className="mt-8 flex justify-between">
                         <Button variant="outline" onClick={handleBack}>Back</Button>
                         <Button onClick={handleNext}>Next</Button>

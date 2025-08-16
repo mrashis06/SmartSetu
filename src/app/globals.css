@@ -84,16 +84,16 @@
   }
   
   :root {
-    --background: 100 100% 97%;
-    --foreground: 100 25% 25%;
-    --primary: 100 50% 85%;
-    --accent: 100 30% 90%;
+    --background: 90 100% 97%;
+    --foreground: 90 25% 25%;
+    --primary: 90 50% 85%;
+    --accent: 90 30% 90%;
   }
 
   .dark {
-    --background: 100 10% 10%;
-    --foreground: 100 15% 90%;
-    --primary: 100 50% 35%;
-    --accent: 100 15% 20%;
+    --background: 90 10% 10%;
+    --foreground: 90 15% 90%;
+    --primary: 90 50% 35%;
+    --accent: 90 15% 20%;
   }
 }

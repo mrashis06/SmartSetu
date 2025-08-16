@@ -118,6 +118,10 @@ export default function DashboardPage() {
       router.push("/login");
     }
   }, [user, loading, router]);
+  
+  const handleCheckNow = () => {
+    router.push('/calculating');
+  }
 
   if (loading || !user) {
     return (
@@ -215,7 +219,7 @@ export default function DashboardPage() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                     >
-                        <Button className="rounded-full bg-primary/80 hover:bg-primary text-primary-foreground w-full">
+                        <Button className="rounded-full bg-primary/80 hover:bg-primary text-primary-foreground w-full" onClick={handleCheckNow}>
                             Check Now <SparkleIcon className="ml-2 h-4 w-4" />
                         </Button>
                     </motion.div>

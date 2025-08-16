@@ -147,7 +147,7 @@ export default function CalculatingPage() {
         </div>
       </header>
 
-      <main className="flex-1 flex items-center justify-center px-4">
+      <main className="flex-1 flex flex-col items-center justify-center px-4">
         <div className="container mx-auto text-center max-w-2xl">
           <h1 className="text-3xl md:text-5xl font-bold font-serif mb-8">
             Welcome {user.displayName}

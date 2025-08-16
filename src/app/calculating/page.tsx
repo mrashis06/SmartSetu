@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Loader2 } from "lucide-react";
 
 const loadingTexts = [
   "SMARTSETU-AI IS ANALYZING YOUR DATA",
@@ -88,10 +89,18 @@ export default function CalculatingPage() {
     }
   }, [user, loading, router]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      router.push('/alt-score');
+    }, 6000);
+
+    return () => clearTimeout(timer);
+  }, [router]);
+
   if (loading || !user) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-background">
-        <p>Loading...</p>
+        <Loader2 className="animate-spin h-8 w-8" />
       </div>
     );
   }

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useAuth } from "@/hooks/use-auth";
@@ -11,7 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Menu } from "lucide-react";
+import { Menu, Loader2 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 function SparkleIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -71,7 +72,7 @@ const tools = [
     description: "Know your financial strength from UPI and cash flow",
     image: "https://placehold.co/300x200.png",
     hint: "financial growth",
-    path: "/alt-score"
+    path: "/calculating"
   },
   {
     title: "RISK-SCORE",
@@ -129,7 +130,7 @@ export default function DashboardPage() {
   if (loading || !user) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-background">
-        <p>Loading...</p>
+        <Loader2 className="animate-spin h-8 w-8" />
       </div>
     );
   }

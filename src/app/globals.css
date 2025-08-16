@@ -4,25 +4,25 @@
 
 @layer base {
   :root {
-    --background: 150 100% 98%;
-    --foreground: 0 0% 29%;
-    --card: 150 100% 98%;
-    --card-foreground: 0 0% 29%;
-    --popover: 150 100% 98%;
-    --popover-foreground: 0 0% 29%;
-    --primary: 120 60% 85%;
-    --primary-foreground: 0 0% 29%;
-    --secondary: 120 20% 92%;
-    --secondary-foreground: 0 0% 29%;
-    --muted: 120 20% 92%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 120 30% 90%;
-    --accent-foreground: 0 0% 29%;
+    --background: 210 40% 98%;
+    --foreground: 215 25% 27%;
+    --card: 210 40% 98%;
+    --card-foreground: 215 25% 27%;
+    --popover: 210 40% 98%;
+    --popover-foreground: 215 25% 27%;
+    --primary: 90 80% 80%;
+    --primary-foreground: 90 25% 25%;
+    --secondary: 210 40% 91%;
+    --secondary-foreground: 215 25% 27%;
+    --muted: 210 40% 91%;
+    --muted-foreground: 215 20% 45%;
+    --accent: 90 60% 88%;
+    --accent-foreground: 90 25% 25%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 120 20% 85%;
-    --input: 120 20% 88%;
-    --ring: 120 60% 85%;
+    --border: 90 40% 80%;
+    --input: 90 40% 85%;
+    --ring: 90 80% 80%;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
@@ -38,6 +38,7 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
@@ -45,8 +46,8 @@
     --card-foreground: 0 0% 98%;
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 120 60% 85%;
-    --primary-foreground: 240 10% 3.9%;
+    --primary: 90 80% 80%;
+    --primary-foreground: 90 25% 25%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
     --muted: 240 3.7% 15.9%;
@@ -57,7 +58,7 @@
     --destructive-foreground: 0 0% 98%;
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
-    --ring: 120 60% 85%;
+    --ring: 90 80% 80%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
@@ -80,5 +81,19 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  
+  :root {
+    --background: 100 100% 97%;
+    --foreground: 100 25% 25%;
+    --primary: 100 50% 85%;
+    --accent: 100 30% 90%;
+  }
+
+  .dark {
+    --background: 100 10% 10%;
+    --foreground: 100 15% 90%;
+    --primary: 100 50% 35%;
+    --accent: 100 15% 20%;
   }
 }

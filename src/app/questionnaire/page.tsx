@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -8,6 +9,7 @@ import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PersonalInfoForm } from "@/components/questionnaire/personal-info-form";
+import { QuestionnaireProvider } from "@/context/questionnaire-context";
 
 const steps = [
   { id: 1, name: "Personal Info" },
@@ -17,24 +19,9 @@ const steps = [
   { id: 5, name: "Submit" },
 ];
 
-export default function QuestionnairePage() {
-  const { user, loading } = useAuth();
-  const router = useRouter();
+function QuestionnaireContent() {
   const [currentStep, setCurrentStep] = useState(1);
-
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push("/signup");
-    }
-  }, [user, loading, router]);
-
-  if (loading || !user) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-secondary/50">
-        <p>Loading...</p>
-      </div>
-    );
-  }
+  const { user } = useAuth();
 
   const handleNext = () => {
     setCurrentStep((prev) => (prev < steps.length ? prev + 1 : prev));
@@ -43,7 +30,6 @@ export default function QuestionnairePage() {
   const handleBack = () => {
     setCurrentStep((prev) => (prev > 1 ? prev - 1 : prev));
   };
-
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F0FFF0]">
@@ -57,7 +43,7 @@ export default function QuestionnairePage() {
         <main className="flex-1 p-4 sm:p-8">
             <div className="container mx-auto max-w-5xl">
                 <div className="mb-8">
-                    <h1 className="text-3xl font-bold font-serif mb-2">Welcome {user.displayName}!</h1>
+                    <h1 className="text-3xl font-bold font-serif mb-2">Welcome {user!.displayName}!</h1>
                     <p className="text-muted-foreground font-serif tracking-wider">LET US KNOW YOU BETTER</p>
                 </div>
 
@@ -95,4 +81,30 @@ export default function QuestionnairePage() {
         </main>
     </div>
   );
+}
+
+
+export default function QuestionnairePage() {
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push("/signup");
+    }
+  }, [user, loading, router]);
+
+  if (loading || !user) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-secondary/50">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+  
+  return (
+    <QuestionnaireProvider user={{email: user.email, displayName: user.displayName}}>
+      <QuestionnaireContent />
+    </QuestionnaireProvider>
+  )
 }

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,7 +21,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useAuth } from "@/hooks/use-auth";
+import { useQuestionnaire } from "@/context/questionnaire-context";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -39,24 +41,28 @@ type PersonalInfoFormProps = {
 };
 
 export function PersonalInfoForm({ onNext }: PersonalInfoFormProps) {
-  const { user } = useAuth();
+  const { formData, setPersonalInfo } = useQuestionnaire();
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      firstName: user?.displayName?.split(" ")[0] || "",
-      lastName: user?.displayName?.split(" ").slice(1).join(" ") || "",
-      email: user?.email || "",
-      middleName: "",
-      gender: "",
-      dob: "",
-      phone: "",
-      altPhone: "",
-      address: "",
-    },
+    defaultValues: formData.personalInfo,
   });
 
+  const watchedValues = form.watch();
+
+  useEffect(() => {
+    const subscription = form.watch((value) => {
+      setPersonalInfo(value as z.infer<typeof formSchema>);
+    });
+    return () => subscription.unsubscribe();
+  }, [form, setPersonalInfo]);
+  
+  useEffect(() => {
+    form.reset(formData.personalInfo);
+  }, [formData.personalInfo, form]);
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    setPersonalInfo(values);
     onNext();
   }
 

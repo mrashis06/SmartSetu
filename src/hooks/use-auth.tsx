@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -14,9 +15,9 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   signOut as firebaseSignOut,
-  getAdditionalUserInfo,
 } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { auth, db } from "@/lib/firebase";
+import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 
 interface AuthContextType {
@@ -45,8 +46,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signInWithGoogle = useCallback(async () => {
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
-      router.push("/questionnaire");
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      
+      if (user) {
+        // Check if a loan application document exists for this user
+        const docRef = doc(db, "loan_applications", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          // If the document exists, they've already submitted the questionnaire.
+          router.push("/dashboard");
+        } else {
+          // Otherwise, they are a new user or haven't submitted.
+          router.push("/questionnaire");
+        }
+      } else {
+        // Fallback in case user is not available after sign-in
+        router.push("/signup");
+      }
     } catch (error) {
       console.error("Error signing in with Google", error);
     }

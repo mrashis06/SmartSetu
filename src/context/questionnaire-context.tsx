@@ -4,30 +4,40 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
 type PersonalInfoData = {
-  firstName: string;
+  firstName?: string;
   middleName?: string;
-  lastName: string;
-  gender: string;
-  dob: string;
-  email: string;
-  phone: string;
+  lastName?: string;
+  gender?: string;
+  dob?: string;
+  email?: string;
+  phone?: string;
   altPhone?: string;
-  address: string;
+  address?: string;
 };
 
 type FinancialInfoData = {
-  businessType: string;
-  businessDuration: string;
-  stockValue: string;
-  monthlyUpiTransactions: string;
-  monthlyCashIncome: string;
-  monthlyExpenses: string;
-  existingLoan: "yes" | "no";
+  businessType?: string;
+  businessDuration?: string;
+  stockValue?: string;
+  monthlyUpiTransactions?: string;
+  monthlyCashIncome?: string;
+  monthlyExpenses?: string;
+  existingLoan?: "yes" | "no";
+};
+
+type AdditionalInfoData = {
+  hasCibilScore?: "yes" | "no";
+  cibilScore?: string;
+  ownHouse?: "yes" | "no";
+  ownBusiness?: "yes" | "no";
+  govtBenefits?: "yes" | "no";
+  benefitType?: string;
 };
 
 type QuestionnaireData = {
   personalInfo: PersonalInfoData;
   financialInfo: FinancialInfoData;
+  additionalInfo: AdditionalInfoData;
 };
 
 interface QuestionnaireContextType {
@@ -35,6 +45,7 @@ interface QuestionnaireContextType {
   updateFormData: (data: Partial<QuestionnaireData>) => void;
   setPersonalInfo: (data: PersonalInfoData) => void;
   setFinancialInfo: (data: FinancialInfoData) => void;
+  setAdditionalInfo: (data: AdditionalInfoData) => void;
 }
 
 const QuestionnaireContext = createContext<QuestionnaireContextType | undefined>(undefined);
@@ -45,22 +56,9 @@ export const QuestionnaireProvider = ({ children, user }: { children: ReactNode,
       firstName: user.displayName?.split(" ")[0] || "",
       lastName: user.displayName?.split(" ").slice(1).join(" ") || "",
       email: user.email || "",
-      middleName: "",
-      gender: "",
-      dob: "",
-      phone: "",
-      altPhone: "",
-      address: "",
     },
-    financialInfo: {
-        businessType: "",
-        businessDuration: "",
-        stockValue: "",
-        monthlyUpiTransactions: "",
-        monthlyCashIncome: "",
-        monthlyExpenses: "",
-        existingLoan: "no",
-    }
+    financialInfo: {},
+    additionalInfo: {}
   });
 
   useEffect(() => {
@@ -107,8 +105,12 @@ export const QuestionnaireProvider = ({ children, user }: { children: ReactNode,
     updateFormData({ financialInfo: data });
   };
 
+  const setAdditionalInfo = (data: AdditionalInfoData) => {
+    updateFormData({ additionalInfo: data });
+  };
+
   return (
-    <QuestionnaireContext.Provider value={{ formData, updateFormData, setPersonalInfo, setFinancialInfo }}>
+    <QuestionnaireContext.Provider value={{ formData, updateFormData, setPersonalInfo, setFinancialInfo, setAdditionalInfo }}>
       {children}
     </QuestionnaireContext.Provider>
   );

@@ -28,7 +28,7 @@ import { useEffect } from "react";
 const formSchema = z.object({
   businessType: z.string().min(1, "Business type is required"),
   businessDuration: z.string().min(1, "Business duration is required"),
-  stockValue: z.string().min(1, "Stock value is required"),
+  stockValue: z.string().min(1, "Daily stock/inventory value is required"),
   monthlyUpiTransactions: z.string().min(1, "This field is required"),
   monthlyCashIncome: z.string().min(1, "This field is required"),
   monthlyExpenses: z.string().min(1, "This field is required"),
@@ -120,7 +120,7 @@ export function FinancialInfoForm({ onNext, onBack }: FinancialInfoFormProps) {
               name="stockValue"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Stock Value</FormLabel>
+                  <FormLabel>Daily Stock/Inventory Value</FormLabel>
                   <FormControl>
                     <Input placeholder="e.g., 50000" {...field} type="number" />
                   </FormControl>

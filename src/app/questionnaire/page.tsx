@@ -13,6 +13,7 @@ import { AdditionalInfoForm } from "@/components/questionnaire/additional-info-f
 import { UploadDocumentsForm } from "@/components/questionnaire/upload-documents-form";
 import { QuestionnaireProvider } from "@/context/questionnaire-context";
 import { SubmitForm } from "@/components/questionnaire/submit-form";
+import Footer from "@/components/footer";
 
 const steps = [
   { id: 1, name: "Personal Info" },
@@ -81,6 +82,7 @@ function QuestionnaireContent() {
                 </div>
             </div>
         </main>
+        <Footer />
     </div>
   );
 }

@@ -13,6 +13,7 @@ import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Loader2 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import Footer from "@/components/footer";
 
 const loadingTexts = [
   "SMARTSETU-AI IS ANALYZING YOUR DATA",
@@ -156,6 +157,7 @@ export default function CalculatingPage() {
           <FlippingText />
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

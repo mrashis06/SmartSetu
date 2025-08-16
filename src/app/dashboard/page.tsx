@@ -15,6 +15,7 @@ import { motion } from "framer-motion";
 import { Menu, Loader2 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/theme-toggle";
+import Footer from "@/components/footer";
 
 function SparkleIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -235,6 +236,7 @@ export default function DashboardPage() {
           </motion.div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

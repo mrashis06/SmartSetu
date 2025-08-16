@@ -17,6 +17,7 @@ import { calculateAltScore, AltScoreOutput } from "@/ai/flows/alt-score-flow";
 import { ScoreBar } from "@/components/score-bar";
 import { motion } from "framer-motion";
 import { ThemeToggle } from "@/components/theme-toggle";
+import Footer from "@/components/footer";
 
 // Extend QuestionnaireData to include the optional altScoreResult
 type ApplicationData = QuestionnaireData & {
@@ -217,6 +218,7 @@ export default function AltScorePage() {
 
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

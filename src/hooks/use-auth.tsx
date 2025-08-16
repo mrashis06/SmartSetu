@@ -47,6 +47,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // Handle the redirect result from Google Sign-In
   useEffect(() => {
     const handleRedirect = async () => {
+      setLoading(true);
       try {
         const result = await getRedirectResult(auth);
         if (result && result.user) {
@@ -63,15 +64,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
       } catch (error) {
          console.error("Error handling redirect result", error);
+      } finally {
+        setLoading(false);
       }
     };
     
-    // Only handle redirect if not loading and user is not yet set
-    if (!loading) {
-        handleRedirect();
-    }
+    handleRedirect();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading]);
+  }, []);
 
 
   const signInWithGoogle = useCallback(async () => {

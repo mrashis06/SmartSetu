@@ -45,7 +45,15 @@ export function FinancialInfoForm({ onNext, onBack }: FinancialInfoFormProps) {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: formData.financialInfo,
+    defaultValues: {
+      businessType: formData.financialInfo.businessType || "",
+      businessDuration: formData.financialInfo.businessDuration || "",
+      stockValue: formData.financialInfo.stockValue || "",
+      monthlyUpiTransactions: formData.financialInfo.monthlyUpiTransactions || "",
+      monthlyCashIncome: formData.financialInfo.monthlyCashIncome || "",
+      monthlyExpenses: formData.financialInfo.monthlyExpenses || "",
+      existingLoan: formData.financialInfo.existingLoan || undefined,
+    },
   });
 
   useEffect(() => {

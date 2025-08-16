@@ -44,7 +44,14 @@ export function AdditionalInfoForm({ onNext, onBack }: AdditionalInfoFormProps) 
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: formData.additionalInfo,
+    defaultValues: {
+      hasCibilScore: formData.additionalInfo.hasCibilScore || undefined,
+      cibilScore: formData.additionalInfo.cibilScore || "",
+      ownHouse: formData.additionalInfo.ownHouse || undefined,
+      ownBusiness: formData.additionalInfo.ownBusiness || undefined,
+      govtBenefits: formData.additionalInfo.govtBenefits || undefined,
+      benefitType: formData.additionalInfo.benefitType || "",
+    },
   });
 
   const watchHasCibilScore = form.watch("hasCibilScore");

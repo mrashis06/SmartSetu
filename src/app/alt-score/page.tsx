@@ -10,17 +10,22 @@ import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Menu, Loader2, CheckCircle2, AlertTriangle, Lightbulb } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useQuestionnaire, QuestionnaireData } from "@/context/questionnaire-context";
 import { calculateAltScore, AltScoreOutput } from "@/ai/flows/alt-score-flow";
 import { ScoreBar } from "@/components/score-bar";
 import { motion } from "framer-motion";
 
+// Extend QuestionnaireData to include the optional altScoreResult
+type ApplicationData = QuestionnaireData & {
+  altScoreResult?: AltScoreOutput;
+};
+
 export default function AltScorePage() {
   const { user, loading: authLoading, signOut } = useAuth();
   const router = useRouter();
-  const [applicationData, setApplicationData] = useState<QuestionnaireData | null>(null);
+  const [applicationData, setApplicationData] = useState<ApplicationData | null>(null);
   const [altScoreResult, setAltScoreResult] = useState<AltScoreOutput | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -41,14 +46,24 @@ export default function AltScorePage() {
           const docSnap = await getDoc(docRef);
 
           if (docSnap.exists()) {
-            const data = docSnap.data() as QuestionnaireData;
+            const data = docSnap.data() as ApplicationData;
             setApplicationData(data);
             
-            const result = await calculateAltScore({
-              financialInfo: data.financialInfo,
-              additionalInfo: data.additionalInfo,
-            });
-            setAltScoreResult(result);
+            // Check if score already exists
+            if (data.altScoreResult && data.altScoreResult.score) {
+              setAltScoreResult(data.altScoreResult);
+            } else {
+              // If not, calculate it
+              const result = await calculateAltScore({
+                financialInfo: data.financialInfo,
+                additionalInfo: data.additionalInfo,
+              });
+              setAltScoreResult(result);
+              // And save it back to Firestore
+              await updateDoc(docRef, {
+                altScoreResult: result,
+              });
+            }
 
           } else {
             setError("Loan application not found. Please complete the questionnaire.");

@@ -3,6 +3,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { AuthProvider } from '@/hooks/use-auth';
 import { ThemeProvider } from '@/components/theme-provider';
+import { Chatbot } from '@/components/chatbot';
 
 export const metadata: Metadata = {
   title: 'SmartSetu',
@@ -34,6 +35,7 @@ export default function RootLayout({
           <AuthProvider>
             {children}
             <Toaster />
+            <Chatbot />
           </AuthProvider>
         </ThemeProvider>
       </body>

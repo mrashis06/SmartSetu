@@ -28,13 +28,19 @@ const VerifyDocumentsInputSchema = z.object({
     .describe(
       "An optional photo of a PAN card, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
     ),
+  businessType: z
+    .string()
+    .optional()
+    .describe(
+        "The type of business selected by the user. e.g. 'fruits-vegetables', 'fish-meat-chicken' etc."
+    ),
 });
 export type VerifyDocumentsInput = z.infer<typeof VerifyDocumentsInputSchema>;
 
 const VerifyDocumentsOutputSchema = z.object({
   isAadharValid: z.boolean().describe('Whether the Aadhar card is a valid government-issued ID.'),
   isPanValid: z.boolean().describe('Whether the PAN card is a valid government-issued ID. True if not provided.'),
-  isShopPhotoValid: z.boolean().describe('Whether the photo appears to be of a legitimate shop or place of business.'),
+  isShopPhotoValid: z.boolean().describe('Whether the photo appears to be of a legitimate shop or place of business and its content matches the business type.'),
 });
 export type VerifyDocumentsOutput = z.infer<typeof VerifyDocumentsOutputSchema>;
 
@@ -56,8 +62,18 @@ Aadhar Card Analysis:
 
 Shop Photo Analysis:
 - Examine the shop photo: {{media url=shopPhotoDataUri}}
-- Determine if the image is a genuine photograph of a physical shop or a place of business (like a stall, cart, or store). It should not be a selfie, a random object, or an abstract image.
+- First, determine if the image is a genuine photograph of a physical shop or a place of business (like a stall, cart, or store). It should not be a selfie, a random object, or an abstract image.
+{{#if businessType}}
+- Second, analyze the content of the shop photo. The user has specified their business type is '{{businessType}}'.
+- If businessType is 'fruits-vegetables', the photo must contain fruits or vegetables.
+- If businessType is 'fish-meat-chicken', the photo must contain fish, meat, or chicken.
+- If businessType is 'kirana-general', the photo should show a small general or grocery store.
+- If businessType is 'chai-thela', the photo should show a tea stall or cart.
+- The photo must be relevant to the business type.
+- Set isShopPhotoValid to true only if it's a valid shop photo AND its content matches the business type. Otherwise, set it to false.
+{{else}}
 - Set isShopPhotoValid to true if it's a valid shop photo, otherwise set it to false.
+{{/if}}
 
 {{#if panDataUri}}
 PAN Card Analysis:

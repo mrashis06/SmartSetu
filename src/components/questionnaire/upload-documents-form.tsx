@@ -85,6 +85,7 @@ export function UploadDocumentsForm({ onNext, onBack }: UploadDocumentsFormProps
         aadharDataUri: aadhar.preview!,
         shopPhotoDataUri: shop.preview!,
         panDataUri: pan.preview,
+        businessType: formData.financialInfo.businessType,
       });
 
       setAadhar(prev => ({ ...prev, status: result.isAadharValid ? 'approved' : 'rejected' }));

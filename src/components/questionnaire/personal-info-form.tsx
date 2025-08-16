@@ -168,6 +168,9 @@ export function PersonalInfoForm({ onNext }: PersonalInfoFormProps) {
                             date > new Date() || date < new Date("1900-01-01")
                           }
                           initialFocus
+                          captionLayout="dropdown-buttons"
+                          fromYear={1950}
+                          toYear={new Date().getFullYear()}
                         />
                       </PopoverContent>
                     </Popover>
@@ -195,7 +198,12 @@ export function PersonalInfoForm({ onNext }: PersonalInfoFormProps) {
                 <FormItem>
                     <FormLabel>Phone Number</FormLabel>
                     <FormControl>
-                    <Input placeholder="+1 234 567 890" {...field} />
+                      <div className="relative">
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">
+                          +91
+                        </span>
+                        <Input placeholder="98765 43210" {...field} className="pl-10" />
+                      </div>
                     </FormControl>
                     <FormMessage />
                 </FormItem>
@@ -208,7 +216,12 @@ export function PersonalInfoForm({ onNext }: PersonalInfoFormProps) {
                 <FormItem>
                     <FormLabel>Alternative Mobile Number</FormLabel>
                     <FormControl>
-                    <Input placeholder="+1 234 567 890" {...field} />
+                      <div className="relative">
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">
+                          +91
+                        </span>
+                        <Input placeholder="98765 43210" {...field} className="pl-10" />
+                      </div>
                     </FormControl>
                     <FormMessage />
                 </FormItem>

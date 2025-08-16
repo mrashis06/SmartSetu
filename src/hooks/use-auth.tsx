@@ -45,13 +45,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signInWithGoogle = useCallback(async () => {
     const provider = new GoogleAuthProvider();
     try {
-      const result = await signInWithPopup(auth, provider);
-      const additionalInfo = getAdditionalUserInfo(result);
-      if (additionalInfo?.isNewUser) {
-        router.push("/questionnaire");
-      } else {
-        router.push("/dashboard");
-      }
+      await signInWithPopup(auth, provider);
+      router.push("/questionnaire");
     } catch (error) {
       console.error("Error signing in with Google", error);
     }

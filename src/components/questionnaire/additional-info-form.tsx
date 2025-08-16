@@ -108,7 +108,7 @@ export function AdditionalInfoForm({ onNext, onBack }: AdditionalInfoFormProps) 
                   name="cibilScore"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>If yes, how much?</FormLabel>
+                      <FormLabel>What's your CIBIL score?</FormLabel>
                       <FormControl>
                         <Input placeholder="Enter your CIBIL score" {...field} type="number" />
                       </FormControl>
@@ -154,7 +154,7 @@ export function AdditionalInfoForm({ onNext, onBack }: AdditionalInfoFormProps) 
                 name="ownBusiness"
                 render={({ field }) => (
                   <FormItem className="space-y-3">
-                    <FormLabel>Do you own a business?</FormLabel>
+                    <FormLabel>Are you the owner of your business?</FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
@@ -184,7 +184,7 @@ export function AdditionalInfoForm({ onNext, onBack }: AdditionalInfoFormProps) 
                 name="govtBenefits"
                 render={({ field }) => (
                   <FormItem className="space-y-3">
-                    <FormLabel>Do you get benefits from Govt?</FormLabel>
+                    <FormLabel>Do you get financial benefits from Govt?</FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}

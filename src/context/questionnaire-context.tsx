@@ -3,7 +3,7 @@
 
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
-type PersonalInfoData = {
+export type PersonalInfoData = {
   firstName?: string;
   middleName?: string;
   lastName?: string;
@@ -15,7 +15,7 @@ type PersonalInfoData = {
   address?: string;
 };
 
-type FinancialInfoData = {
+export type FinancialInfoData = {
   businessType?: string;
   businessDuration?: string;
 
@@ -26,7 +26,7 @@ type FinancialInfoData = {
   existingLoan?: "yes" | "no";
 };
 
-type AdditionalInfoData = {
+export type AdditionalInfoData = {
   hasCibilScore?: "yes" | "no";
   cibilScore?: string;
   ownHouse?: "yes" | "no";
@@ -35,13 +35,13 @@ type AdditionalInfoData = {
   benefitType?: string;
 };
 
-type DocumentUploadData = {
+export type DocumentUploadData = {
   aadhar?: string;
   pan?: string;
   shop?: string;
 }
 
-type QuestionnaireData = {
+export type QuestionnaireData = {
   personalInfo: PersonalInfoData;
   financialInfo: FinancialInfoData;
   additionalInfo: AdditionalInfoData;

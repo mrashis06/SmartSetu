@@ -70,19 +70,22 @@ const tools = [
     title: "ALT-SCORE",
     description: "Know your financial strength from UPI and cash flow",
     image: "https://placehold.co/300x200.png",
-    hint: "financial growth"
+    hint: "financial growth",
+    path: "/alt-score"
   },
   {
     title: "RISK-SCORE",
     description: "Check your repayment profile and risk level.",
     image: "https://placehold.co/300x200.png",
-    hint: "risk assessment"
+    hint: "risk assessment",
+    path: "/risk-score"
   },
   {
     title: "LOAN ELIGIBILITY",
     description: "See your loan amount, interest, EMI, and tenure",
     image: "https://placehold.co/300x200.png",
-    hint: "loan document"
+    hint: "loan document",
+    path: "/loan-eligibility"
   },
 ];
 
@@ -119,8 +122,8 @@ export default function DashboardPage() {
     }
   }, [user, loading, router]);
   
-  const handleCheckNow = () => {
-    router.push('/calculating');
+  const handleCheckNow = (path: string) => {
+    router.push(path);
   }
 
   if (loading || !user) {
@@ -219,7 +222,7 @@ export default function DashboardPage() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                     >
-                        <Button className="rounded-full bg-primary/80 hover:bg-primary text-primary-foreground w-full" onClick={handleCheckNow}>
+                        <Button className="rounded-full bg-primary/80 hover:bg-primary text-primary-foreground w-full" onClick={() => handleCheckNow(tool.path)}>
                             Check Now <SparkleIcon className="ml-2 h-4 w-4" />
                         </Button>
                     </motion.div>

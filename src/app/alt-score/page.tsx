@@ -14,8 +14,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useQuestionnaire, QuestionnaireData } from "@/context/questionnaire-context";
 import { calculateAltScore, AltScoreOutput } from "@/ai/flows/alt-score-flow";
-import { GaugeMeter } from "@/components/gauge-meter";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ScoreBar } from "@/components/score-bar";
 import { motion } from "framer-motion";
 
 export default function AltScorePage() {
@@ -119,9 +118,9 @@ export default function AltScorePage() {
         </div>
       </header>
 
-      <main className="flex-1 flex flex-col items-center justify-center px-4 py-8">
-        <div className="container mx-auto text-center max-w-4xl">
-           <h1 className="text-3xl md:text-5xl font-bold font-serif mb-12">
+      <main className="flex-1 flex flex-col items-center px-4 py-8">
+        <div className="container mx-auto max-w-4xl">
+           <h1 className="text-3xl md:text-5xl font-bold font-serif mb-12 text-center">
             Welcome {user.displayName}
           </h1>
 
@@ -131,28 +130,30 @@ export default function AltScorePage() {
                 <p className="mt-4 text-muted-foreground font-sans">Calculating your ALT-SCORE...</p>
              </div>
           ) : error ? (
-            <div className="text-red-500 bg-red-100 p-4 rounded-lg">
+            <div className="text-center text-red-500 bg-red-100 p-4 rounded-lg">
                 <p>{error}</p>
                  <Button onClick={() => router.push('/questionnaire')} className="mt-4">Complete Questionnaire</Button>
             </div>
           ) : altScoreResult && (
-            <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
+            <div className="space-y-12">
                 <motion.div 
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7, ease: "easeOut" }}
                     className="flex flex-col items-center"
                 >
-                    <GaugeMeter value={altScoreResult.score} />
-                     <p className="text-xl font-bold mt-4 font-sans tracking-widest">
+                    <ScoreBar value={altScoreResult.score} />
+                     <p className="text-xl font-bold mt-4 font-sans tracking-widest text-center">
                         YOUR ALT-SCORE: {altScoreResult.score}
                     </p>
                 </motion.div>
-                <div className="text-left space-y-8">
+                
+                <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-start">
                      <motion.div
-                        initial={{ opacity: 0, x: 50 }}
+                        initial={{ opacity: 0, x: -50 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5, delay: 0.2 }}
+                        className="space-y-4"
                      >
                         <h3 className="font-bold font-sans tracking-wider mb-3">WHY THIS SCORE?</h3>
                         <ul className="space-y-2">
@@ -168,6 +169,7 @@ export default function AltScorePage() {
                          initial={{ opacity: 0, x: 50 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5, delay: 0.4 }}
+                        className="space-y-4"
                      >
                         <h3 className="font-bold font-sans tracking-wider mb-3 flex items-center"><Lightbulb className="h-5 w-5 text-yellow-400 mr-2" /> TIPS TO IMPROVE:</h3>
                         <ul className="space-y-2 list-disc list-inside font-sans">
@@ -180,16 +182,16 @@ export default function AltScorePage() {
             </div>
           )}
 
-          {!isLoading && (
+          {!isLoading && !error && (
              <motion.div 
-                className="mt-16"
+                className="mt-16 text-center"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.8 }}
             >
                 <Button 
                     size="lg" 
-                    className="rounded-full bg-primary/80 hover:bg-primary text-primary-foreground px-8 py-6 text-lg" 
+                    className="rounded-full bg-primary/80 hover:bg-primary text-primary-foreground px-8 py-4" 
                     onClick={() => router.push('/risk-score')}>
                     PROCEED TO RISK SCORE
                 </Button>

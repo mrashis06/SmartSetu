@@ -1,4 +1,3 @@
-
 "use client";
 
 import { motion } from "framer-motion";
@@ -35,22 +34,26 @@ const GaugeMeter = ({ value }: { value: number }) => {
 
   return (
     <div className="relative w-64 h-48 md:w-80 md:h-60">
-      <svg
-        viewBox="0 0 200 130"
-        className="w-full h-full"
-      >
+      <svg viewBox="0 0 200 130" className="w-full h-full">
         <defs>
           <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-             <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#000" floodOpacity="0.1"/>
+            <feDropShadow
+              dx="0"
+              dy="2"
+              stdDeviation="2"
+              floodColor="#000"
+              floodOpacity="0.1"
+            />
           </filter>
         </defs>
-        
+
         {/* Gauge background arcs */}
         <g transform="translate(100, 100)">
           {colors.map((color, i) => (
             <path
               key={color}
-              d={`M ${-80 * Math.cos(Math.PI * (MIN_ANGLE + i * arcWidth) / 180)} ${-80 * Math.sin(Math.PI * (MIN_ANGLE + i * arcWidth) / 180)} A 80 80 0 0 1 ${-80 * Math.cos(Math.PI * (MIN_ANGLE + (i + 1) * arcWidth) / 180)} ${-80 * Math.sin(Math.PI * (MIN_ANGLE + (i + 1) * arcWidth) / 180)}`}
+              d={`M ${-80 * Math.cos(Math.PI * (MIN_ANGLE + i * arcWidth) / 180)} ${-80 * Math.sin(Math.PI * (MIN_ANGLE + i * arcWidth) / 180)} 
+                 A 80 80 0 0 1 ${-80 * Math.cos(Math.PI * (MIN_ANGLE + (i + 1) * arcWidth) / 180)} ${-80 * Math.sin(Math.PI * (MIN_ANGLE + (i + 1) * arcWidth) / 180)}`}
               fill="none"
               stroke={color}
               strokeWidth="20"
@@ -58,18 +61,52 @@ const GaugeMeter = ({ value }: { value: number }) => {
             />
           ))}
         </g>
-        
-        {/* Gauge labels */}
-        <text x="15" y="115" textAnchor="middle" className="font-bold text-lg fill-current">{MIN_SCORE}</text>
-        <text x="185" y="115" textAnchor="middle" className="font-bold text-lg fill-current">{MAX_SCORE}</text>
-        <text x="45" y="30" textAnchor="middle" className="font-bold text-lg fill-current">550</text>
-         <text x="100" y="15" textAnchor="middle" className="font-bold text-lg fill-current">650</text>
-        <text x="155" y="30" textAnchor="middle" className="font-bold text-lg fill-current">750</text>
 
+        {/* Gauge labels */}
+        <text
+          x="15"
+          y="115"
+          textAnchor="middle"
+          className="font-bold text-lg fill-current"
+        >
+          {MIN_SCORE}
+        </text>
+        <text
+          x="185"
+          y="115"
+          textAnchor="middle"
+          className="font-bold text-lg fill-current"
+        >
+          {MAX_SCORE}
+        </text>
+        <text
+          x="45"
+          y="30"
+          textAnchor="middle"
+          className="font-bold text-lg fill-current"
+        >
+          550
+        </text>
+        <text
+          x="100"
+          y="15"
+          textAnchor="middle"
+          className="font-bold text-lg fill-current"
+        >
+          650
+        </text>
+        <text
+          x="155"
+          y="30"
+          textAnchor="middle"
+          className="font-bold text-lg fill-current"
+        >
+          750
+        </text>
 
         {/* Needle */}
         <g transform="translate(100, 100)" style={{ filter: "url(#shadow)" }}>
-           <motion.g
+          <motion.g
             initial={{ rotate: MIN_ANGLE }}
             animate={{ rotate: angle }}
             transition={{ type: "spring", stiffness: 100, damping: 15, delay: 0.5 }}

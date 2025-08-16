@@ -34,10 +34,17 @@ type AdditionalInfoData = {
   benefitType?: string;
 };
 
+type DocumentUploadData = {
+  aadhar?: string;
+  pan?: string;
+  shop?: string;
+}
+
 type QuestionnaireData = {
   personalInfo: PersonalInfoData;
   financialInfo: FinancialInfoData;
   additionalInfo: AdditionalInfoData;
+  documents: DocumentUploadData;
 };
 
 interface QuestionnaireContextType {
@@ -46,6 +53,7 @@ interface QuestionnaireContextType {
   setPersonalInfo: (data: PersonalInfoData) => void;
   setFinancialInfo: (data: FinancialInfoData) => void;
   setAdditionalInfo: (data: AdditionalInfoData) => void;
+  setDocuments: (data: DocumentUploadData) => void;
 }
 
 const QuestionnaireContext = createContext<QuestionnaireContextType | undefined>(undefined);
@@ -58,7 +66,8 @@ export const QuestionnaireProvider = ({ children, user }: { children: ReactNode,
       email: user.email || "",
     },
     financialInfo: {},
-    additionalInfo: {}
+    additionalInfo: {},
+    documents: {}
   });
 
   useEffect(() => {
@@ -109,8 +118,12 @@ export const QuestionnaireProvider = ({ children, user }: { children: ReactNode,
     updateFormData({ additionalInfo: data });
   };
 
+  const setDocuments = (data: DocumentUploadData) => {
+    updateFormData({ documents: data });
+  };
+
   return (
-    <QuestionnaireContext.Provider value={{ formData, updateFormData, setPersonalInfo, setFinancialInfo, setAdditionalInfo }}>
+    <QuestionnaireContext.Provider value={{ formData, updateFormData, setPersonalInfo, setFinancialInfo, setAdditionalInfo, setDocuments }}>
       {children}
     </QuestionnaireContext.Provider>
   );

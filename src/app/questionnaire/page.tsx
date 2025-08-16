@@ -11,6 +11,7 @@ import Link from "next/link";
 import { PersonalInfoForm } from "@/components/questionnaire/personal-info-form";
 import { FinancialInfoForm } from "@/components/questionnaire/financial-info-form";
 import { AdditionalInfoForm } from "@/components/questionnaire/additional-info-form";
+import { UploadDocumentsForm } from "@/components/questionnaire/upload-documents-form";
 import { QuestionnaireProvider } from "@/context/questionnaire-context";
 
 const steps = [
@@ -69,13 +70,13 @@ function QuestionnaireContent() {
                     {currentStep === 1 && <PersonalInfoForm onNext={handleNext} />}
                     {currentStep === 2 && <FinancialInfoForm onNext={handleNext} onBack={handleBack} />}
                     {currentStep === 3 && <AdditionalInfoForm onNext={handleNext} onBack={handleBack} />}
-                    {currentStep === 4 && <div>Upload Documents Form</div>}
+                    {currentStep === 4 && <UploadDocumentsForm onNext={handleNext} onBack={handleBack} />}
                     {currentStep === 5 && <div>Submit Form</div>}
 
-                    {currentStep > 3 && currentStep < steps.length && (
+                    {currentStep === 5 && (
                       <div className="mt-8 flex justify-between">
                         <Button variant="outline" onClick={handleBack}>Back</Button>
-                        <Button onClick={handleNext}>Next</Button>
+                        <Button>Submit</Button>
                       </div>
                     )}
                 </div>

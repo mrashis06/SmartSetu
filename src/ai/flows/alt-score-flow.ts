@@ -47,8 +47,8 @@ const prompt = ai.definePrompt({
   prompt: `You are a financial analyst specializing in credit scoring for small business owners in India. Your task is to calculate an "ALT-SCORE" based on the provided financial and additional information. The score must be between 300 and 900.
 
 Analyze the following user data:
-- Financial Info: {{financialInfo}}
-- Additional Info: {{additionalInfo}}
+- Financial Info: {{json financialInfo}}
+- Additional Info: {{json additionalInfo}}
 
 Scoring Guidelines:
 - Base Score: Start with a base score of 500.

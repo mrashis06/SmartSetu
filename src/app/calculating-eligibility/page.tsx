@@ -7,13 +7,8 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import AppHeader from "@/components/app-header";
+import { useLanguage } from "@/context/language-context";
 
-
-const loadingTexts = [
-  "SMARTSETU-AI IS ANALYZING YOUR DATA",
-  "PREPARING YOUR REPORT",
-  "ALMOST THERE...",
-];
 
 const blockVariants = {
   initial: {
@@ -47,6 +42,12 @@ const LoadingBlocks = () => (
 );
 
 const FlippingText = () => {
+  const { t } = useLanguage();
+  const loadingTexts = [
+    t('calculating.analyzing'),
+    t('calculating.preparing'),
+    t('calculating.almostThere'),
+  ];
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -54,7 +55,7 @@ const FlippingText = () => {
       setIndex((prevIndex) => (prevIndex + 1) % loadingTexts.length);
     }, 2000);
     return () => clearInterval(interval);
-  }, []);
+  }, [loadingTexts.length]);
 
   return (
     <div className="relative h-8 w-full overflow-hidden text-center">
@@ -78,6 +79,7 @@ const FlippingText = () => {
 export default function CalculatingEligibilityPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (!loading && !user) {
@@ -107,7 +109,7 @@ export default function CalculatingEligibilityPage() {
       <main className="flex-1 flex flex-col items-center justify-center px-4">
         <div className="container mx-auto text-center max-w-2xl">
           <h1 className="text-3xl md:text-5xl font-bold font-serif mb-8">
-            Welcome {user.displayName}
+            {t('calculating.welcome', { name: user.displayName || 'User' })}
           </h1>
           
           <LoadingBlocks />

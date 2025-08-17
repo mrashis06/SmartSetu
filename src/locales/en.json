@@ -47,20 +47,20 @@
     },
     "about": {
         "title": "About SmartSetu",
-        "paragraph1": "We believe in building bridges—not just with technology, but between people, ideas, and opportunities. SmartSetu was founded on the principle of simplifying complexity and empowering individuals and teams to achieve their full potential.",
-        "paragraph2": "Our platform is designed to be intuitive, powerful, and adaptable to your unique workflow, ensuring that you have the right tools to build your own bridge to success.",
+        "paragraph1": "At SmartSetu, we believe that everyone deserves a fair chance to grow, succeed, and be recognized. Our platform is designed to unlock opportunities for individuals and small businesses who are often left behind in the traditional financial system.",
+        "paragraph2": "Our mission is to bridge the gap between ambition and opportunity, so that every vendor, small entrepreneur, and community member can build a stronger, more secure future.",
         "imageAlt": "A diverse team collaborating in a modern office"
     },
     "faq": {
         "title": "Frequently Asked Questions",
         "q1": "What is SmartSetu?",
-        "a1": "SmartSetu is a comprehensive platform designed to streamline collaboration, project management, and communication for teams of all sizes. It acts as a digital bridge, connecting different parts of your workflow into one cohesive experience.",
+        "a1": "SmartSetu is a digital platform that helps small vendors and entrepreneurs access fair loans and financial opportunities. We use innovative scoring methods like Alt-Score and Risk Score to go beyond traditional CIBIL checks, giving everyone a chance to prove their potential.",
         "q2": "Who is SmartSetu for?",
-        "a2": "SmartSetu is for anyone looking to improve their productivity and collaboration. This includes startups, established enterprises, freelancers, and students. Our flexible tools can be adapted to any industry or project type.",
-        "q3": "Can I integrate SmartSetu with other tools?",
-        "a3": "Yes! We are constantly expanding our library of integrations. SmartSetu is designed to work seamlessly with the tools you already use, creating a centralized hub for all your work.",
-        "q4": "Is there a free trial available?",
-        "a4": "Absolutely. You can sign up using the 'Get Started' button to explore the core features of SmartSetu with a 14-day free trial. No credit card required."
+        "a2": "SmartSetu is designed for small business owners, street vendors, and self-employed individuals who may not have a formal credit history but need quick access to loans and financial tools.",
+        "q3": "How does SmartSetu decide loan eligibility?",
+        "a3": "We calculate your loan eligibility using Alt-Score and Risk Score, which consider UPI transactions, repayment history, and business stability. Based on your profile, you get a fair loan limit with transparent EMI and repayment details.",
+        "q4": "Is my data safe with SmartSetu?",
+        "a4": "Yes. We follow strict security practices and only use your data to improve your loan eligibility and provide you better services. Your information is never shared without your consent."
     },
     "footer": {
         "language": "Language",
@@ -132,5 +132,32 @@
         "welcomeTitle": "How can I help you today?",
         "inputPlaceholder": "Type a message...",
         "toggleChat": "Toggle Chat"
+    },
+    "dashboard": {
+        "welcome": "Welcome {{name}}",
+        "applicationStatusLabel": "YOUR LOAN APPLICATION:",
+        "applicationStatus": "UNDER REVIEW...",
+        "exploreTools": "Till then you can explore our smart AI tools",
+        "checkNowButton": "Check Now",
+        "tools": {
+            "altScore": {
+                "title": "ALT-SCORE",
+                "description": "Know your financial strength from UPI and cash flow"
+            },
+            "riskScore": {
+                "title": "RISK-SCORE",
+                "description": "Check your repayment profile and risk level."
+            },
+            "loanEligibility": {
+                "title": "LOAN ELIGIBILITY",
+                "description": "See your loan amount, interest, EMI, and tenure"
+            }
+        }
+    },
+    "calculating": {
+        "welcome": "Welcome {{name}}",
+        "analyzing": "SMARTSETU-AI IS ANALYZING YOUR DATA",
+        "preparing": "PREPARING YOUR REPORT",
+        "almostThere": "ALMOST THERE..."
     }
 }

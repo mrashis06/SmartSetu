@@ -6,25 +6,13 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Logo } from "@/components/logo";
-import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Menu, Loader2, Home, LayoutDashboard, Settings, User as UserIcon } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { Loader2 } from "lucide-react";
 import Footer from "@/components/footer";
 import AppHeader from "@/components/app-header";
+import { useLanguage } from "@/context/language-context";
 
 function SparkleIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -52,6 +40,11 @@ const Typewriter = ({ text, delay = 100 }: { text: string; delay?: number }) => 
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
+    setCurrentText("");
+    setCurrentIndex(0);
+  }, [text]);
+
+  useEffect(() => {
     if (currentIndex < text.length) {
       const timeout = setTimeout(() => {
         setCurrentText((prevText) => prevText + text[currentIndex]);
@@ -77,30 +70,6 @@ const AnimatedProgress = ({ value }: { value: number }) => {
   return <Progress value={progress} className="w-full h-2 bg-green-200 [&>div]:bg-green-500" />;
 }
 
-const tools = [
-  {
-    title: "ALT-SCORE",
-    description: "Know your financial strength from UPI and cash flow",
-    image: "https://placehold.co/300x200.png",
-    hint: "financial growth",
-    path: "/calculating"
-  },
-  {
-    title: "RISK-SCORE",
-    description: "Check your repayment profile and risk level.",
-    image: "https://placehold.co/300x200.png",
-    hint: "risk assessment",
-    path: "/risk-score"
-  },
-  {
-    title: "LOAN ELIGIBILITY",
-    description: "See your loan amount, interest, EMI, and tenure",
-    image: "https://placehold.co/300x200.png",
-    hint: "loan document",
-    path: "/loan-eligibility"
-  },
-];
-
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -125,8 +94,33 @@ const itemVariants = {
 };
 
 export default function DashboardPage() {
-  const { user, loading, signOut } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
+  const { t } = useLanguage();
+
+  const tools = [
+    {
+      title: t('dashboard.tools.altScore.title'),
+      description: t('dashboard.tools.altScore.description'),
+      image: "https://placehold.co/300x200.png",
+      hint: "financial growth",
+      path: "/calculating"
+    },
+    {
+      title: t('dashboard.tools.riskScore.title'),
+      description: t('dashboard.tools.riskScore.description'),
+      image: "https://placehold.co/300x200.png",
+      hint: "risk assessment",
+      path: "/risk-score"
+    },
+    {
+      title: t('dashboard.tools.loanEligibility.title'),
+      description: t('dashboard.tools.loanEligibility.description'),
+      image: "https://placehold.co/300x200.png",
+      hint: "loan document",
+      path: "/loan-eligibility"
+    },
+  ];
 
   useEffect(() => {
     if (!loading && !user) {
@@ -152,18 +146,18 @@ export default function DashboardPage() {
       <main className="flex-1 px-4 py-8 sm:py-16">
         <div className="container mx-auto text-center">
           <h1 className="text-3xl md:text-5xl font-bold font-serif mb-4">
-            <Typewriter text={`Welcome ${user.displayName}`} />
+            <Typewriter text={t('dashboard.welcome', { name: user.displayName || 'User' })} />
           </h1>
           <div className="max-w-md mx-auto">
             <p className="text-muted-foreground uppercase tracking-widest mb-2 font-sans">
-              YOUR LOAN APPLICATION: 
-              <span className="inline-block bg-blue-200 text-blue-800 px-3 py-1 rounded-full ml-2">UNDER REVIEW...</span>
+              {t('dashboard.applicationStatusLabel')}
+              <span className="inline-block bg-blue-200 text-blue-800 px-3 py-1 rounded-full ml-2">{t('dashboard.applicationStatus')}</span>
             </p>
             <AnimatedProgress value={33} />
           </div>
 
           <p className="mt-8 text-muted-foreground uppercase tracking-widest font-sans">
-            Till then you can explore our smart AI tools
+            {t('dashboard.exploreTools')}
           </p>
 
           <motion.div 
@@ -199,7 +193,7 @@ export default function DashboardPage() {
                         whileTap={{ scale: 0.95 }}
                     >
                         <Button className="rounded-full bg-primary/80 hover:bg-primary text-primary-foreground w-full" onClick={() => handleCheckNow(tool.path)}>
-                            Check Now <SparkleIcon className="ml-2 h-4 w-4" />
+                            {t('dashboard.checkNowButton')} <SparkleIcon className="ml-2 h-4 w-4" />
                         </Button>
                     </motion.div>
                 </Card>

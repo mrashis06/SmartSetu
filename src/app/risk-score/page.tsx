@@ -5,6 +5,12 @@ import { useAuth } from "@/hooks/use-auth";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { QuestionnaireData } from "@/context/questionnaire-context";
@@ -12,12 +18,22 @@ import { calculateRiskScore, RiskScoreOutput } from "@/ai/flows/risk-score-flow"
 import { motion } from "framer-motion";
 import Footer from "@/components/footer";
 import AppHeader from "@/components/app-header";
-import { Loader2, CheckCircle2, AlertTriangle, Lightbulb, ArrowRight } from "lucide-react";
+import { Loader2, CheckCircle2, AlertTriangle, Lightbulb, ArrowRight, Info } from "lucide-react";
 import { RiskScoreMeter } from "@/components/risk-score-meter";
 
 type ApplicationData = QuestionnaireData & {
   riskScoreResult?: RiskScoreOutput;
 };
+
+const reasonExplanations: Record<string, string> = {
+    'High dependency on cash income': "Lenders see high cash usage as a risk because it's harder to verify your income digitally. More digital transactions build trust.",
+    'Negative monthly cash flow': "When expenses are higher than income, it signals financial instability, which is a major concern for loan providers.",
+    'Existing loan adds to debt burden': "An existing loan means you already have repayment obligations, which can affect your ability to handle new debt.",
+    'Short business duration is riskier': "Newer businesses are often seen as less stable. A longer track record helps prove your business's reliability.",
+    'Absence of a CIBIL score increases uncertainty': "Without a credit history, it's difficult for lenders to predict your repayment behavior, which increases their risk.",
+    'Lack of personal or business assets': "Owning assets like a house or shop can act as security and shows stability, reducing the lender's risk."
+};
+
 
 export default function RiskScorePage() {
   const { user, loading: authLoading } = useAuth();
@@ -72,13 +88,13 @@ export default function RiskScorePage() {
   }, [user]);
   
   const getReasonIcon = (reason: string) => {
-    const negativeKeywords = ['high cash', 'negative', 'existing loan', 'short duration', 'no cibil', 'not owning', 'low stock'];
-    const isNegative = negativeKeywords.some(keyword => reason.toLowerCase().includes(keyword));
+    const positiveKeywords = ['stable', 'positive', 'long duration'];
+    const isPositive = positiveKeywords.some(keyword => reason.toLowerCase().includes(keyword));
     
-    if (!isNegative) {
-        return <CheckCircle2 className="h-5 w-5 text-green-500 mr-3 flex-shrink-0" />;
+    if (isPositive) {
+        return <CheckCircle2 className="h-6 w-6 text-green-500 mr-4 flex-shrink-0" />;
     }
-    return <AlertTriangle className="h-5 w-5 text-yellow-500 mr-3 flex-shrink-0" />;
+    return <AlertTriangle className="h-6 w-6 text-yellow-500 mr-4 flex-shrink-0" />;
   };
 
   if (authLoading || !user) {
@@ -104,12 +120,18 @@ export default function RiskScorePage() {
     visible: { y: 0, opacity: 1 },
   };
 
+  // Find the first matching explanation for a given reason
+  const findReasonExplanation = (reason: string) => {
+    const key = Object.keys(reasonExplanations).find(k => reason.toLowerCase().includes(k.toLowerCase()));
+    return key ? reasonExplanations[key] : "This factor influences your financial risk profile.";
+  };
+
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground font-headline">
       <AppHeader />
       <main className="flex-1 flex flex-col items-center px-4 py-8">
-        <div className="container mx-auto max-w-4xl">
+        <div className="container mx-auto max-w-2xl">
            <motion.h1 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -148,37 +170,67 @@ export default function RiskScorePage() {
                     </p>
                 </motion.div>
                 
-                <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-start">
-                     <motion.div
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="visible"
-                        className="space-y-4"
-                     >
-                        <motion.h3 variants={itemVariants} className="font-bold font-sans tracking-wider mb-3">WHY THIS SCORE?</motion.h3>
-                        <ul className="space-y-2">
-                            {riskScoreResult.reasons.map((reason, i) => (
-                                <motion.li key={i} variants={itemVariants} className="flex items-start font-sans">
-                                    {getReasonIcon(reason)}
-                                    <span>{reason}</span>
-                                </motion.li>
-                            ))}
-                        </ul>
-                     </motion.div>
-                     <motion.div
-                         variants={containerVariants}
-                         initial="hidden"
-                         animate="visible"
-                        className="space-y-4"
-                     >
-                        <motion.h3 variants={itemVariants} className="font-bold font-sans tracking-wider mb-3 flex items-center"><Lightbulb className="h-5 w-5 text-yellow-400 mr-2" /> TIPS TO IMPROVE:</motion.h3>
-                        <ul className="space-y-2 list-disc list-inside font-sans">
-                           {riskScoreResult.tips.map((tip, i) => (
-                                <motion.li key={i} variants={itemVariants}>{tip}</motion.li>
-                            ))}
-                        </ul>
-                     </motion.div>
-                </div>
+                <motion.div 
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className="space-y-6"
+                >
+                    <motion.h2 variants={itemVariants} className="text-2xl font-bold font-serif text-center">Why This Score?</motion.h2>
+                    <div className="grid md:grid-cols-2 gap-4">
+                        {riskScoreResult.reasons.map((reason, i) => (
+                             <motion.div key={i} variants={itemVariants}>
+                                <Card className="h-full">
+                                    <CardContent className="p-4 flex items-center">
+                                        {getReasonIcon(reason)}
+                                        <span className="font-sans flex-1">{reason}</span>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <Button variant="ghost" size="icon" className="h-8 w-8 ml-2">
+                                                    <Info className="h-4 w-4 text-muted-foreground" />
+                                                </Button>
+                                            </PopoverTrigger>
+                                            <PopoverContent className="w-64 text-sm font-sans">
+                                                <p>{findReasonExplanation(reason)}</p>
+                                            </PopoverContent>
+                                        </Popover>
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
+                        ))}
+                    </div>
+                </motion.div>
+                
+                <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className="space-y-6"
+                >
+                    <motion.h2 variants={itemVariants} className="text-2xl font-bold font-serif text-center flex items-center justify-center gap-2"><Lightbulb className="h-6 w-6 text-yellow-400" /> Tips to Improve</motion.h2>
+                    <div className="grid gap-4">
+                        {riskScoreResult.tips.map((tip, i) => (
+                           <motion.div key={i} variants={itemVariants}>
+                                <Card>
+                                    <CardContent className="p-4 flex items-center">
+                                        <span className="font-sans flex-1">{tip}</span>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <Button variant="ghost" size="icon" className="h-8 w-8 ml-2">
+                                                    <Info className="h-4 w-4 text-muted-foreground" />
+                                                </Button>
+                                            </PopoverTrigger>
+                                            <PopoverContent className="w-64 text-sm font-sans">
+                                                 <p>Following this simple tip can help reduce your risk profile over time.</p>
+                                            </PopoverContent>
+                                        </Popover>
+                                    </CardContent>
+                                </Card>
+                           </motion.div>
+                        ))}
+                    </div>
+                </motion.div>
+
                  <motion.div 
                     className="pt-8 text-center"
                     initial={{ opacity: 0, y: 20 }}
@@ -194,7 +246,6 @@ export default function RiskScorePage() {
                 </motion.div>
             </div>
           )}
-
         </div>
       </main>
       <Footer />

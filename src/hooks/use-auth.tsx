@@ -18,10 +18,12 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword as firebaseSignInWithEmailAndPassword,
   updateProfile,
+  deleteUser,
 } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, deleteDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
+import { useToast } from "./use-toast";
 
 interface AuthContextType {
   user: User | null;
@@ -30,6 +32,7 @@ interface AuthContextType {
   signUpWithEmailAndPassword: (email: string, password: string, displayName: string) => Promise<void>;
   signInWithEmailAndPassword: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
+  deleteAccount: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -38,6 +41,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const { toast } = useToast();
   
   const handleUser = useCallback(async (user: User | null) => {
     if (user) {
@@ -94,7 +98,31 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [router]);
 
-  const value = { user, loading, signInWithGoogle, signUpWithEmailAndPassword, signInWithEmailAndPassword, signOut };
+  const deleteAccount = useCallback(async () => {
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+        try {
+            // Delete Firestore document first
+            const docRef = doc(db, "loan_applications", currentUser.uid);
+            await deleteDoc(docRef);
+            
+            // Then delete the user from Auth
+            await deleteUser(currentUser);
+            setUser(null); // Clear user state immediately
+            
+        } catch (error: any) {
+            console.error("Error deleting account:", error);
+            if (error.code === 'auth/requires-recent-login') {
+                throw new Error("This operation is sensitive and requires recent authentication. Please log out and log back in before deleting your account.");
+            }
+            throw new Error("Failed to delete account.");
+        }
+    } else {
+        throw new Error("No user is currently signed in.");
+    }
+  }, []);
+
+  const value = { user, loading, signInWithGoogle, signUpWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteAccount };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

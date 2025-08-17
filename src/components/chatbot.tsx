@@ -23,7 +23,7 @@ const introPrompts = [
     "Give me some financial tips for my business."
 ];
 
-function GeminiIcon(props: React.SVGProps<SVGSVGElement>) {
+function ChatIcon(props: React.SVGProps<SVGSVGElement>) {
     return (
         <svg
             width="24"
@@ -31,18 +31,16 @@ function GeminiIcon(props: React.SVGProps<SVGSVGElement>) {
             viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             {...props}
         >
-            <path
-                d="M5.10381 12.5C5.10381 12.5 5.10381 8.87812 7.44318 6.53875C9.78255 4.19937 13.4044 4.19937 15.7438 6.53875C18.0831 8.87812 18.0831 12.5 18.0831 12.5C18.0831 12.5 18.0831 16.1219 15.7438 18.4612C13.4044 20.8006 9.78255 20.8006 7.44318 18.4612C5.10381 16.1219 5.10381 12.5 5.10381 12.5Z"
-                stroke="currentColor"
-                strokeWidth="1.5"
-            />
-            <path
-                d="M12 5.10419C12 5.10419 15.6219 5.10419 17.9612 7.44356C20.3006 9.78294 20.3006 13.4048 17.9612 15.7441C15.6219 18.0835 12 18.0835 12 18.0835"
-                stroke="currentColor"
-                strokeWidth="1.5"
-            />
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10z"></path>
+            <circle cx="12" cy="10" r="1"></circle>
+            <circle cx="8" cy="10" r="1"></circle>
+            <circle cx="16" cy="10" r="1"></circle>
         </svg>
     );
 }
@@ -230,7 +228,7 @@ export function Chatbot() {
             >
                 <Button
                     onClick={toggleChat}
-                    className="fixed bottom-4 right-4 z-50 h-16 w-16 rounded-full shadow-lg flex items-center justify-center bg-gradient-to-br from-primary via-primary/70 to-secondary text-primary-foreground"
+                    className="fixed bottom-4 right-4 z-50 h-16 w-16 rounded-full shadow-lg flex items-center justify-center bg-gradient-to-br from-[hsl(var(--light-green))] to-[hsl(var(--primary))] text-foreground/80"
                     size="icon"
                 >
                     <AnimatePresence>
@@ -241,7 +239,7 @@ export function Chatbot() {
                             exit={{ scale: 0, rotate: 45 }}
                             transition={{ duration: 0.3 }}
                         >
-                            {isOpen ? <X className="h-8 w-8" /> : <GeminiIcon className="h-8 w-8" />}
+                            {isOpen ? <X className="h-8 w-8" /> : <ChatIcon className="h-8 w-8" />}
                         </motion.div>
                     </AnimatePresence>
                     <span className="sr-only">Toggle Chat</span>

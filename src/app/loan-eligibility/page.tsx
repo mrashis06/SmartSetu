@@ -5,25 +5,11 @@ import { useAuth } from "@/hooks/use-auth";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
-import { Logo } from "@/components/logo";
-import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Menu, Loader2, Home, LayoutDashboard, Settings, Banknote, Landmark, Lightbulb, TrendingUp, TrendingDown, Hourglass, User as UserIcon } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { QuestionnaireData } from "@/context/questionnaire-context";
 import { determineLoanEligibility, LoanEligibilityOutput } from "@/ai/flows/loan-eligibility-flow";
 import { motion } from "framer-motion";
-import { ThemeToggle } from "@/components/theme-toggle";
 import Footer from "@/components/footer";
 import { Slider } from "@/components/ui/slider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -31,6 +17,7 @@ import { AltScoreOutput } from "@/ai/flows/alt-score-flow";
 import { RiskScoreOutput } from "@/ai/flows/risk-score-flow";
 import { Label } from "@/components/ui/label";
 import AppHeader from "@/components/app-header";
+import { Loader2, Banknote, Landmark, Lightbulb, TrendingUp, TrendingDown, Hourglass, ArrowRight } from "lucide-react";
 
 type ApplicationData = QuestionnaireData & {
   altScoreResult?: AltScoreOutput;
@@ -47,9 +34,8 @@ const formatCurrency = (amount: number) => {
     }).format(amount);
 };
 
-
 export default function LoanEligibilityPage() {
-    const { user, loading: authLoading, signOut } = useAuth();
+    const { user, loading: authLoading } = useAuth();
     const router = useRouter();
     const [loanEligibilityResult, setLoanEligibilityResult] = useState<LoanEligibilityOutput | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -82,9 +68,9 @@ export default function LoanEligibilityPage() {
                     return;
                 }
                 
-                if (data.loanEligibilityResult) {
+                if (data.loanEligibilityResult && data.loanEligibilityResult.maxLoanAmount) {
                     setLoanEligibilityResult(data.loanEligibilityResult);
-                    setLoanAmount(Math.min(45000, data.loanEligibilityResult.maxLoanAmount));
+                    setLoanAmount(data.loanEligibilityResult.maxLoanAmount > 0 ? Math.min(45000, data.loanEligibilityResult.maxLoanAmount) : 0);
                 } else {
                     const hasCibil = data.additionalInfo.hasCibilScore === 'yes';
                     const result = await determineLoanEligibility({
@@ -93,7 +79,7 @@ export default function LoanEligibilityPage() {
                         hasCibil: hasCibil,
                     });
                     setLoanEligibilityResult(result);
-                    setLoanAmount(Math.min(45000, result.maxLoanAmount));
+                    setLoanAmount(result.maxLoanAmount > 0 ? Math.min(45000, result.maxLoanAmount) : 0);
                     await updateDoc(docRef, {
                         loanEligibilityResult: result,
                     });
@@ -132,14 +118,29 @@ export default function LoanEligibilityPage() {
 
     }, [loanAmount, tenure]);
 
-    const getChanceIcon = (chance: 'High' | 'Medium' | 'Low') => {
+    const getChanceIconAndColor = (chance: 'High' | 'Medium' | 'Low') => {
         switch(chance) {
-            case 'High': return <TrendingUp className="h-5 w-5 text-green-500" />;
-            case 'Medium': return <Hourglass className="h-5 w-5 text-yellow-500" />;
-            case 'Low': return <TrendingDown className="h-5 w-5 text-red-500" />;
+            case 'High': return { icon: <TrendingUp className="h-6 w-6 text-green-500" />, color: "text-green-500" };
+            case 'Medium': return { icon: <Hourglass className="h-6 w-6 text-yellow-500" />, color: "text-yellow-500" };
+            case 'Low': return { icon: <TrendingDown className="h-6 w-6 text-red-500" />, color: "text-red-500" };
+            default: return { icon: null, color: "" };
         }
     }
 
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1,
+            },
+        },
+    };
+    
+    const itemVariants = {
+        hidden: { y: 20, opacity: 0 },
+        visible: { y: 0, opacity: 1 },
+    };
 
   if (authLoading || !user) {
     return (
@@ -153,8 +154,8 @@ export default function LoanEligibilityPage() {
     <div className="flex flex-col min-h-screen bg-background text-foreground font-headline">
        <AppHeader />
       <main className="flex-1 flex flex-col items-center px-4 py-8">
-        <div className="container mx-auto max-w-6xl">
-           <h1 className="text-3xl md:text-5xl font-bold font-serif mb-2 text-center">
+        <div className="container mx-auto max-w-2xl">
+           <h1 className="text-3xl md:text-5xl font-bold font-serif mb-2 text-center text-foreground/80">
             Hey, {user.displayName}
           </h1>
            <p className="text-center text-muted-foreground mb-12 font-sans tracking-wider">HERE ARE YOUR LOAN ELIGIBILITY DETAILS</p>
@@ -170,123 +171,136 @@ export default function LoanEligibilityPage() {
                  <Button onClick={() => router.push('/questionnaire')} className="mt-4">Complete Questionnaire</Button>
             </div>
           ) : loanEligibilityResult && (
-            <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
-                <Card className="lg:col-span-2 bg-secondary/30">
-                    <CardHeader>
-                        <CardTitle className="font-serif tracking-wider">Loan Eligibility Result</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-8 font-sans">
-                        <div>
-                            <Label>Slide how much loan do you want. (Max: {formatCurrency(loanEligibilityResult.maxLoanAmount)})</Label>
-                            <div className="flex items-center gap-4 mt-2">
+            <div className="space-y-12">
+                <motion.div variants={itemVariants} initial="hidden" animate="visible">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="font-serif tracking-wider text-2xl">Loan Eligibility Result</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-8 font-sans">
+                            <div>
+                                <Label htmlFor="loanAmount" className="text-muted-foreground">Slide how much loan do you want. (Max: {formatCurrency(loanEligibilityResult.maxLoanAmount)})</Label>
                                 <Slider
+                                    id="loanAmount"
                                     value={[loanAmount]}
                                     onValueChange={(value) => setLoanAmount(value[0])}
                                     max={loanEligibilityResult.maxLoanAmount}
                                     step={1000}
+                                    className="mt-2"
                                 />
                             </div>
-                        </div>
-                        <div>
-                            <Label>Slide your tenure.</Label>
-                             <div className="flex items-center gap-4 mt-2">
+                            <div>
+                                <Label htmlFor="tenure" className="text-muted-foreground">Slide your tenure.</Label>
                                 <Slider
+                                    id="tenure"
                                     value={[tenure]}
                                     onValueChange={(value) => setTenure(value[0])}
                                     max={24}
                                     min={6}
                                     step={1}
+                                    className="mt-2"
                                 />
                             </div>
-                        </div>
 
-                        <div className="space-y-4 text-lg font-medium border-t pt-6">
-                           <div className="flex justify-between items-center">
-                                <p>Loan Amount:</p>
-                                <p className="font-bold">{formatCurrency(loanAmount)}</p>
-                           </div>
-                           <div className="flex justify-between items-center text-muted-foreground">
-                                <p>Interest:</p>
-                                <p>10% PA</p>
-                           </div>
-                           <div className="flex justify-between items-center">
-                                <p>Tenure:</p>
-                                <p className="font-bold">{tenure} Months</p>
-                           </div>
-                            <div className="flex justify-between items-center text-primary font-bold text-xl pt-4 border-t">
-                                <p>Monthly EMI:</p>
-                                <p>{formatCurrency(emi)}</p>
-                           </div>
+                            <div className="space-y-4 text-lg font-medium border-t pt-6">
+                            <div className="flex justify-between items-center">
+                                    <p className="text-muted-foreground">Loan Amount:</p>
+                                    <p className="font-bold">{formatCurrency(loanAmount)}</p>
+                            </div>
                             <div className="flex justify-between items-center text-muted-foreground">
-                                <p>Total Repayment:</p>
-                                <p>{formatCurrency(totalRepayment)}</p>
-                           </div>
-                        </div>
-                    </CardContent>
-                </Card>
-                <div className="space-y-8">
-                     <Card>
-                        <CardHeader>
-                            <CardTitle className="font-serif tracking-wider flex items-center"><Landmark className="mr-2 h-5 w-5 text-primary"/> Bank Chances</CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-4 font-sans">
-                            {['High', 'Medium', 'Low'].map(chanceCategory => {
-                                const banksInCategory = loanEligibilityResult.banks.filter(b => b.chance === chanceCategory);
-                                if (banksInCategory.length === 0) return null;
-                                return (
-                                <div key={chanceCategory}>
-                                    <div className="flex items-center font-semibold mb-2">
-                                       {getChanceIcon(chanceCategory as 'High' | 'Medium' | 'Low')}
-                                        <p className="ml-2">{chanceCategory} Chance</p>
-                                    </div>
-                                    <ul className="list-disc list-inside text-muted-foreground ml-4">
-                                        {banksInCategory.map(bank => <li key={bank.name}>{bank.name}</li>)}
-                                    </ul>
-                                </div>
-                                );
-                            })}
+                                    <p>Interest:</p>
+                                    <p>10% PA</p>
+                            </div>
+                            <div className="flex justify-between items-center">
+                                    <p className="text-muted-foreground">Tenure:</p>
+                                    <p className="font-bold">{tenure} Months</p>
+                            </div>
+                                <div className="flex justify-between items-center text-primary font-bold text-xl pt-4 border-t">
+                                    <p>Monthly EMI:</p>
+                                    <p>{formatCurrency(emi)}</p>
+                            </div>
+                                <div className="flex justify-between items-center text-muted-foreground">
+                                    <p>Total Repayment:</p>
+                                    <p>{formatCurrency(totalRepayment)}</p>
+                            </div>
+                            </div>
                         </CardContent>
                     </Card>
-                     <Card>
-                        <CardHeader>
-                            <CardTitle className="font-serif tracking-wider flex items-center"><Lightbulb className="mr-2 h-5 w-5 text-yellow-400" /> Tips:</CardTitle>
-                        </CardHeader>
-                        <CardContent className="font-sans">
-                             <ul className="space-y-2 list-disc list-inside text-muted-foreground">
-                                {loanEligibilityResult.tips.map((tip, i) => <li key={i}>{tip}</li>)}
-                            </ul>
-                        </CardContent>
-                    </Card>
-                </div>
-            </motion.div>
-          )}
-
-          {!isLoading && !error && (
-             <motion.div 
-                className="mt-16 flex justify-center items-center gap-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.8 }}
-            >
-                <Button 
-                    size="lg" 
-                    className="rounded-full bg-primary/80 hover:bg-primary text-primary-foreground px-8 py-4 text-lg"
+                </motion.div>
+                
+                <motion.div 
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className="space-y-6"
                 >
-                    APPLY NOW
-                </Button>
-                <Button 
-                    size="lg" 
-                    variant="outline"
-                    className="rounded-full px-8 py-4 text-lg" 
-                    onClick={() => router.push('/dashboard')}>
-                    BACK TO DASHBOARD
-                </Button>
-            </motion.div>
+                    <motion.h2 variants={itemVariants} className="text-2xl font-bold font-serif text-center flex items-center justify-center gap-2"><Landmark className="h-6 w-6 text-primary" /> Bank Chances</motion.h2>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {['High', 'Medium', 'Low'].map(chanceCategory => {
+                            const banksInCategory = loanEligibilityResult.banks.filter(b => b.chance === chanceCategory);
+                            if (banksInCategory.length === 0) return null;
+                            const { icon, color } = getChanceIconAndColor(chanceCategory as 'High' | 'Medium' | 'Low');
+                            return (
+                            <motion.div key={chanceCategory} variants={itemVariants}>
+                               <Card className="h-full">
+                                    <CardHeader className="flex flex-row items-center gap-2 pb-2">
+                                        {icon}
+                                        <CardTitle className={`font-serif text-xl ${color}`}>{chanceCategory} Chance</CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <ul className="list-disc list-inside text-muted-foreground font-sans">
+                                            {banksInCategory.map(bank => <li key={bank.name}>{bank.name}</li>)}
+                                        </ul>
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
+                            );
+                        })}
+                    </div>
+                </motion.div>
+                
+                <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className="space-y-6"
+                >
+                    <motion.h2 variants={itemVariants} className="text-2xl font-bold font-serif text-center flex items-center justify-center gap-2"><Lightbulb className="h-6 w-6 text-yellow-400" /> Tips to Improve</motion.h2>
+                    <div className="grid gap-4">
+                        {loanEligibilityResult.tips.map((tip, i) => (
+                           <motion.div key={i} variants={itemVariants}>
+                                <Card>
+                                    <CardContent className="p-4 flex items-center">
+                                        <Lightbulb className="h-6 w-6 text-yellow-400 mr-4 flex-shrink-0" />
+                                        <span className="font-sans flex-1">{tip}</span>
+                                    </CardContent>
+                                </Card>
+                           </motion.div>
+                        ))}
+                    </div>
+                </motion.div>
+
+                <motion.div 
+                    className="pt-8 text-center"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.8 }}
+                >
+                    <Button 
+                        size="lg" 
+                        className="rounded-full bg-gradient-to-br from-green-400 to-green-600 text-white dark:text-foreground text-lg font-bold px-10 py-6 shadow-lg hover:shadow-xl transition-shadow" 
+                        >
+                        APPLY NOW <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                    <Button 
+                        size="lg" 
+                        variant="ghost"
+                        className="rounded-full px-8 py-6 text-lg mt-4" 
+                        onClick={() => router.push('/dashboard')}>
+                        BACK TO DASHBOARD
+                    </Button>
+                </motion.div>
+            </div>
           )}
 
         </div>

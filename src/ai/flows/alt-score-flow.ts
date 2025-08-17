@@ -52,17 +52,17 @@ Analyze the following user data:
 
 Scoring Guidelines:
 - Base Score: Start with a base score of 500.
-- Monthly UPI Transactions: High UPI transaction value is a strong positive signal. Increase score significantly (e.g., +50 to +150) for values above ₹50,000. Low values are a negative signal.
-- Income vs. Expenses: A high positive net income (cash income - expenses) is very good. Increase score (+50 to +100). A negative net income is a strong negative signal.
-- Cash Dependency: High ratio of cash income to UPI transactions is a negative factor.
-- Business Duration: 'More than 5 years' is a positive signal (+20 to +50).
-- Existing Loan: Having an existing loan is a slight negative factor (-10 to -30), as it represents existing debt.
-- CIBIL Score: If available and good (e.g., >700), this is a major positive factor (+100 to +200). If low (<600), it's a major negative factor.
-- Own House/Business: Owning a house or the business are positive stability indicators (+10 to +40 each).
-- Govt Benefits: Receiving government benefits can be a slight positive, showing integration with financial systems (+10).
+- **Profitability (Net Income):** This is the MOST IMPORTANT factor. A high positive net income (total income - expenses) is a very strong positive signal. Increase score significantly (+100 to +200) for strong profitability. A negative net income is a major negative signal.
+- **Digital Transaction Health:** High UPI transaction value is a positive signal. Increase score (+50 to +150) for values above ₹50,000. However, for smaller vendors, consider the ratio. A high percentage of income via UPI is also a positive signal, even if the total amount is low.
+- **Cash Dependency:** A high ratio of cash income to total income is a negative factor, as it indicates less transparency.
+- **CIBIL Score:** If available and good (e.g., >700), this is a major positive factor (+100 to +200). If low (<600), it's a major negative factor.
+- **Business Duration:** 'More than 5 years' is a positive signal (+20 to +50).
+- **Asset Ownership:** Owning a house or the business are positive stability indicators (+10 to +40 each).
+- **Existing Loan:** Having an existing loan is a slight negative factor (-10 to -30), as it represents existing debt.
+- **Govt Benefits:** Receiving government benefits can be a slight positive, showing integration with financial systems (+10).
 
 Your Task:
-1.  Calculate the final ALT-SCORE after considering all factors. Ensure it is within the 300-900 range.
+1.  Calculate the final ALT-SCORE after considering all factors, with a strong emphasis on Net Income. Ensure it is within the 300-900 range.
 2.  Determine if there is enough data. If crucial fields like monthlyUpiTransactions, monthlyCashIncome, or monthlyExpenses are missing, set isDataSufficient to false. Otherwise, set it to true.
 3.  Provide the top 3-4 most influential reasons for the calculated score, labeling each as 'positive' or 'negative'.
 4.  Provide a list of actionable tips for improvement.

@@ -5,62 +5,22 @@ import { useAuth } from "@/hooks/use-auth";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Logo } from "@/components/logo";
-import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Menu, Loader2, CheckCircle2, AlertTriangle, Lightbulb, Home, LayoutDashboard, Settings, User as UserIcon } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { QuestionnaireData } from "@/context/questionnaire-context";
 import { calculateRiskScore, RiskScoreOutput } from "@/ai/flows/risk-score-flow";
 import { motion } from "framer-motion";
-import { ThemeToggle } from "@/components/theme-toggle";
 import Footer from "@/components/footer";
 import AppHeader from "@/components/app-header";
+import { Loader2, CheckCircle2, AlertTriangle, Lightbulb, ArrowRight } from "lucide-react";
+import { RiskScoreMeter } from "@/components/risk-score-meter";
 
 type ApplicationData = QuestionnaireData & {
   riskScoreResult?: RiskScoreOutput;
 };
 
-const RiskScoreMeter = ({ value }: { value: number }) => {
-  const percentage = (value / 10) * 100;
-
-  const getColor = (val: number) => {
-    if (val <= 3) return "bg-green-500";
-    if (val <= 6) return "bg-yellow-500";
-    return "bg-red-500";
-  }
-
-  return (
-    <div className="w-full max-w-lg mx-auto">
-       <div className="relative h-4 w-full rounded-full bg-gray-200 dark:bg-gray-700">
-        <motion.div
-            className={`h-full rounded-full ${getColor(value)}`}
-            initial={{ width: "0%" }}
-            animate={{ width: `${percentage}%` }}
-            transition={{ duration: 1, ease: "easeOut", delay: 0.5 }}
-        />
-       </div>
-      <div className="relative mt-2 flex justify-between font-bold text-sm text-muted-foreground">
-        <span>0 (LOW RISK)</span>
-        <span>10 (HIGH RISK)</span>
-      </div>
-    </div>
-  );
-};
-
-
 export default function RiskScorePage() {
-  const { user, loading: authLoading, signOut } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   const [riskScoreResult, setRiskScoreResult] = useState<RiskScoreOutput | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -128,15 +88,35 @@ export default function RiskScorePage() {
       </div>
     );
   }
+  
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1 },
+  };
+
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground font-headline">
       <AppHeader />
       <main className="flex-1 flex flex-col items-center px-4 py-8">
         <div className="container mx-auto max-w-4xl">
-           <h1 className="text-3xl md:text-5xl font-bold font-serif mb-12 text-center">
+           <motion.h1 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-3xl md:text-5xl font-bold font-serif mb-12 text-center text-foreground/80">
             Welcome {user.displayName}
-          </h1>
+          </motion.h1>
 
           {isLoading ? (
              <div className="flex flex-col items-center justify-center h-64">
@@ -156,60 +136,63 @@ export default function RiskScorePage() {
                     transition={{ duration: 0.7, ease: "easeOut" }}
                     className="flex flex-col items-center space-y-4"
                 >
+                    <p className="text-lg font-sans tracking-widest text-muted-foreground text-center">
+                        YOUR RISK-SCORE
+                    </p>
+                     <p className="text-6xl font-bold font-serif my-2 text-center">
+                        {riskScoreResult.risk_score}
+                    </p>
                     <RiskScoreMeter value={riskScoreResult.risk_score} />
                      <p className="text-xl font-bold mt-4 font-sans tracking-widest text-center">
-                        YOUR RISK-SCORE: {riskScoreResult.risk_score} ({riskScoreResult.category})
+                        ({riskScoreResult.category})
                     </p>
                 </motion.div>
                 
                 <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-start">
                      <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
                         className="space-y-4"
                      >
-                        <h3 className="font-bold font-sans tracking-wider mb-3">WHY THIS SCORE?</h3>
+                        <motion.h3 variants={itemVariants} className="font-bold font-sans tracking-wider mb-3">WHY THIS SCORE?</motion.h3>
                         <ul className="space-y-2">
                             {riskScoreResult.reasons.map((reason, i) => (
-                                <li key={i} className="flex items-start font-sans">
+                                <motion.li key={i} variants={itemVariants} className="flex items-start font-sans">
                                     {getReasonIcon(reason)}
                                     <span>{reason}</span>
-                                </li>
+                                </motion.li>
                             ))}
                         </ul>
                      </motion.div>
                      <motion.div
-                         initial={{ opacity: 0, x: 50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: 0.4 }}
+                         variants={containerVariants}
+                         initial="hidden"
+                         animate="visible"
                         className="space-y-4"
                      >
-                        <h3 className="font-bold font-sans tracking-wider mb-3 flex items-center"><Lightbulb className="h-5 w-5 text-yellow-400 mr-2" /> TIPS TO IMPROVE:</h3>
+                        <motion.h3 variants={itemVariants} className="font-bold font-sans tracking-wider mb-3 flex items-center"><Lightbulb className="h-5 w-5 text-yellow-400 mr-2" /> TIPS TO IMPROVE:</motion.h3>
                         <ul className="space-y-2 list-disc list-inside font-sans">
                            {riskScoreResult.tips.map((tip, i) => (
-                                <li key={i}>{tip}</li>
+                                <motion.li key={i} variants={itemVariants}>{tip}</motion.li>
                             ))}
                         </ul>
                      </motion.div>
                 </div>
+                 <motion.div 
+                    className="pt-8 text-center"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.8 }}
+                >
+                    <Button 
+                        size="lg" 
+                        className="rounded-full bg-gradient-to-br from-green-400 to-green-600 text-white dark:text-foreground text-lg font-bold px-10 py-6 shadow-lg hover:shadow-xl transition-shadow" 
+                        onClick={() => router.push('/loan-eligibility')}>
+                        Proceed to Loan Eligibility <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                </motion.div>
             </div>
-          )}
-
-          {!isLoading && !error && (
-             <motion.div 
-                className="mt-16 text-center"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.8 }}
-            >
-                <Button 
-                    size="lg" 
-                    className="rounded-full bg-primary/80 hover:bg-primary text-primary-foreground px-8 py-4" 
-                    onClick={() => router.push('/loan-eligibility')}>
-                    PROCEED TO LOAN ELIGIBILITY
-                </Button>
-            </motion.div>
           )}
 
         </div>

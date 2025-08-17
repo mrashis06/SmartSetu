@@ -18,20 +18,12 @@ import { RiskScoreOutput } from "@/ai/flows/risk-score-flow";
 import { Label } from "@/components/ui/label";
 import AppHeader from "@/components/app-header";
 import { Loader2, Banknote, Landmark, Lightbulb, TrendingUp, TrendingDown, Hourglass, ArrowRight } from "lucide-react";
+import { useLanguage } from "@/context/language-context";
 
 type ApplicationData = QuestionnaireData & {
   altScoreResult?: AltScoreOutput;
   riskScoreResult?: RiskScoreOutput;
   loanEligibilityResult?: LoanEligibilityOutput;
-};
-
-const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-IN', {
-        style: 'currency',
-        currency: 'INR',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    }).format(amount);
 };
 
 export default function LoanEligibilityPage() {
@@ -40,9 +32,19 @@ export default function LoanEligibilityPage() {
     const [loanEligibilityResult, setLoanEligibilityResult] = useState<LoanEligibilityOutput | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const { t } = useLanguage();
 
     const [loanAmount, setLoanAmount] = useState(0);
     const [tenure, setTenure] = useState(12); // Default to 12 months
+
+    const formatCurrency = (amount: number) => {
+        return new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(amount);
+    };
 
     useEffect(() => {
         if (!authLoading && !user) {
@@ -63,7 +65,7 @@ export default function LoanEligibilityPage() {
                 const data = docSnap.data() as ApplicationData;
                 
                 if (!data.altScoreResult || !data.riskScoreResult) {
-                    setError("ALT-SCORE or RISK-SCORE is missing. Please complete the previous steps.");
+                    setError(t('loanEligibility.errors.missingScores'));
                     setIsLoading(false);
                     return;
                 }
@@ -86,18 +88,18 @@ export default function LoanEligibilityPage() {
                 }
 
             } else {
-                setError("Loan application not found. Please complete the questionnaire first.");
+                setError(t('loanEligibility.errors.noApplication'));
             }
             } catch (err) {
             console.error(err);
-            setError("Failed to fetch application data or determine eligibility.");
+            setError(t('loanEligibility.errors.fetchError'));
             } finally {
             setIsLoading(false);
             }
         };
         fetchData();
         }
-    }, [user]);
+    }, [user, t]);
 
     const { emi, totalRepayment } = useMemo(() => {
         if (loanAmount === 0) return { emi: 0, totalRepayment: 0 };
@@ -156,30 +158,30 @@ export default function LoanEligibilityPage() {
       <main className="flex-1 flex flex-col items-center px-4 py-8">
         <div className="container mx-auto max-w-2xl">
            <h1 className="text-3xl md:text-5xl font-bold font-serif mb-2 text-center text-foreground/80">
-            Hey, {user.displayName}
+            {t('loanEligibility.welcome', { name: user.displayName || 'User' })}
           </h1>
-           <p className="text-center text-muted-foreground mb-12 font-sans tracking-wider">HERE ARE YOUR LOAN ELIGIBILITY DETAILS</p>
+           <p className="text-center text-muted-foreground mb-12 font-sans tracking-wider">{t('loanEligibility.subtitle')}</p>
 
           {isLoading ? (
              <div className="flex flex-col items-center justify-center h-64">
                 <Loader2 className="animate-spin h-12 w-12 text-primary" />
-                <p className="mt-4 text-muted-foreground font-sans">Determining your loan eligibility...</p>
+                <p className="mt-4 text-muted-foreground font-sans">{t('loanEligibility.loading')}</p>
              </div>
           ) : error ? (
             <div className="text-center text-red-500 bg-red-100 dark:bg-red-900/50 p-4 rounded-lg">
                 <p>{error}</p>
-                 <Button onClick={() => router.push('/questionnaire')} className="mt-4">Complete Questionnaire</Button>
+                 <Button onClick={() => router.push('/questionnaire')} className="mt-4">{t('loanEligibility.completeQuestionnaireButton')}</Button>
             </div>
           ) : loanEligibilityResult && (
             <div className="space-y-12">
                 <motion.div variants={itemVariants} initial="hidden" animate="visible">
                     <Card>
                         <CardHeader>
-                            <CardTitle className="font-serif tracking-wider text-2xl">Loan Eligibility Result</CardTitle>
+                            <CardTitle className="font-serif tracking-wider text-2xl">{t('loanEligibility.resultTitle')}</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-8 font-sans">
                             <div>
-                                <Label htmlFor="loanAmount" className="text-muted-foreground">Slide how much loan do you want. (Max: {formatCurrency(loanEligibilityResult.maxLoanAmount)})</Label>
+                                <Label htmlFor="loanAmount" className="text-muted-foreground">{t('loanEligibility.loanAmountLabel', { amount: formatCurrency(loanEligibilityResult.maxLoanAmount) })}</Label>
                                 <Slider
                                     id="loanAmount"
                                     value={[loanAmount]}
@@ -190,7 +192,7 @@ export default function LoanEligibilityPage() {
                                 />
                             </div>
                             <div>
-                                <Label htmlFor="tenure" className="text-muted-foreground">Slide your tenure.</Label>
+                                <Label htmlFor="tenure" className="text-muted-foreground">{t('loanEligibility.tenureLabel')}</Label>
                                 <Slider
                                     id="tenure"
                                     value={[tenure]}
@@ -204,23 +206,23 @@ export default function LoanEligibilityPage() {
 
                             <div className="space-y-4 text-lg font-medium border-t pt-6">
                             <div className="flex justify-between items-center">
-                                    <p className="text-muted-foreground">Loan Amount:</p>
+                                    <p className="text-muted-foreground">{t('loanEligibility.details.loanAmount')}:</p>
                                     <p className="font-bold">{formatCurrency(loanAmount)}</p>
                             </div>
                             <div className="flex justify-between items-center text-muted-foreground">
-                                    <p>Interest:</p>
+                                    <p>{t('loanEligibility.details.interest')}:</p>
                                     <p>10% PA</p>
                             </div>
                             <div className="flex justify-between items-center">
-                                    <p className="text-muted-foreground">Tenure:</p>
-                                    <p className="font-bold">{tenure} Months</p>
+                                    <p className="text-muted-foreground">{t('loanEligibility.details.tenure')}:</p>
+                                    <p className="font-bold">{t('loanEligibility.details.months', { count: tenure })}</p>
                             </div>
                                 <div className="flex justify-between items-center text-primary font-bold text-xl pt-4 border-t">
-                                    <p>Monthly EMI:</p>
+                                    <p>{t('loanEligibility.details.emi')}:</p>
                                     <p>{formatCurrency(emi)}</p>
                             </div>
                                 <div className="flex justify-between items-center text-muted-foreground">
-                                    <p>Total Repayment:</p>
+                                    <p>{t('loanEligibility.details.repayment')}:</p>
                                     <p>{formatCurrency(totalRepayment)}</p>
                             </div>
                             </div>
@@ -234,7 +236,7 @@ export default function LoanEligibilityPage() {
                     animate="visible"
                     className="space-y-6"
                 >
-                    <motion.h2 variants={itemVariants} className="text-2xl font-bold font-serif text-center flex items-center justify-center gap-2"><Landmark className="h-6 w-6 text-primary" /> Bank Chances</motion.h2>
+                    <motion.h2 variants={itemVariants} className="text-2xl font-bold font-serif text-center flex items-center justify-center gap-2"><Landmark className="h-6 w-6 text-primary" /> {t('loanEligibility.banksTitle')}</motion.h2>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {['High', 'Medium', 'Low'].map(chanceCategory => {
                             const banksInCategory = loanEligibilityResult.banks.filter(b => b.chance === chanceCategory);
@@ -245,7 +247,7 @@ export default function LoanEligibilityPage() {
                                <Card className="h-full">
                                     <CardHeader className="flex flex-row items-center gap-2 pb-2">
                                         {icon}
-                                        <CardTitle className={`font-serif text-xl ${color}`}>{chanceCategory} Chance</CardTitle>
+                                        <CardTitle className={`font-serif text-xl ${color}`}>{t(`loanEligibility.chances.${chanceCategory.toLowerCase()}`)}</CardTitle>
                                     </CardHeader>
                                     <CardContent>
                                         <ul className="list-disc list-inside text-muted-foreground font-sans">
@@ -265,7 +267,7 @@ export default function LoanEligibilityPage() {
                     animate="visible"
                     className="space-y-6"
                 >
-                    <motion.h2 variants={itemVariants} className="text-2xl font-bold font-serif text-center flex items-center justify-center gap-2"><Lightbulb className="h-6 w-6 text-yellow-400" /> Tips to Improve</motion.h2>
+                    <motion.h2 variants={itemVariants} className="text-2xl font-bold font-serif text-center flex items-center justify-center gap-2"><Lightbulb className="h-6 w-6 text-yellow-400" /> {t('loanEligibility.tipsTitle')}</motion.h2>
                     <div className="grid gap-4">
                         {loanEligibilityResult.tips.map((tip, i) => (
                            <motion.div key={i} variants={itemVariants}>
@@ -290,14 +292,14 @@ export default function LoanEligibilityPage() {
                         size="lg" 
                         className="rounded-full bg-gradient-to-br from-green-400 to-green-600 text-white dark:text-foreground text-lg font-bold px-10 py-6 shadow-lg hover:shadow-xl transition-shadow" 
                         >
-                        APPLY NOW <ArrowRight className="ml-2 h-5 w-5" />
+                        {t('loanEligibility.applyButton')} <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>
                     <Button 
                         size="lg" 
                         variant="ghost"
                         className="rounded-full px-8 py-6 text-lg mt-4" 
                         onClick={() => router.push('/dashboard')}>
-                        BACK TO DASHBOARD
+                        {t('loanEligibility.backButton')}
                     </Button>
                 </motion.div>
             </div>
@@ -309,3 +311,5 @@ export default function LoanEligibilityPage() {
     </div>
   );
 }
+
+    

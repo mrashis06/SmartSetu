@@ -185,5 +185,92 @@
             "noApplication": "No application data found. Please complete the questionnaire.",
             "fetchError": "An error occurred while fetching your data."
         }
+    },
+    "altScore": {
+        "welcome": "Welcome {{name}}",
+        "loading": "Calculating your ALT-SCORE...",
+        "completeQuestionnaireButton": "Complete Questionnaire",
+        "title": "YOUR ALT-SCORE",
+        "reasonsTitle": "Why This Score?",
+        "tipsTitle": "Tips to Improve",
+        "proceedButton": "Proceed to Risk Score",
+        "errors": {
+            "noApplication": "Loan application not found. Please complete the questionnaire.",
+            "fetchError": "Failed to fetch application data or calculate score."
+        },
+        "explanations": {
+            "reasons": {
+                "positive": "Positive factors like these increase your score, showing financial stability and reliability to lenders.",
+                "negative": "Negative factors like these can lower your score, indicating potential risks to lenders. Addressing them can improve your financial health."
+            },
+            "tips": {
+                "complete": "Your score is an estimate. Providing all your financial details will give our AI a complete picture, leading to a more precise score and better loan options.",
+                "upi": "Higher UPI usage shows lenders that your business has consistent, digitally-verifiable income, which is seen as a major sign of stability.",
+                "cibil": "A good CIBIL score is crucial for larger loans. Start by getting a credit card or a small loan and paying it back on time to build a positive record.",
+                "pan": "A PAN card is a key identity document. Uploading it helps us verify your identity and credit history, which can significantly improve your score.",
+                "cashflow": "Showing that your income is consistently higher than your expenses is the most important factor for lenders. It proves your business is profitable and can handle loan repayments.",
+                "default": "Following this tip can help improve your score over time."
+            }
+        }
+    },
+    "riskScore": {
+        "welcome": "Welcome {{name}}",
+        "loading": "Calculating your RISK-SCORE...",
+        "completeQuestionnaireButton": "Complete Questionnaire",
+        "title": "YOUR RISK-SCORE",
+        "reasonsTitle": "Why This Score?",
+        "tipsTitle": "Tips to Improve",
+        "proceedButton": "Proceed to Loan Eligibility",
+        "errors": {
+            "noApplication": "Loan application not found. Please complete the questionnaire first.",
+            "fetchError": "Failed to fetch application data or calculate score."
+        },
+        "explanations": {
+            "reasons": {
+                "cash": "Lenders see high cash usage as a risk because it's harder to verify your income digitally. More digital transactions build trust.",
+                "cashflow": "When expenses are higher than income, it signals financial instability, which is a major concern for loan providers.",
+                "loan": "An existing loan means you already have repayment obligations, which can affect your ability to handle new debt.",
+                "duration": "Newer businesses are often seen as less stable. A longer track record helps prove your business's reliability.",
+                "cibil": "Without a credit history, it's difficult for lenders to predict your repayment behavior, which increases their risk.",
+                "assets": "Owning assets like a house or shop can act as security and shows stability, reducing the lender's risk.",
+                "default": "This factor influences your financial risk profile."
+            },
+            "tips": {
+                "default": "Following this simple tip can help reduce your risk profile over time."
+            }
+        }
+    },
+    "loanEligibility": {
+        "welcome": "Hey, {{name}}",
+        "subtitle": "HERE ARE YOUR LOAN ELIGIBILITY DETAILS",
+        "loading": "Determining your loan eligibility...",
+        "completeQuestionnaireButton": "Complete Questionnaire",
+        "resultTitle": "Loan Eligibility Result",
+        "loanAmountLabel": "Slide how much loan do you want. (Max: {{amount}})",
+        "tenureLabel": "Slide your tenure.",
+        "banksTitle": "Bank Chances",
+        "tipsTitle": "Tips to Improve",
+        "applyButton": "APPLY NOW",
+        "backButton": "BACK TO DASHBOARD",
+        "chances": {
+            "high": "High Chance",
+            "medium": "Medium Chance",
+            "low": "Low Chance"
+        },
+        "details": {
+            "loanAmount": "Loan Amount",
+            "interest": "Interest",
+            "tenure": "Tenure",
+            "months": "{{count}} Months",
+            "emi": "Monthly EMI",
+            "repayment": "Total Repayment"
+        },
+        "errors": {
+            "missingScores": "ALT-SCORE or RISK-SCORE is missing. Please complete the previous steps.",
+            "noApplication": "Loan application not found. Please complete the questionnaire first.",
+            "fetchError": "Failed to fetch application data or determine eligibility."
+        }
     }
 }
+
+    

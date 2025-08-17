@@ -20,20 +20,11 @@ import Footer from "@/components/footer";
 import AppHeader from "@/components/app-header";
 import { Loader2, CheckCircle2, AlertTriangle, Lightbulb, ArrowRight, Info } from "lucide-react";
 import { RiskScoreMeter } from "@/components/risk-score-meter";
+import { useLanguage } from "@/context/language-context";
 
 type ApplicationData = QuestionnaireData & {
   riskScoreResult?: RiskScoreOutput;
 };
-
-const reasonExplanations: Record<string, string> = {
-    'High dependency on cash income': "Lenders see high cash usage as a risk because it's harder to verify your income digitally. More digital transactions build trust.",
-    'Negative monthly cash flow': "When expenses are higher than income, it signals financial instability, which is a major concern for loan providers.",
-    'Existing loan adds to debt burden': "An existing loan means you already have repayment obligations, which can affect your ability to handle new debt.",
-    'Short business duration is riskier': "Newer businesses are often seen as less stable. A longer track record helps prove your business's reliability.",
-    'Absence of a CIBIL score increases uncertainty': "Without a credit history, it's difficult for lenders to predict your repayment behavior, which increases their risk.",
-    'Lack of personal or business assets': "Owning assets like a house or shop can act as security and shows stability, reducing the lender's risk."
-};
-
 
 export default function RiskScorePage() {
   const { user, loading: authLoading } = useAuth();
@@ -41,6 +32,16 @@ export default function RiskScorePage() {
   const [riskScoreResult, setRiskScoreResult] = useState<RiskScoreOutput | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { t } = useLanguage();
+
+  const reasonExplanations: Record<string, string> = {
+    'High dependency on cash income': t('riskScore.explanations.reasons.cash'),
+    'Negative monthly cash flow': t('riskScore.explanations.reasons.cashflow'),
+    'Existing loan adds to debt burden': t('riskScore.explanations.reasons.loan'),
+    'Short business duration is riskier': t('riskScore.explanations.reasons.duration'),
+    'Absence of a CIBIL score increases uncertainty': t('riskScore.explanations.reasons.cibil'),
+    'Lack of personal or business assets': t('riskScore.explanations.reasons.assets')
+  };
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -74,18 +75,18 @@ export default function RiskScorePage() {
             }
 
           } else {
-            setError("Loan application not found. Please complete the questionnaire first.");
+            setError(t('riskScore.errors.noApplication'));
           }
         } catch (err) {
           console.error(err);
-          setError("Failed to fetch application data or calculate score.");
+          setError(t('riskScore.errors.fetchError'));
         } finally {
           setIsLoading(false);
         }
       };
       fetchData();
     }
-  }, [user]);
+  }, [user, t]);
   
   const getReasonIcon = (reason: string) => {
     const positiveKeywords = ['stable', 'positive', 'long duration'];
@@ -123,7 +124,7 @@ export default function RiskScorePage() {
   // Find the first matching explanation for a given reason
   const findReasonExplanation = (reason: string) => {
     const key = Object.keys(reasonExplanations).find(k => reason.toLowerCase().includes(k.toLowerCase()));
-    return key ? reasonExplanations[key] : "This factor influences your financial risk profile.";
+    return key ? reasonExplanations[key] : t('riskScore.explanations.reasons.default');
   };
 
 
@@ -137,18 +138,18 @@ export default function RiskScorePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="text-3xl md:text-5xl font-bold font-serif mb-12 text-center text-foreground/80">
-            Welcome {user.displayName}
+            {t('riskScore.welcome', { name: user.displayName || 'User' })}
           </motion.h1>
 
           {isLoading ? (
              <div className="flex flex-col items-center justify-center h-64">
                 <Loader2 className="animate-spin h-12 w-12 text-primary" />
-                <p className="mt-4 text-muted-foreground font-sans">Calculating your RISK-SCORE...</p>
+                <p className="mt-4 text-muted-foreground font-sans">{t('riskScore.loading')}</p>
              </div>
           ) : error ? (
             <div className="text-center text-red-500 bg-red-100 dark:bg-red-900/50 p-4 rounded-lg">
                 <p>{error}</p>
-                 <Button onClick={() => router.push('/questionnaire')} className="mt-4">Complete Questionnaire</Button>
+                 <Button onClick={() => router.push('/questionnaire')} className="mt-4">{t('riskScore.completeQuestionnaireButton')}</Button>
             </div>
           ) : riskScoreResult && (
             <div className="space-y-12">
@@ -159,7 +160,7 @@ export default function RiskScorePage() {
                     className="flex flex-col items-center space-y-4"
                 >
                     <p className="text-lg font-sans tracking-widest text-muted-foreground text-center">
-                        YOUR RISK-SCORE
+                        {t('riskScore.title')}
                     </p>
                      <p className="text-6xl font-bold font-serif my-2 text-center">
                         {riskScoreResult.risk_score}
@@ -176,7 +177,7 @@ export default function RiskScorePage() {
                     animate="visible"
                     className="space-y-6"
                 >
-                    <motion.h2 variants={itemVariants} className="text-2xl font-bold font-serif text-center">Why This Score?</motion.h2>
+                    <motion.h2 variants={itemVariants} className="text-2xl font-bold font-serif text-center">{t('riskScore.reasonsTitle')}</motion.h2>
                     <div className="grid md:grid-cols-2 gap-4">
                         {riskScoreResult.reasons.map((reason, i) => (
                              <motion.div key={i} variants={itemVariants}>
@@ -207,7 +208,7 @@ export default function RiskScorePage() {
                     animate="visible"
                     className="space-y-6"
                 >
-                    <motion.h2 variants={itemVariants} className="text-2xl font-bold font-serif text-center flex items-center justify-center gap-2"><Lightbulb className="h-6 w-6 text-yellow-400" /> Tips to Improve</motion.h2>
+                    <motion.h2 variants={itemVariants} className="text-2xl font-bold font-serif text-center flex items-center justify-center gap-2"><Lightbulb className="h-6 w-6 text-yellow-400" /> {t('riskScore.tipsTitle')}</motion.h2>
                     <div className="grid gap-4">
                         {riskScoreResult.tips.map((tip, i) => (
                            <motion.div key={i} variants={itemVariants}>
@@ -218,10 +219,9 @@ export default function RiskScorePage() {
                                             <PopoverTrigger asChild>
                                                 <Button variant="ghost" size="icon" className="h-8 w-8 ml-2">
                                                     <Info className="h-4 w-4 text-muted-foreground" />
-                                                </Button>
-                                            </PopoverTrigger>
+                                                </PopoverTrigger>
                                             <PopoverContent className="w-64 text-sm font-sans">
-                                                 <p>Following this simple tip can help reduce your risk profile over time.</p>
+                                                 <p>{t('riskScore.explanations.tips.default')}</p>
                                             </PopoverContent>
                                         </Popover>
                                     </CardContent>
@@ -241,7 +241,7 @@ export default function RiskScorePage() {
                         size="lg" 
                         className="rounded-full bg-gradient-to-br from-green-400 to-green-600 text-white dark:text-foreground text-lg font-bold px-10 py-6 shadow-lg hover:shadow-xl transition-shadow" 
                         onClick={() => router.push('/calculating-eligibility')}>
-                        Proceed to Loan Eligibility <ArrowRight className="ml-2 h-5 w-5" />
+                        {t('riskScore.proceedButton')} <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>
                 </motion.div>
             </div>
@@ -252,3 +252,5 @@ export default function RiskScorePage() {
     </div>
   );
 }
+
+    

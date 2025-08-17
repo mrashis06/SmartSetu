@@ -153,23 +153,21 @@ export function Chatbot() {
                         className="fixed bottom-24 right-4 z-50 w-full max-w-sm"
                     >
                         <Card className="h-[70vh] flex flex-col shadow-2xl bg-secondary/80 backdrop-blur-sm">
-                            <motion.div 
+                            <CardHeader
                                 onPointerDown={(e) => dragControls.start(e)}
-                                className="cursor-grab active:cursor-grabbing"
+                                className="flex flex-row items-center justify-between border-b cursor-grab active:cursor-grabbing"
                             >
-                                <CardHeader className="flex flex-row items-center justify-between border-b">
-                                    <div className="flex items-center gap-3">
-                                        <Sparkles className="h-6 w-6 text-primary" />
-                                        <p className="font-semibold text-lg">SmartSetu-Bot</p>
-                                    </div>
-                                    <div className="flex items-center">
-                                        <GripVertical className="h-6 w-6 text-muted-foreground" />
-                                        <Button variant="ghost" size="icon" onClick={toggleChat}>
-                                            <X className="h-4 w-4" />
-                                        </Button>
-                                    </div>
-                                </CardHeader>
-                            </motion.div>
+                                <div className="flex items-center gap-3">
+                                    <Sparkles className="h-6 w-6 text-primary" />
+                                    <p className="font-semibold text-lg">SmartSetu-Bot</p>
+                                </div>
+                                <div className="flex items-center">
+                                    <GripVertical className="h-6 w-6 text-muted-foreground" />
+                                    <Button variant="ghost" size="icon" onClick={toggleChat} className="cursor-pointer">
+                                        <X className="h-4 w-4" />
+                                    </Button>
+                                </div>
+                            </CardHeader>
                             <CardContent className="flex-1 overflow-hidden p-0">
                                 <ScrollArea className="h-full" ref={scrollAreaRef}>
                                     {messages.length <= 1 ? (

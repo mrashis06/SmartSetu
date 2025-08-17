@@ -29,6 +29,7 @@ import { Slider } from "@/components/ui/slider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AltScoreOutput } from "@/ai/flows/alt-score-flow";
 import { RiskScoreOutput } from "@/ai/flows/risk-score-flow";
+import { Label } from "@/components/ui/label";
 
 type ApplicationData = QuestionnaireData & {
   altScoreResult?: AltScoreOutput;

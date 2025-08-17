@@ -21,14 +21,13 @@ export default function AboutSection() {
           </p>
         </div>
         <div>
-          <Card className="overflow-hidden rounded-lg shadow-md">
+          <Card className="overflow-hidden rounded-lg shadow-lg">
             <Image
-              src="https://placehold.co/600x400.png"
+              src="/images/vendors.png"
               alt={t('about.imageAlt')}
               width={600}
               height={400}
               className="w-full h-auto object-cover"
-              data-ai-hint="team collaboration"
             />
           </Card>
         </div>

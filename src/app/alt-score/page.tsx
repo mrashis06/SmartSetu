@@ -210,7 +210,7 @@ export default function AltScorePage() {
                 <Button 
                     size="lg" 
                     className="rounded-full bg-primary/80 hover:bg-primary text-primary-foreground px-8 py-4" 
-                    onClick={() => router.push('/risk-score')}>
+                    onClick={() => router.push('/calculating-risk')}>
                     PROCEED TO RISK SCORE
                 </Button>
             </motion.div>

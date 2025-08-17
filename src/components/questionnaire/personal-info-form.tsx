@@ -73,7 +73,7 @@ export function PersonalInfoForm({ onNext }: PersonalInfoFormProps) {
   return (
     <div>
         <div className="mb-6">
-            <h3 className="font-serif tracking-wider text-lg">CHECK YOUR ELIGIBILITY</h3>
+            <h3 className="font-serif tracking-wider text-lg text-foreground/50">CHECK YOUR ELIGIBILITY</h3>
             <h4 className="font-sans text-muted-foreground">PERSONAL INFORMATIONS</h4>
         </div>
         <Form {...form}>
@@ -86,7 +86,7 @@ export function PersonalInfoForm({ onNext }: PersonalInfoFormProps) {
                 <FormItem>
                     <FormLabel>First Name</FormLabel>
                     <FormControl>
-                    <Input placeholder="John" {...field} />
+                    <Input placeholder="John" {...field} className="bg-gray-800 text-white border-gray-700 placeholder:text-gray-400" />
                     </FormControl>
                     <FormMessage />
                 </FormItem>
@@ -99,7 +99,7 @@ export function PersonalInfoForm({ onNext }: PersonalInfoFormProps) {
                 <FormItem>
                     <FormLabel>Middle Name</FormLabel>
                     <FormControl>
-                    <Input placeholder="Michael" {...field} />
+                    <Input placeholder="Michael" {...field} className="bg-gray-800 text-white border-gray-700 placeholder:text-gray-400" />
                     </FormControl>
                     <FormMessage />
                 </FormItem>
@@ -112,7 +112,7 @@ export function PersonalInfoForm({ onNext }: PersonalInfoFormProps) {
                 <FormItem>
                     <FormLabel>Last Name</FormLabel>
                     <FormControl>
-                    <Input placeholder="Doe" {...field} />
+                    <Input placeholder="Doe" {...field} className="bg-gray-800 text-white border-gray-700 placeholder:text-gray-400" />
                     </FormControl>
                     <FormMessage />
                 </FormItem>
@@ -126,11 +126,11 @@ export function PersonalInfoForm({ onNext }: PersonalInfoFormProps) {
                     <FormLabel>Gender</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger className="bg-gray-800 text-white border-gray-700">
                             <SelectValue placeholder="Select a gender" />
                         </SelectTrigger>
                         </FormControl>
-                        <SelectContent>
+                        <SelectContent className="bg-gray-800 text-white border-gray-700">
                         <SelectItem value="male">Male</SelectItem>
                         <SelectItem value="female">Female</SelectItem>
                         <SelectItem value="other">Other</SelectItem>
@@ -147,7 +147,7 @@ export function PersonalInfoForm({ onNext }: PersonalInfoFormProps) {
                   <FormItem>
                     <FormLabel>Date of birth</FormLabel>
                     <FormControl>
-                      <Input placeholder="DD/MM/YYYY" {...field} />
+                      <Input placeholder="DD/MM/YYYY" {...field} className="bg-gray-800 text-white border-gray-700 placeholder:text-gray-400" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -160,7 +160,7 @@ export function PersonalInfoForm({ onNext }: PersonalInfoFormProps) {
                 <FormItem>
                     <FormLabel>Email Address</FormLabel>
                     <FormControl>
-                    <Input placeholder="example@email.com" {...field} readOnly/>
+                    <Input placeholder="example@email.com" {...field} readOnly className="bg-gray-800 text-white border-gray-700 placeholder:text-gray-400" />
                     </FormControl>
                     <FormMessage />
                 </FormItem>
@@ -174,10 +174,10 @@ export function PersonalInfoForm({ onNext }: PersonalInfoFormProps) {
                     <FormLabel>Phone Number</FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
                           +91
                         </span>
-                        <Input placeholder="98765 43210" {...field} className="pl-10" />
+                        <Input placeholder="98765 43210" {...field} className="pl-10 bg-gray-800 text-white border-gray-700 placeholder:text-gray-400" />
                       </div>
                     </FormControl>
                     <FormMessage />
@@ -192,10 +192,10 @@ export function PersonalInfoForm({ onNext }: PersonalInfoFormProps) {
                     <FormLabel>Alternative Mobile Number</FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
                           +91
                         </span>
-                        <Input placeholder="98765 43210" {...field} className="pl-10" />
+                        <Input placeholder="98765 43210" {...field} className="pl-10 bg-gray-800 text-white border-gray-700 placeholder:text-gray-400" />
                       </div>
                     </FormControl>
                     <FormMessage />
@@ -209,7 +209,7 @@ export function PersonalInfoForm({ onNext }: PersonalInfoFormProps) {
                 <FormItem>
                     <FormLabel>Address</FormLabel>
                     <FormControl>
-                    <Input placeholder="123 Main St, Anytown, USA" {...field} />
+                    <Input placeholder="123 Main St, Anytown, USA" {...field} className="bg-gray-800 text-white border-gray-700 placeholder:text-gray-400" />
                     </FormControl>
                     <FormMessage />
                 </FormItem>

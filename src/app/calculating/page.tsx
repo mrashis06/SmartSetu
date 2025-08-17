@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Loader2 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import AppHeader from "@/components/app-header";
 
 const loadingTexts = [
   "SMARTSETU-AI IS ANALYZING YOUR DATA",
@@ -116,73 +117,7 @@ export default function CalculatingPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground font-headline">
-       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 max-w-screen-2xl items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2">
-            <Logo className="h-8 w-auto" />
-          </Link>
-          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-            <Link href="#" className="transition-colors hover:text-primary">FAQs</Link>
-            <Link href="/" className="transition-colors hover:text-primary">Home</Link>
-            <Link href="/dashboard" className="transition-colors hover:text-primary font-bold">Dashboard</Link>
-          </nav>
-          <div className="flex items-center gap-4">
-            <ThemeToggle />
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                 <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                    <Avatar>
-                        <AvatarImage src={user.photoURL ?? ""} alt={user.displayName ?? ""} />
-                        <AvatarFallback>{user.displayName?.charAt(0).toUpperCase()}</AvatarFallback>
-                    </Avatar>
-                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end" forceMount>
-                <DropdownMenuLabel className="font-normal">
-                  <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">{user.displayName}</p>
-                    <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
-                  </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/profile"><UserIcon className="mr-2 h-4 w-4" /><span>Profile</span></Link>
-                </DropdownMenuItem>
-                 <DropdownMenuItem asChild>
-                  <Link href="/"><Home className="mr-2 h-4 w-4" /><span>Home</span></Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard"><LayoutDashboard className="mr-2 h-4 w-4" /><span>Dashboard</span></Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="#"><Settings className="mr-2 h-4 w-4" /><span>Settings</span></Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={signOut}>
-                  Logout
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <div className="md:hidden">
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <Menu />
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="right">
-                  <div className="flex flex-col gap-4 p-4">
-                    <Link href="#" className="transition-colors hover:text-primary">FAQs</Link>
-                    <Link href="/" className="transition-colors hover:text-primary">Home</Link>
-                    <Link href="/dashboard" className="transition-colors hover:text-primary font-bold">Dashboard</Link>
-                  </div>
-                </SheetContent>
-              </Sheet>
-            </div>
-          </div>
-        </div>
-      </header>
-
+       <AppHeader />
       <main className="flex-1 flex flex-col items-center justify-center px-4">
         <div className="container mx-auto text-center max-w-2xl">
           <h1 className="text-3xl md:text-5xl font-bold font-serif mb-8">

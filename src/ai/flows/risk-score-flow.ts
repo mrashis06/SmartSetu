@@ -46,16 +46,16 @@ Analyze the following user data:
 - Additional Info: {{json additionalInfo}}
 
 Risk Scoring Guidelines:
-- Low UPI Transactions vs. High Cash Income: This is a major risk factor. A high dependency on cash suggests a less transparent and potentially unstable income stream. This should significantly increase the risk score.
-- Negative Net Income (Income - Expenses): A high negative net income is a strong indicator of financial distress and high risk.
-- Existing Loan: Having an existing loan increases risk as it adds to the debt burden.
-- Short Business Duration: Businesses operating for less than 5 years are generally riskier than established ones.
-- No CIBIL Score: While common, the absence of a credit history (CIBIL score) increases uncertainty and therefore risk.
-- Not Owning a House/Business: Lack of personal or business assets can indicate lower stability and higher risk.
-- Low Stock/Inventory Value: Suggests a smaller scale of operation, which can be a risk factor.
+- **Negative Net Income (Income - Expenses):** This is the MOST IMPORTANT factor. A high negative net income is a strong indicator of financial distress and very high risk. A profitable business is fundamentally less risky.
+- **High Cash Dependency:** Analyze the ratio of cash income to total income. A high dependency on cash is a major risk factor as it suggests a less transparent and potentially unstable income stream. This should significantly increase the risk score.
+- **Existing Loan:** Having an existing loan increases risk as it adds to the debt burden.
+- **Short Business Duration:** Businesses operating for less than 5 years are generally riskier than established ones.
+- **No CIBIL Score:** While common for small vendors, the absence of a credit history (CIBIL score) increases uncertainty and should be considered a moderate risk factor.
+- **Not Owning a House/Business:** Lack of personal or business assets can indicate lower stability and higher risk.
+- **Low Stock/Inventory Value:** This suggests a smaller scale of operation, which can be a minor risk factor, but should not be heavily penalized on its own.
 
 Your Task:
-1.  Calculate the final RISK-SCORE between 0 and 10.
+1.  Calculate the final RISK-SCORE between 0 and 10, with a strong emphasis on Net Income.
 2.  Categorize the score: 0-3 is 'Low' risk, 4-6 is 'Medium' risk, 7-10 is 'High' risk.
 3.  Provide the top 3-4 most influential reasons for the calculated score. Be direct, e.g., "High dependency on cash income," "Negative monthly cash flow."
 4.  Provide a list of actionable tips for improvement, e.g., "Increase UPI transactions to build a digital financial footprint," "Repay existing loans on time to improve creditworthiness," "Upload your PAN card for better identity and credit verification."

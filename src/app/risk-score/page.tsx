@@ -240,7 +240,7 @@ export default function RiskScorePage() {
                     <Button 
                         size="lg" 
                         className="rounded-full bg-gradient-to-br from-green-400 to-green-600 text-white dark:text-foreground text-lg font-bold px-10 py-6 shadow-lg hover:shadow-xl transition-shadow" 
-                        onClick={() => router.push('/loan-eligibility')}>
+                        onClick={() => router.push('/calculating-eligibility')}>
                         Proceed to Loan Eligibility <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>
                 </motion.div>

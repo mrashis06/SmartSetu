@@ -219,7 +219,8 @@ export default function RiskScorePage() {
                                             <PopoverTrigger asChild>
                                                 <Button variant="ghost" size="icon" className="h-8 w-8 ml-2">
                                                     <Info className="h-4 w-4 text-muted-foreground" />
-                                                </PopoverTrigger>
+                                                </Button>
+                                            </PopoverTrigger>
                                             <PopoverContent className="w-64 text-sm font-sans">
                                                  <p>{t('riskScore.explanations.tips.default')}</p>
                                             </PopoverContent>
@@ -252,5 +253,3 @@ export default function RiskScorePage() {
     </div>
   );
 }
-
-    

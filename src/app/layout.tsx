@@ -13,7 +13,6 @@ const ptSans = PT_Sans({
   variable: '--font-pt-sans',
 });
 
-
 export const metadata: Metadata = {
   title: 'SmartSetu',
   description: 'Your Bridge to a Better Future',
@@ -52,3 +51,4 @@ export default function RootLayout({
       </body>
     </html>
   );
+}

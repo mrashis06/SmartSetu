@@ -12,8 +12,16 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Menu, Loader2 } from "lucide-react";
+import { Menu, Loader2, Home, LayoutDashboard, Settings } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { ThemeToggle } from "@/components/theme-toggle";
 import Footer from "@/components/footer";
 
@@ -151,10 +159,38 @@ export default function DashboardPage() {
           </nav>
           <div className="flex items-center gap-4">
             <ThemeToggle />
-            <Avatar>
-              <AvatarImage src={user.photoURL ?? ""} alt={user.displayName ?? ""} />
-              <AvatarFallback>{user.displayName?.charAt(0).toUpperCase()}</AvatarFallback>
-            </Avatar>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                 <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                    <Avatar>
+                        <AvatarImage src={user.photoURL ?? ""} alt={user.displayName ?? ""} />
+                        <AvatarFallback>{user.displayName?.charAt(0).toUpperCase()}</AvatarFallback>
+                    </Avatar>
+                 </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">{user.displayName}</p>
+                    <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                 <DropdownMenuItem asChild>
+                  <Link href="/"><Home className="mr-2 h-4 w-4" /><span>Home</span></Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard"><LayoutDashboard className="mr-2 h-4 w-4" /><span>Dashboard</span></Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="#"><Settings className="mr-2 h-4 w-4" /><span>Settings</span></Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={signOut}>
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <div className="md:hidden">
               <Sheet>
                 <SheetTrigger asChild>
@@ -172,7 +208,6 @@ export default function DashboardPage() {
                 </SheetContent>
               </Sheet>
             </div>
-             <Button onClick={signOut} variant="outline" className="hidden md:flex">Logout</Button>
           </div>
         </div>
       </header>

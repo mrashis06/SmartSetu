@@ -6,22 +6,9 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Logo } from "@/components/logo";
-import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import { motion } from "framer-motion";
-import { Menu, Loader2, Home, LayoutDashboard, Settings, User as UserIcon } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { Loader2 } from "lucide-react";
 import Footer from "@/components/footer";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
@@ -29,6 +16,7 @@ import { QuestionnaireData } from "@/context/questionnaire-context";
 import { AltScoreOutput } from "@/ai/flows/alt-score-flow";
 import { RiskScoreOutput } from "@/ai/flows/risk-score-flow";
 import AppHeader from "@/components/app-header";
+import { useLanguage } from "@/context/language-context";
 
 type ApplicationData = QuestionnaireData & {
   altScoreResult?: AltScoreOutput;
@@ -45,11 +33,12 @@ const COMPLETION_CHECKS = {
 
 
 export default function ProfilePage() {
-    const { user, loading: authLoading, signOut } = useAuth();
+    const { user, loading: authLoading } = useAuth();
     const router = useRouter();
     const [applicationData, setApplicationData] = useState<ApplicationData | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const { t } = useLanguage();
 
     useEffect(() => {
         if (!authLoading && !user) {
@@ -69,18 +58,18 @@ export default function ProfilePage() {
                 if (docSnap.exists()) {
                     setApplicationData(docSnap.data() as ApplicationData);
                 } else {
-                    setError("No application data found. Please complete the questionnaire.");
+                    setError(t('profile.errors.noApplication'));
                 }
             } catch (err) {
                 console.error("Failed to fetch application data:", err);
-                setError("An error occurred while fetching your data.");
+                setError(t('profile.errors.fetchError'));
             } finally {
                 setIsLoading(false);
             }
         };
         fetchData();
         }
-    }, [user]);
+    }, [user, t]);
 
     const completionPercentage = useMemo(() => {
         if (!applicationData) return 0;
@@ -133,18 +122,18 @@ export default function ProfilePage() {
       <main className="flex-1 flex flex-col items-center px-4 py-8">
         <div className="container mx-auto max-w-4xl">
            <h1 className="text-3xl md:text-5xl font-bold font-serif mb-12 text-center">
-            User Profile
+            {t('profile.title')}
           </h1>
 
           {isLoading ? (
              <div className="flex flex-col items-center justify-center h-64">
                 <Loader2 className="animate-spin h-12 w-12 text-primary" />
-                <p className="mt-4 text-muted-foreground font-sans">Loading your profile...</p>
+                <p className="mt-4 text-muted-foreground font-sans">{t('profile.loading')}</p>
              </div>
           ) : error ? (
             <div className="text-center text-red-500 bg-red-100 dark:bg-red-900/50 p-4 rounded-lg">
                 <p>{error}</p>
-                 <Button onClick={() => router.push('/questionnaire')} className="mt-4">Complete Questionnaire</Button>
+                 <Button onClick={() => router.push('/questionnaire')} className="mt-4">{t('profile.completeQuestionnaireButton')}</Button>
             </div>
           ) : applicationData && (
             <motion.div 
@@ -155,8 +144,8 @@ export default function ProfilePage() {
             >
                 <Card>
                     <CardHeader>
-                        <CardTitle>Application Progress</CardTitle>
-                        <CardDescription>This is how much of the application you have completed.</CardDescription>
+                        <CardTitle>{t('profile.progress.title')}</CardTitle>
+                        <CardDescription>{t('profile.progress.description')}</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <div className="flex items-center gap-4">
@@ -164,7 +153,7 @@ export default function ProfilePage() {
                             <span className="font-bold text-lg">{completionPercentage}%</span>
                         </div>
                         <Button variant="link" className="p-0 h-auto mt-2" onClick={() => router.push('/questionnaire')}>
-                           {completionPercentage < 100 ? "Continue Application" : "Edit Application"}
+                           {completionPercentage < 100 ? t('profile.progress.continueButton') : t('profile.progress.editButton')}
                         </Button>
                     </CardContent>
                 </Card>
@@ -172,34 +161,34 @@ export default function ProfilePage() {
                 <div className="grid md:grid-cols-2 gap-8">
                     <Card>
                         <CardHeader>
-                            <CardTitle>ALT-SCORE</CardTitle>
-                             <CardDescription>Your financial strength score.</CardDescription>
+                            <CardTitle>{t('profile.altScore.title')}</CardTitle>
+                             <CardDescription>{t('profile.altScore.description')}</CardDescription>
                         </CardHeader>
                         <CardContent>
                             {applicationData.altScoreResult ? (
                                 <div className="text-center">
                                     <p className="text-6xl font-bold text-primary">{applicationData.altScoreResult.score}</p>
-                                    <Button variant="link" className="mt-2" onClick={() => router.push('/alt-score')}>View Details</Button>
+                                    <Button variant="link" className="mt-2" onClick={() => router.push('/alt-score')}>{t('profile.viewDetailsButton')}</Button>
                                 </div>
                             ) : (
-                                <p className="text-muted-foreground">Not yet calculated. Complete your application to see your score.</p>
+                                <p className="text-muted-foreground">{t('profile.altScore.notCalculated')}</p>
                             )}
                         </CardContent>
                     </Card>
                      <Card>
                         <CardHeader>
-                            <CardTitle>RISK-SCORE</CardTitle>
-                            <CardDescription>Your loan repayment risk assessment.</CardDescription>
+                            <CardTitle>{t('profile.riskScore.title')}</CardTitle>
+                            <CardDescription>{t('profile.riskScore.description')}</CardDescription>
                         </CardHeader>
                         <CardContent>
                              {applicationData.riskScoreResult ? (
                                 <div className="text-center">
                                     <p className="text-6xl font-bold text-amber-500">{applicationData.riskScoreResult.risk_score} / 10</p>
                                     <p className="font-semibold text-lg text-muted-foreground">{applicationData.riskScoreResult.category} Risk</p>
-                                    <Button variant="link" className="mt-2" onClick={() => router.push('/risk-score')}>View Details</Button>
+                                    <Button variant="link" className="mt-2" onClick={() => router.push('/risk-score')}>{t('profile.viewDetailsButton')}</Button>
                                 </div>
                             ) : (
-                                <p className="text-muted-foreground">Not yet calculated. Complete the ALT-SCORE step first.</p>
+                                <p className="text-muted-foreground">{t('profile.riskScore.notCalculated')}</p>
                             )}
                         </CardContent>
                     </Card>

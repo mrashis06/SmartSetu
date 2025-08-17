@@ -159,5 +159,31 @@
         "analyzing": "SMARTSETU-AI IS ANALYZING YOUR DATA",
         "preparing": "PREPARING YOUR REPORT",
         "almostThere": "ALMOST THERE..."
+    },
+    "profile": {
+        "title": "User Profile",
+        "loading": "Loading your profile...",
+        "completeQuestionnaireButton": "Complete Questionnaire",
+        "progress": {
+            "title": "Application Progress",
+            "description": "This is how much of the application you have completed.",
+            "continueButton": "Continue Application",
+            "editButton": "Edit Application"
+        },
+        "altScore": {
+            "title": "ALT-SCORE",
+            "description": "Your financial strength score.",
+            "notCalculated": "Not yet calculated. Complete your application to see your score."
+        },
+        "riskScore": {
+            "title": "RISK-SCORE",
+            "description": "Your loan repayment risk assessment.",
+            "notCalculated": "Not yet calculated. Complete the ALT-SCORE step first."
+        },
+        "viewDetailsButton": "View Details",
+        "errors": {
+            "noApplication": "No application data found. Please complete the questionnaire.",
+            "fetchError": "An error occurred while fetching your data."
+        }
     }
 }

@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Bot, X, Send, Loader2, Sparkles, CornerDownLeft, GripVertical } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import { chat } from '@/ai/flows/chatbot-flow';
 import { Logo } from './logo';
 
@@ -53,7 +53,7 @@ export function Chatbot() {
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const scrollAreaRef = useRef<HTMLDivElement>(null);
-    const dragControlsRef = useRef(null);
+    const dragControls = useDragControls();
 
     const scrollToBottom = useCallback(() => {
         setTimeout(() => {
@@ -144,16 +144,19 @@ export function Chatbot() {
                     <motion.div
                         drag
                         dragListener={false}
-                        dragControls={dragControlsRef.current!}
+                        dragControls={dragControls}
                         dragMomentum={false}
                         initial={{ opacity: 0, y: 50, scale: 0.9 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 50, scale: 0.9 }}
                         transition={{ duration: 0.3, ease: 'easeOut' }}
-                        className="fixed bottom-24 right-4 z-50 w-full max-w-sm cursor-grab active:cursor-grabbing"
+                        className="fixed bottom-24 right-4 z-50 w-full max-w-sm"
                     >
                         <Card className="h-[70vh] flex flex-col shadow-2xl bg-secondary/80 backdrop-blur-sm">
-                            <motion.div ref={dragControlsRef}>
+                            <motion.div 
+                                onPointerDown={(e) => dragControls.start(e)}
+                                className="cursor-grab active:cursor-grabbing"
+                            >
                                 <CardHeader className="flex flex-row items-center justify-between border-b">
                                     <div className="flex items-center gap-3">
                                         <Sparkles className="h-6 w-6 text-primary" />

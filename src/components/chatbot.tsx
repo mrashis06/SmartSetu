@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Bot, X, Send, Loader2, Sparkles, CornerDownLeft } from 'lucide-react';
+import { Bot, X, Send, Loader2, Sparkles, CornerDownLeft, GripVertical } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { chat } from '@/ai/flows/chatbot-flow';
 import { Logo } from './logo';
@@ -53,6 +53,7 @@ export function Chatbot() {
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const scrollAreaRef = useRef<HTMLDivElement>(null);
+    const dragControlsRef = useRef(null);
 
     const scrollToBottom = useCallback(() => {
         setTimeout(() => {
@@ -141,22 +142,31 @@ export function Chatbot() {
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
+                        drag
+                        dragListener={false}
+                        dragControls={dragControlsRef.current!}
+                        dragMomentum={false}
                         initial={{ opacity: 0, y: 50, scale: 0.9 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 50, scale: 0.9 }}
                         transition={{ duration: 0.3, ease: 'easeOut' }}
-                        className="fixed bottom-24 right-4 z-50 w-full max-w-sm"
+                        className="fixed bottom-24 right-4 z-50 w-full max-w-sm cursor-grab active:cursor-grabbing"
                     >
                         <Card className="h-[70vh] flex flex-col shadow-2xl bg-secondary/80 backdrop-blur-sm">
-                            <CardHeader className="flex flex-row items-center justify-between border-b">
-                                <div className="flex items-center gap-3">
-                                    <Sparkles className="h-6 w-6 text-primary" />
-                                    <p className="font-semibold text-lg">SmartSetu-Bot</p>
-                                </div>
-                                <Button variant="ghost" size="icon" onClick={toggleChat}>
-                                    <X className="h-4 w-4" />
-                                </Button>
-                            </CardHeader>
+                            <motion.div ref={dragControlsRef}>
+                                <CardHeader className="flex flex-row items-center justify-between border-b">
+                                    <div className="flex items-center gap-3">
+                                        <Sparkles className="h-6 w-6 text-primary" />
+                                        <p className="font-semibold text-lg">SmartSetu-Bot</p>
+                                    </div>
+                                    <div className="flex items-center">
+                                        <GripVertical className="h-6 w-6 text-muted-foreground" />
+                                        <Button variant="ghost" size="icon" onClick={toggleChat}>
+                                            <X className="h-4 w-4" />
+                                        </Button>
+                                    </div>
+                                </CardHeader>
+                            </motion.div>
                             <CardContent className="flex-1 overflow-hidden p-0">
                                 <ScrollArea className="h-full" ref={scrollAreaRef}>
                                     {messages.length <= 1 ? (

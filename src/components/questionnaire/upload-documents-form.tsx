@@ -81,12 +81,17 @@ export function UploadDocumentsForm({ onNext, onBack }: UploadDocumentsFormProps
     setIsVerifying(true);
 
     try {
-      const result = await verifyDocuments({
+      const verificationInput: any = {
         aadharDataUri: aadhar.preview!,
         shopPhotoDataUri: shop.preview!,
-        panDataUri: pan.preview,
         businessType: formData.financialInfo.businessType,
-      });
+      };
+
+      if (pan.preview) {
+        verificationInput.panDataUri = pan.preview;
+      }
+
+      const result = await verifyDocuments(verificationInput);
 
       setAadhar(prev => ({ ...prev, status: result.isAadharValid ? 'approved' : 'rejected' }));
       setShop(prev => ({ ...prev, status: result.isShopPhotoValid ? 'approved' : 'rejected' }));

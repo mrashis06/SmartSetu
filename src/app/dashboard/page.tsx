@@ -12,7 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Menu, Loader2, Home, LayoutDashboard, Settings } from "lucide-react";
+import { Menu, Loader2, Home, LayoutDashboard, Settings, User as UserIcon } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   DropdownMenu,
@@ -176,6 +176,9 @@ export default function DashboardPage() {
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/profile"><UserIcon className="mr-2 h-4 w-4" /><span>Profile</span></Link>
+                </DropdownMenuItem>
                  <DropdownMenuItem asChild>
                   <Link href="/"><Home className="mr-2 h-4 w-4" /><span>Home</span></Link>
                 </DropdownMenuItem>
@@ -203,7 +206,6 @@ export default function DashboardPage() {
                     <Link href="#" className="transition-colors hover:text-primary">FAQs</Link>
                     <Link href="/" className="transition-colors hover:text-primary">Home</Link>
                     <Link href="/dashboard" className="transition-colors hover:text-primary font-bold">Dashboard</Link>
-                    <Button onClick={signOut} variant="outline">Logout</Button>
                   </div>
                 </SheetContent>
               </Sheet>

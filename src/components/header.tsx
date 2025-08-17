@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ThemeToggle } from "./theme-toggle";
-import { Home, LayoutDashboard, Settings } from "lucide-react";
+import { Home, LayoutDashboard, Settings, User as UserIcon } from "lucide-react";
 
 type HeaderProps = {
   onScrollToFaq: () => void;
@@ -71,6 +71,9 @@ export default function Header({ onScrollToFaq }: HeaderProps) {
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile"><UserIcon className="mr-2 h-4 w-4" /><span>Profile</span></Link>
+                  </DropdownMenuItem>
                   <DropdownMenuItem asChild>
                     <Link href="/"><Home className="mr-2 h-4 w-4" /><span>Home</span></Link>
                   </DropdownMenuItem>

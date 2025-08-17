@@ -1,0 +1,31 @@
+
+{
+    "settings": {
+        "title": "Settings",
+        "language": {
+            "title": "Choose Language",
+            "description": "Select your preferred language for the application.",
+            "english": "English",
+            "hindi": "Hindi",
+            "bengali": "Bengali"
+        },
+        "support": {
+            "title": "Support & Links",
+            "description": "Contact us for help or more information.",
+            "email": "Email"
+        },
+        "deleteAccount": {
+            "title": "Delete My Account",
+            "description": "Permanently delete your account and all associated data. This action cannot be undone.",
+            "button": "Delete Account",
+            "dialogTitle": "Are you absolutely sure?",
+            "dialogDescription": "This action cannot be undone. This will permanently delete your account and remove your data from our servers.",
+            "dialogCancel": "Cancel",
+            "dialogContinue": "Continue",
+            "toastSuccessTitle": "Account Deleted",
+            "toastSuccessDescription": "Your account has been successfully deleted.",
+            "toastErrorTitle": "Deletion Failed",
+            "toastErrorDescription": "An unknown error occurred. Please try again."
+        }
+    }
+}

@@ -12,10 +12,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Loader2, Trash2, Languages, LifeBuoy, Mail, Phone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/context/language-context";
+import type { Language } from "@/context/language-context";
+
 
 export default function SettingsPage() {
   const { user, deleteAccount, loading } = useAuth();
   const router = useRouter();
+  const { t, setLanguage } = useLanguage();
   const { toast } = useToast();
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -24,15 +28,15 @@ export default function SettingsPage() {
     try {
       await deleteAccount();
       toast({
-        title: "Account Deleted",
-        description: "Your account has been successfully deleted.",
+        title: t('settings.deleteAccount.toastSuccessTitle'),
+        description: t('settings.deleteAccount.toastSuccessDescription'),
       });
-      router.push("/"); 
+      router.push("/");
     } catch (error: any) {
       toast({
         variant: "destructive",
-        title: "Deletion Failed",
-        description: error.message || "An error occurred. Please try again.",
+        title: t('settings.deleteAccount.toastErrorTitle'),
+        description: error.message || t('settings.deleteAccount.toastErrorDescription'),
       });
       setIsDeleting(false);
     }
@@ -52,26 +56,26 @@ export default function SettingsPage() {
       <main className="flex-1 flex flex-col items-center px-4 py-8">
         <div className="container mx-auto max-w-2xl space-y-8">
           <h1 className="text-3xl md:text-5xl font-bold font-serif text-center">
-            Settings
+            {t('settings.title')}
           </h1>
 
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Languages className="h-5 w-5 text-primary" />
-                <span>Choose Language</span>
+                <span>{t('settings.language.title')}</span>
               </CardTitle>
-              <CardDescription>Select your preferred language for the application.</CardDescription>
+              <CardDescription>{t('settings.language.description')}</CardDescription>
             </CardHeader>
             <CardContent>
-              <Select defaultValue="english">
+              <Select defaultValue="english" onValueChange={(value: Language) => setLanguage(value)}>
                 <SelectTrigger className="w-[200px]">
                   <SelectValue placeholder="Language" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="english">English</SelectItem>
-                  <SelectItem value="hindi">Hindi</SelectItem>
-                  <SelectItem value="bengali">Bengali</SelectItem>
+                  <SelectItem value="english">{t('settings.language.english')}</SelectItem>
+                  <SelectItem value="hindi">{t('settings.language.hindi')}</SelectItem>
+                  <SelectItem value="bengali">{t('settings.language.bengali')}</SelectItem>
                 </SelectContent>
               </Select>
             </CardContent>
@@ -81,9 +85,9 @@ export default function SettingsPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <LifeBuoy className="h-5 w-5 text-primary" />
-                <span>Support & Links</span>
+                <span>{t('settings.support.title')}</span>
               </CardTitle>
-              <CardDescription>Contact us for help or more information.</CardDescription>
+              <CardDescription>{t('settings.support.description')}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3 font-sans">
               <a href="https://wa.me/9123849124" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-2 rounded-md hover:bg-secondary transition-colors">
@@ -103,7 +107,7 @@ export default function SettingsPage() {
               <a href="mailto:credipilot@gmail.com" className="flex items-center gap-3 p-2 rounded-md hover:bg-secondary transition-colors">
                 <Mail className="h-5 w-5 text-blue-500" />
                 <div>
-                  <p className="font-semibold">Email</p>
+                  <p className="font-semibold">{t('settings.support.email')}</p>
                   <p className="text-sm text-muted-foreground">credipilot@gmail.com</p>
                 </div>
               </a>
@@ -114,28 +118,27 @@ export default function SettingsPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-destructive">
                 <Trash2 className="h-5 w-5" />
-                <span>Delete My Account</span>
+                <span>{t('settings.deleteAccount.title')}</span>
               </CardTitle>
-              <CardDescription>Permanently delete your account and all associated data. This action cannot be undone.</CardDescription>
+              <CardDescription>{t('settings.deleteAccount.description')}</CardDescription>
             </CardHeader>
             <CardContent>
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <Button variant="destructive">Delete Account</Button>
+                  <Button variant="destructive">{t('settings.deleteAccount.button')}</Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
-                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogTitle>{t('settings.deleteAccount.dialogTitle')}</AlertDialogTitle>
                     <AlertDialogDescription>
-                      This action cannot be undone. This will permanently delete your
-                      account and remove your data from our servers.
+                      {t('settings.deleteAccount.dialogDescription')}
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+                    <AlertDialogCancel disabled={isDeleting}>{t('settings.deleteAccount.dialogCancel')}</AlertDialogCancel>
                     <AlertDialogAction onClick={handleDeleteAccount} disabled={isDeleting}>
                       {isDeleting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                      Continue
+                      {t('settings.deleteAccount.dialogContinue')}
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>

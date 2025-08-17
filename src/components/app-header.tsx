@@ -17,10 +17,12 @@ import {
 import { ThemeToggle } from "./theme-toggle";
 import { Home, LayoutDashboard, Settings, User as UserIcon, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useLanguage } from "@/context/language-context";
 
 export default function AppHeader() {
   const { user, signOut } = useAuth();
   const router = useRouter();
+  const { t } = useLanguage();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -36,9 +38,9 @@ export default function AppHeader() {
         </div>
         <div className="flex items-center gap-4">
           <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-            <Link href="#" className="transition-colors hover:text-primary">FAQs</Link>
-            <Link href="/" className="transition-colors hover:text-primary">Home</Link>
-            <Link href="/dashboard" className="transition-colors hover:text-primary font-bold">Dashboard</Link>
+            <Link href="#" className="transition-colors hover:text-primary">{t('header.faq')}</Link>
+            <Link href="/" className="transition-colors hover:text-primary">{t('header.home')}</Link>
+            <Link href="/dashboard" className="transition-colors hover:text-primary font-bold">{t('header.dashboard')}</Link>
           </nav>
             {user && (
                  <DropdownMenu>
@@ -59,20 +61,20 @@ export default function AppHeader() {
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild>
-                        <Link href="/profile"><UserIcon className="mr-2 h-4 w-4" /><span>Profile</span></Link>
+                        <Link href="/profile"><UserIcon className="mr-2 h-4 w-4" /><span>{t('header.profile')}</span></Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                        <Link href="/"><Home className="mr-2 h-4 w-4" /><span>Home</span></Link>
+                        <Link href="/"><Home className="mr-2 h-4 w-4" /><span>{t('header.home')}</span></Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                        <Link href="/dashboard"><LayoutDashboard className="mr-2 h-4 w-4" /><span>Dashboard</span></Link>
+                        <Link href="/dashboard"><LayoutDashboard className="mr-2 h-4 w-4" /><span>{t('header.dashboard')}</span></Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                        <Link href="/settings"><Settings className="mr-2 h-4 w-4" /><span>Settings</span></Link>
+                        <Link href="/settings"><Settings className="mr-2 h-4 w-4" /><span>{t('header.settings')}</span></Link>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={signOut}>
-                        Logout
+                        {t('header.logout')}
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

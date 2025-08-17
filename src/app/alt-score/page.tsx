@@ -21,24 +21,11 @@ import Footer from "@/components/footer";
 import AppHeader from "@/components/app-header";
 import { Loader2, CheckCircle2, AlertTriangle, Lightbulb, ArrowRight, Info } from "lucide-react";
 import { AltScoreMeter } from "@/components/alt-score-meter";
+import { useLanguage } from "@/context/language-context";
 
 type ApplicationData = QuestionnaireData & {
   altScoreResult?: AltScoreOutput;
 };
-
-const reasonExplanations: Record<string, string> = {
-    'positive': "Positive factors like these increase your score, showing financial stability and reliability to lenders.",
-    'negative': "Negative factors like these can lower your score, indicating potential risks to lenders. Addressing them can improve your financial health."
-};
-
-const tipExplanations: Record<string, string> = {
-    'Complete the full questionnaire to get an accurate score and analysis.': "Your score is an estimate. Providing all your financial details will give our AI a complete picture, leading to a more precise score and better loan options.",
-    'Increase the volume of UPI transactions': "Higher UPI usage shows lenders that your business has consistent, digitally-verifiable income, which is seen as a major sign of stability.",
-    'Try to build a CIBIL credit history': "A good CIBIL score is crucial for larger loans. Start by getting a credit card or a small loan and paying it back on time to build a positive record.",
-    'Upload your PAN card for better identity verification': "A PAN card is a key identity document. Uploading it helps us verify your identity and credit history, which can significantly improve your score.",
-    'Maintain a positive monthly cash flow': "Showing that your income is consistently higher than your expenses is the most important factor for lenders. It proves your business is profitable and can handle loan repayments."
-};
-
 
 export default function AltScorePage() {
   const { user, loading: authLoading } = useAuth();
@@ -46,6 +33,7 @@ export default function AltScorePage() {
   const [altScoreResult, setAltScoreResult] = useState<AltScoreOutput | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -79,18 +67,18 @@ export default function AltScorePage() {
             }
 
           } else {
-            setError("Loan application not found. Please complete the questionnaire.");
+            setError(t('altScore.errors.noApplication'));
           }
         } catch (err) {
           console.error(err);
-          setError("Failed to fetch application data or calculate score.");
+          setError(t('altScore.errors.fetchError'));
         } finally {
           setIsLoading(false);
         }
       };
       fetchData();
     }
-  }, [user, router]);
+  }, [user, router, t]);
   
   const getReasonIcon = (type: 'positive' | 'negative') => {
     if (type === 'positive') {
@@ -132,18 +120,18 @@ export default function AltScorePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="text-3xl md:text-5xl font-bold font-serif mb-12 text-center text-foreground/80">
-            Welcome {user.displayName}
+            {t('altScore.welcome', { name: user.displayName || 'User' })}
           </motion.h1>
 
           {isLoading ? (
              <div className="flex flex-col items-center justify-center h-64">
                 <Loader2 className="animate-spin h-12 w-12 text-primary" />
-                <p className="mt-4 text-muted-foreground font-sans">Calculating your ALT-SCORE...</p>
+                <p className="mt-4 text-muted-foreground font-sans">{t('altScore.loading')}</p>
              </div>
           ) : error ? (
             <div className="text-center text-red-500 bg-red-100 dark:bg-red-900/50 p-4 rounded-lg">
                 <p>{error}</p>
-                 <Button onClick={() => router.push('/questionnaire')} className="mt-4">Complete Questionnaire</Button>
+                 <Button onClick={() => router.push('/questionnaire')} className="mt-4">{t('altScore.completeQuestionnaireButton')}</Button>
             </div>
           ) : altScoreResult && (
             <div className="space-y-12">
@@ -154,7 +142,7 @@ export default function AltScorePage() {
                     className="flex flex-col items-center"
                 >
                     <p className="text-lg font-sans tracking-widest text-muted-foreground text-center">
-                        YOUR ALT-SCORE
+                        {t('altScore.title')}
                     </p>
                     <p className="text-6xl font-bold font-serif my-2 text-center">
                         {altScoreResult.score}
@@ -168,14 +156,14 @@ export default function AltScorePage() {
                     animate="visible"
                     className="space-y-6"
                 >
-                    <motion.h2 variants={itemVariants} className="text-2xl font-bold font-serif text-center">Why This Score?</motion.h2>
+                    <motion.h2 variants={itemVariants} className="text-2xl font-bold font-serif text-center">{t('altScore.reasonsTitle')}</motion.h2>
                     <div className="grid md:grid-cols-2 gap-4">
                         {altScoreResult.reasons.map((r, i) => (
                              <motion.div key={i} variants={itemVariants}>
                                 <Card className="h-full">
                                     <CardContent className="p-4 flex items-center">
                                         {getReasonIcon(r.type)}
-                                        <span className="font-sans flex-1">{r.reason}</span>
+                                        <span className="font-sans flex-1">{t(r.key)}</span>
                                         <Popover>
                                             <PopoverTrigger asChild>
                                                 <Button variant="ghost" size="icon" className="h-8 w-8 ml-2">
@@ -183,7 +171,7 @@ export default function AltScorePage() {
                                                 </Button>
                                             </PopoverTrigger>
                                             <PopoverContent className="w-64 text-sm font-sans">
-                                                <p>{reasonExplanations[r.type]}</p>
+                                                <p>{t(r.key + '.explanation')}</p>
                                             </PopoverContent>
                                         </Popover>
                                     </CardContent>
@@ -199,13 +187,13 @@ export default function AltScorePage() {
                     animate="visible"
                     className="space-y-6"
                 >
-                    <motion.h2 variants={itemVariants} className="text-2xl font-bold font-serif text-center flex items-center justify-center gap-2"><Lightbulb className="h-6 w-6 text-yellow-400" /> Tips to Improve</motion.h2>
+                    <motion.h2 variants={itemVariants} className="text-2xl font-bold font-serif text-center flex items-center justify-center gap-2"><Lightbulb className="h-6 w-6 text-yellow-400" /> {t('altScore.tipsTitle')}</motion.h2>
                     <div className="grid gap-4">
-                        {altScoreResult.tips.map((tip, i) => (
+                        {altScoreResult.tips.map((tipKey, i) => (
                            <motion.div key={i} variants={itemVariants}>
                                 <Card>
                                     <CardContent className="p-4 flex items-center">
-                                        <span className="font-sans flex-1">{tip}</span>
+                                        <span className="font-sans flex-1">{t(tipKey)}</span>
                                         <Popover>
                                             <PopoverTrigger asChild>
                                                 <Button variant="ghost" size="icon" className="h-8 w-8 ml-2">
@@ -213,7 +201,7 @@ export default function AltScorePage() {
                                                 </Button>
                                             </PopoverTrigger>
                                             <PopoverContent className="w-64 text-sm font-sans">
-                                                 <p>{tipExplanations[tip] || "Following this tip can help improve your score over time."}</p>
+                                                 <p>{t(tipKey + '.explanation')}</p>
                                             </PopoverContent>
                                         </Popover>
                                     </CardContent>
@@ -233,7 +221,7 @@ export default function AltScorePage() {
                         size="lg" 
                         className="rounded-full bg-gradient-to-br from-green-400 to-green-600 text-white dark:text-foreground text-lg font-bold px-10 py-6 shadow-lg hover:shadow-xl transition-shadow" 
                         onClick={() => router.push('/calculating-risk')}>
-                        Proceed to Risk Score <ArrowRight className="ml-2 h-5 w-5" />
+                        {t('altScore.proceedButton')} <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>
                 </motion.div>
             </div>

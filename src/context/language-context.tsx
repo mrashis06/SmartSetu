@@ -38,6 +38,9 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const t = useCallback((key: string, params?: { [key: string]: string | number }) => {
+    if (typeof key !== 'string') {
+        return key;
+    }
     const keys = key.split('.');
     let result = translations[language];
     for (const k of keys) {

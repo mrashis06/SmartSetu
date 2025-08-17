@@ -198,19 +198,47 @@
             "noApplication": "Loan application not found. Please complete the questionnaire.",
             "fetchError": "Failed to fetch application data or calculate score."
         },
-        "explanations": {
-            "reasons": {
-                "positive": "Positive factors like these increase your score, showing financial stability and reliability to lenders.",
-                "negative": "Negative factors like these can lower your score, indicating potential risks to lenders. Addressing them can improve your financial health."
+        "reasons": {
+            "positive": {
+                "highProfit": "Strong positive monthly cash flow.",
+                "highProfit.explanation": "Showing that your income is consistently higher than your expenses is the most important factor for lenders. It proves your business is profitable and can handle loan repayments.",
+                "highUpi": "High volume of UPI transactions.",
+                "highUpi.explanation": "Higher UPI usage shows lenders that your business has consistent, digitally-verifiable income, which is seen as a major sign of stability.",
+                "goodCibil": "Good CIBIL score.",
+                "goodCibil.explanation": "A good CIBIL score is crucial for larger loans. It shows a history of responsible borrowing and timely repayments.",
+                "longDuration": "Stable business duration (more than 5 years).",
+                "longDuration.explanation": "A longer track record helps prove your business's reliability and stability over time.",
+                "ownsAssets": "Owning a house and/or the business.",
+                "ownsAssets.explanation": "Owning assets indicates financial stability and provides a form of security for lenders.",
+                "govtBenefits": "Receiving government benefits.",
+                "govtBenefits.explanation": "This shows integration with formal financial systems, which can be a positive indicator."
             },
-            "tips": {
-                "complete": "Your score is an estimate. Providing all your financial details will give our AI a complete picture, leading to a more precise score and better loan options.",
-                "upi": "Higher UPI usage shows lenders that your business has consistent, digitally-verifiable income, which is seen as a major sign of stability.",
-                "cibil": "A good CIBIL score is crucial for larger loans. Start by getting a credit card or a small loan and paying it back on time to build a positive record.",
-                "pan": "A PAN card is a key identity document. Uploading it helps us verify your identity and credit history, which can significantly improve your score.",
-                "cashflow": "Showing that your income is consistently higher than your expenses is the most important factor for lenders. It proves your business is profitable and can handle loan repayments.",
-                "default": "Following this tip can help improve your score over time."
+            "negative": {
+                "lowProfit": "Negative or low monthly cash flow.",
+                "lowProfit.explanation": "When expenses are higher than income, it signals financial instability, which is a major concern for loan providers.",
+                "highCash": "High dependency on cash income.",
+                "highCash.explanation": "Lenders see high cash usage as a risk because it's harder to verify your income digitally. More digital transactions build trust.",
+                "lowCibil": "Low CIBIL score.",
+                "lowCibil.explanation": "A low CIBIL score suggests past difficulties with repayment, which increases perceived risk for lenders.",
+                "shortDuration": "Short business duration (less than 5 years).",
+                "shortDuration.explanation": "Newer businesses are often seen as less stable and therefore riskier than established ones.",
+                "noAssets": "Lack of personal or business assets.",
+                "noAssets.explanation": "Owning assets can act as security and shows stability. A lack of assets can increase the lender's risk.",
+                "existingLoan": "Having an existing loan.",
+                "existingLoan.explanation": "An existing loan means you already have repayment obligations, which can affect your ability to handle new debt."
             }
+        },
+        "tips": {
+            "complete": "Complete the full questionnaire to get an accurate score.",
+            "complete.explanation": "Your score is an estimate. Providing all your financial details will give our AI a complete picture, leading to a more precise score and better loan options.",
+            "upi": "Increase the volume of UPI transactions.",
+            "upi.explanation": "Increase the use of UPI for business transactions to build a stronger digital financial history and demonstrate consistent income.",
+            "cibil": "Try to build a CIBIL credit history.",
+            "cibil.explanation": "Start by getting a credit card or a small loan and paying it back on time to build a positive record for future, larger loans.",
+            "pan": "Upload your PAN card for better identity verification.",
+            "pan.explanation": "A PAN card is a key identity document. Uploading it helps us verify your identity and credit history, which can significantly improve your score.",
+            "cashflow": "Maintain a positive monthly cash flow.",
+            "cashflow.explanation": "Focus on increasing your income and managing expenses to ensure your business remains profitable and can handle repayments."
         }
     },
     "riskScore": {
@@ -225,19 +253,27 @@
             "noApplication": "Loan application not found. Please complete the questionnaire first.",
             "fetchError": "Failed to fetch application data or calculate score."
         },
-        "explanations": {
-            "reasons": {
-                "cash": "Lenders see high cash usage as a risk because it's harder to verify your income digitally. More digital transactions build trust.",
-                "cashflow": "When expenses are higher than income, it signals financial instability, which is a major concern for loan providers.",
-                "loan": "An existing loan means you already have repayment obligations, which can affect your ability to handle new debt.",
-                "duration": "Newer businesses are often seen as less stable. A longer track record helps prove your business's reliability.",
-                "cibil": "Without a credit history, it's difficult for lenders to predict your repayment behavior, which increases their risk.",
-                "assets": "Owning assets like a house or shop can act as security and shows stability, reducing the lender's risk.",
-                "default": "This factor influences your financial risk profile."
-            },
-            "tips": {
-                "default": "Following this simple tip can help reduce your risk profile over time."
-            }
+        "reasons": {
+            "cashflow": "Negative monthly cash flow.",
+            "cashflow.explanation": "When expenses are higher than income, it signals financial instability, which is a major concern for loan providers.",
+            "cash": "High dependency on cash income.",
+            "cash.explanation": "Lenders see high cash usage as a risk because it's harder to verify your income digitally. More digital transactions build trust.",
+            "loan": "Existing loan adds to debt burden.",
+            "loan.explanation": "An existing loan means you already have repayment obligations, which can affect your ability to handle new debt.",
+            "duration": "Short business duration is riskier.",
+            "duration.explanation": "Newer businesses are often seen as less stable. A longer track record helps prove your business's reliability.",
+            "cibil": "Absence of a CIBIL score increases uncertainty.",
+            "cibil.explanation": "Without a credit history, it's difficult for lenders to predict your repayment behavior, which increases their risk.",
+            "assets": "Lack of personal or business assets.",
+            "assets.explanation": "Owning assets like a house or shop can act as security and shows stability, reducing the lender's risk."
+        },
+        "tips": {
+            "upi": "Increase UPI transactions to build a digital footprint.",
+            "upi.explanation": "A strong digital transaction history provides verifiable proof of your business activity and income stability.",
+            "repay": "Repay existing loans on time to improve creditworthiness.",
+            "repay.explanation": "A consistent history of on-time payments is the best way to show lenders you are a reliable borrower.",
+            "pan": "Upload your PAN card for better identity and credit verification.",
+            "pan.explanation": "A PAN card allows for more thorough identity and credit checks, which can reduce uncertainty and lower your risk score."
         }
     },
     "loanEligibility": {
@@ -272,5 +308,3 @@
         }
     }
 }
-
-    

@@ -34,15 +34,6 @@ export default function RiskScorePage() {
   const [error, setError] = useState<string | null>(null);
   const { t } = useLanguage();
 
-  const reasonExplanations: Record<string, string> = {
-    'High dependency on cash income': t('riskScore.explanations.reasons.cash'),
-    'Negative monthly cash flow': t('riskScore.explanations.reasons.cashflow'),
-    'Existing loan adds to debt burden': t('riskScore.explanations.reasons.loan'),
-    'Short business duration is riskier': t('riskScore.explanations.reasons.duration'),
-    'Absence of a CIBIL score increases uncertainty': t('riskScore.explanations.reasons.cibil'),
-    'Lack of personal or business assets': t('riskScore.explanations.reasons.assets')
-  };
-
   useEffect(() => {
     if (!authLoading && !user) {
       router.push("/login");
@@ -121,13 +112,6 @@ export default function RiskScorePage() {
     visible: { y: 0, opacity: 1 },
   };
 
-  // Find the first matching explanation for a given reason
-  const findReasonExplanation = (reason: string) => {
-    const key = Object.keys(reasonExplanations).find(k => reason.toLowerCase().includes(k.toLowerCase()));
-    return key ? reasonExplanations[key] : t('riskScore.explanations.reasons.default');
-  };
-
-
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground font-headline">
       <AppHeader />
@@ -179,12 +163,12 @@ export default function RiskScorePage() {
                 >
                     <motion.h2 variants={itemVariants} className="text-2xl font-bold font-serif text-center">{t('riskScore.reasonsTitle')}</motion.h2>
                     <div className="grid md:grid-cols-2 gap-4">
-                        {riskScoreResult.reasons.map((reason, i) => (
+                        {riskScoreResult.reasons.map((reasonKey, i) => (
                              <motion.div key={i} variants={itemVariants}>
                                 <Card className="h-full">
                                     <CardContent className="p-4 flex items-center">
-                                        {getReasonIcon(reason)}
-                                        <span className="font-sans flex-1">{reason}</span>
+                                        {getReasonIcon(t(reasonKey))}
+                                        <span className="font-sans flex-1">{t(reasonKey)}</span>
                                         <Popover>
                                             <PopoverTrigger asChild>
                                                 <Button variant="ghost" size="icon" className="h-8 w-8 ml-2">
@@ -192,7 +176,7 @@ export default function RiskScorePage() {
                                                 </Button>
                                             </PopoverTrigger>
                                             <PopoverContent className="w-64 text-sm font-sans">
-                                                <p>{findReasonExplanation(reason)}</p>
+                                                <p>{t(reasonKey + '.explanation')}</p>
                                             </PopoverContent>
                                         </Popover>
                                     </CardContent>
@@ -210,11 +194,11 @@ export default function RiskScorePage() {
                 >
                     <motion.h2 variants={itemVariants} className="text-2xl font-bold font-serif text-center flex items-center justify-center gap-2"><Lightbulb className="h-6 w-6 text-yellow-400" /> {t('riskScore.tipsTitle')}</motion.h2>
                     <div className="grid gap-4">
-                        {riskScoreResult.tips.map((tip, i) => (
+                        {riskScoreResult.tips.map((tipKey, i) => (
                            <motion.div key={i} variants={itemVariants}>
                                 <Card>
                                     <CardContent className="p-4 flex items-center">
-                                        <span className="font-sans flex-1">{tip}</span>
+                                        <span className="font-sans flex-1">{t(tipKey)}</span>
                                         <Popover>
                                             <PopoverTrigger asChild>
                                                 <Button variant="ghost" size="icon" className="h-8 w-8 ml-2">
@@ -222,7 +206,7 @@ export default function RiskScorePage() {
                                                 </Button>
                                             </PopoverTrigger>
                                             <PopoverContent className="w-64 text-sm font-sans">
-                                                 <p>{t('riskScore.explanations.tips.default')}</p>
+                                                 <p>{t(tipKey + '.explanation')}</p>
                                             </PopoverContent>
                                         </Popover>
                                     </CardContent>

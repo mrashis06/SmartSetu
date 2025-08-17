@@ -35,20 +35,6 @@ export default function AltScorePage() {
   const [error, setError] = useState<string | null>(null);
   const { t } = useLanguage();
 
-  const reasonExplanations: Record<string, string> = {
-    'positive': t('altScore.explanations.reasons.positive'),
-    'negative': t('altScore.explanations.reasons.negative')
-  };
-
-  const tipExplanations: Record<string, string> = {
-    'Complete the full questionnaire to get an accurate score and analysis.': t('altScore.explanations.tips.complete'),
-    'Increase the volume of UPI transactions': t('altScore.explanations.tips.upi'),
-    'Try to build a CIBIL credit history': t('altScore.explanations.tips.cibil'),
-    'Upload your PAN card for better identity verification': t('altScore.explanations.tips.pan'),
-    'Maintain a positive monthly cash flow': t('altScore.explanations.tips.cashflow')
-  };
-
-
   useEffect(() => {
     if (!authLoading && !user) {
       router.push("/login");
@@ -177,7 +163,7 @@ export default function AltScorePage() {
                                 <Card className="h-full">
                                     <CardContent className="p-4 flex items-center">
                                         {getReasonIcon(r.type)}
-                                        <span className="font-sans flex-1">{r.reason}</span>
+                                        <span className="font-sans flex-1">{t(r.key)}</span>
                                         <Popover>
                                             <PopoverTrigger asChild>
                                                 <Button variant="ghost" size="icon" className="h-8 w-8 ml-2">
@@ -185,7 +171,7 @@ export default function AltScorePage() {
                                                 </Button>
                                             </PopoverTrigger>
                                             <PopoverContent className="w-64 text-sm font-sans">
-                                                <p>{reasonExplanations[r.type]}</p>
+                                                <p>{t(r.key + '.explanation')}</p>
                                             </PopoverContent>
                                         </Popover>
                                     </CardContent>
@@ -203,11 +189,11 @@ export default function AltScorePage() {
                 >
                     <motion.h2 variants={itemVariants} className="text-2xl font-bold font-serif text-center flex items-center justify-center gap-2"><Lightbulb className="h-6 w-6 text-yellow-400" /> {t('altScore.tipsTitle')}</motion.h2>
                     <div className="grid gap-4">
-                        {altScoreResult.tips.map((tip, i) => (
+                        {altScoreResult.tips.map((tipKey, i) => (
                            <motion.div key={i} variants={itemVariants}>
                                 <Card>
                                     <CardContent className="p-4 flex items-center">
-                                        <span className="font-sans flex-1">{tip}</span>
+                                        <span className="font-sans flex-1">{t(tipKey)}</span>
                                         <Popover>
                                             <PopoverTrigger asChild>
                                                 <Button variant="ghost" size="icon" className="h-8 w-8 ml-2">
@@ -215,7 +201,7 @@ export default function AltScorePage() {
                                                 </Button>
                                             </PopoverTrigger>
                                             <PopoverContent className="w-64 text-sm font-sans">
-                                                 <p>{tipExplanations[tip] || t('altScore.explanations.tips.default')}</p>
+                                                 <p>{t(tipKey + '.explanation')}</p>
                                             </PopoverContent>
                                         </Popover>
                                     </CardContent>
@@ -246,5 +232,3 @@ export default function AltScorePage() {
     </div>
   );
 }
-
-    

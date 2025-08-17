@@ -24,8 +24,8 @@ export type RiskScoreInput = z.infer<typeof RiskScoreInputSchema>;
 const RiskScoreOutputSchema = z.object({
   risk_score: z.number().min(0).max(10).describe('The calculated RISK-SCORE, between 0 and 10.'),
   category: z.enum(['Low', 'Medium', 'High']).describe('The risk category based on the score.'),
-  reasons: z.array(z.string()).describe('A list of the top 3-4 reasons influencing the score.'),
-  tips: z.array(z.string()).describe('A list of actionable tips for the user to improve their score.'),
+  reasons: z.array(z.string()).describe('A list of localization keys for the top 3-4 reasons influencing the score.'),
+  tips: z.array(z.string()).describe('A list of localization keys for actionable tips for the user to improve their score.'),
 });
 export type RiskScoreOutput = z.infer<typeof RiskScoreOutputSchema>;
 
@@ -57,8 +57,17 @@ Risk Scoring Guidelines:
 Your Task:
 1.  Calculate the final RISK-SCORE between 0 and 10, with a strong emphasis on Net Income.
 2.  Categorize the score: 0-3 is 'Low' risk, 4-6 is 'Medium' risk, 7-10 is 'High' risk.
-3.  Provide the top 3-4 most influential reasons for the calculated score. Be direct, e.g., "High dependency on cash income," "Negative monthly cash flow."
-4.  Provide a list of actionable tips for improvement, e.g., "Increase UPI transactions to build a digital financial footprint," "Repay existing loans on time to improve creditworthiness," "Upload your PAN card for better identity and credit verification."
+3.  Provide localization keys for the top 3-4 most influential reasons for the calculated score. Use the following keys:
+    - 'riskScore.reasons.cashflow': For negative monthly cash flow.
+    - 'riskScore.reasons.cash': For high dependency on cash income.
+    - 'riskScore.reasons.loan': For having an existing loan.
+    - 'riskScore.reasons.duration': For short business duration.
+    - 'riskScore.reasons.cibil': For the absence of a CIBIL score.
+    - 'riskScore.reasons.assets': For lack of personal or business assets.
+4.  Provide a list of localization keys for actionable tips for improvement. Use the following keys:
+    - 'riskScore.tips.upi'
+    - 'riskScore.tips.repay'
+    - 'riskScore.tips.pan'
 
 Provide your assessment in the specified JSON format.
 `,

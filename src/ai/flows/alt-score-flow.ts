@@ -53,7 +53,7 @@ Analyze the following user data:
 Scoring Guidelines:
 - Base Score: Start with a base score of 500.
 - **Profitability (Net Income):** This is the MOST IMPORTANT factor. A high positive net income (total income - expenses) is a very strong positive signal. Increase score significantly (+100 to +200) for strong profitability. A negative net income is a major negative signal.
-- **Digital Transaction Health:** High UPI transaction value is a positive signal. Increase score (+50 to +150) for values above ₹50,000. However, for smaller vendors, consider the ratio. A high percentage of income via UPI is also a positive signal, even if the total amount is low.
+- **Digital Transaction Health:** A high percentage of income via UPI is a strong positive signal, even if the total amount is low, as it shows transparency. Analyze the ratio of UPI transactions to total income.
 - **Cash Dependency:** A high ratio of cash income to total income is a negative factor, as it indicates less transparency.
 - **CIBIL Score:** If available and good (e.g., >700), this is a major positive factor (+100 to +200). If low (<600), it's a major negative factor.
 - **Business Duration:** 'More than 5 years' is a positive signal (+20 to +50).

@@ -18,6 +18,7 @@ import { Separator } from "@/components/ui/separator";
 import { FormEvent, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
+import { useLanguage } from "@/context/language-context";
 
 function GoogleIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -51,6 +52,7 @@ function GoogleIcon(props: React.SVGProps<SVGSVGElement>) {
 
 export default function SignUpPage() {
   const { signInWithGoogle, signUpWithEmailAndPassword } = useAuth();
+  const { t } = useLanguage();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -68,8 +70,8 @@ export default function SignUpPage() {
     if (!firstName || !email || !password) {
         toast({
             variant: "destructive",
-            title: "Missing Fields",
-            description: "Please fill out all required fields.",
+            title: t('signup.toastMissingFieldsTitle'),
+            description: t('signup.toastMissingFieldsDescription'),
         });
         return;
     }
@@ -80,8 +82,8 @@ export default function SignUpPage() {
     } catch (error: any) {
         toast({
             variant: "destructive",
-            title: "Sign Up Failed",
-            description: error.message || "An unknown error occurred.",
+            title: t('signup.toastErrorTitle'),
+            description: error.message || t('signup.toastErrorDescription'),
         });
     } finally {
         setIsLoading(false);
@@ -95,43 +97,43 @@ export default function SignUpPage() {
         <div className="flex justify-center mb-6">
           <Link href="/">
             <Logo className="h-8 w-auto" />
-            <span className="sr-only">Back to homepage</span>
+            <span className="sr-only">{t('signup.backToHomepage')}</span>
           </Link>
         </div>
         <Card>
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-headline">
-              Create an Account
+              {t('signup.title')}
             </CardTitle>
             <CardDescription>
-              Join SmartSetu and start building your future.
+              {t('signup.description')}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form className="grid gap-4" onSubmit={handleSignUp}>
               <div className="grid grid-cols-2 gap-4">
                 <div className="grid gap-2">
-                  <Label htmlFor="first-name">First name</Label>
+                  <Label htmlFor="first-name">{t('signup.firstNameLabel')}</Label>
                   <Input 
                     id="first-name" 
-                    placeholder="Max" 
+                    placeholder={t('signup.firstNamePlaceholder')} 
                     required 
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                   />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="last-name">Last name</Label>
+                  <Label htmlFor="last-name">{t('signup.lastNameLabel')}</Label>
                   <Input 
                     id="last-name" 
-                    placeholder="Robinson" 
+                    placeholder={t('signup.lastNamePlaceholder')}
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                   />
                 </div>
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t('signup.emailLabel')}</Label>
                 <Input
                   id="email"
                   type="email"
@@ -142,7 +144,7 @@ export default function SignUpPage() {
                 />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">{t('signup.passwordLabel')}</Label>
                 <Input 
                     id="password" 
                     type="password" 
@@ -153,7 +155,7 @@ export default function SignUpPage() {
               </div>
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Create an account
+                {t('signup.createAccountButton')}
               </Button>
             </form>
             <Separator className="my-6" />
@@ -164,12 +166,12 @@ export default function SignUpPage() {
               disabled={isLoading}
             >
               <GoogleIcon className="mr-2 h-5 w-5" />
-              Sign up with Google
+              {t('signup.googleSignUp')}
             </Button>
             <div className="mt-4 text-center text-sm">
-              Already have an account?{" "}
+              {t('signup.alreadyAccount')}{" "}
               <Link href="/login" className="underline font-medium">
-                Sign in
+                {t('signup.signInLink')}
               </Link>
             </div>
           </CardContent>

@@ -24,6 +24,7 @@ import { auth, db } from "@/lib/firebase";
 import { doc, getDoc, deleteDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useToast } from "./use-toast";
+import { useLanguage } from "@/context/language-context";
 
 interface AuthContextType {
   user: User | null;
@@ -42,6 +43,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const { toast } = useToast();
+  const { t } = useLanguage();
   
   const handleUser = useCallback(async (user: User | null) => {
     if (user) {
@@ -113,14 +115,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         } catch (error: any) {
             console.error("Error deleting account:", error);
             if (error.code === 'auth/requires-recent-login') {
-                throw new Error("This operation is sensitive and requires recent authentication. Please log out and log back in before deleting your account.");
+                throw new Error(t('auth.errors.requiresRecentLogin'));
             }
-            throw new Error("Failed to delete account.");
+            throw new Error(t('auth.errors.deleteFailed'));
         }
     } else {
-        throw new Error("No user is currently signed in.");
+        throw new Error(t('auth.errors.noUserSignedIn'));
     }
-  }, []);
+  }, [t]);
 
   const value = { user, loading, signInWithGoogle, signUpWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteAccount };
 

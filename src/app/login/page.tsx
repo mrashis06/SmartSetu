@@ -18,6 +18,7 @@ import { Separator } from "@/components/ui/separator";
 import { FormEvent, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
+import { useLanguage } from "@/context/language-context";
 
 function GoogleIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -50,6 +51,7 @@ function GoogleIcon(props: React.SVGProps<SVGSVGElement>) {
 
 export default function LoginPage() {
   const { signInWithGoogle, signInWithEmailAndPassword } = useAuth();
+  const { t } = useLanguage();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -68,8 +70,8 @@ export default function LoginPage() {
     } catch (error: any) {
         toast({
             variant: "destructive",
-            title: "Login Failed",
-            description: error.message || "An unknown error occurred.",
+            title: t('login.toastErrorTitle'),
+            description: error.message || t('login.toastErrorDescription'),
         });
     } finally {
         setIsLoading(false);
@@ -82,22 +84,22 @@ export default function LoginPage() {
         <div className="flex justify-center mb-6">
           <Link href="/">
             <Logo className="h-8 w-auto" />
-            <span className="sr-only">Back to homepage</span>
+            <span className="sr-only">{t('login.backToHomepage')}</span>
           </Link>
         </div>
         <Card>
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-headline">
-              Welcome Back
+              {t('login.title')}
             </CardTitle>
             <CardDescription>
-              Enter your credentials to access your account.
+              {t('login.description')}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form className="grid gap-4" onSubmit={handleLogin}>
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t('login.emailLabel')}</Label>
                 <Input
                   id="email"
                   type="email"
@@ -109,12 +111,12 @@ export default function LoginPage() {
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">{t('login.passwordLabel')}</Label>
                   <Link
                     href="#"
                     className="ml-auto inline-block text-sm underline"
                   >
-                    Forgot your password?
+                    {t('login.forgotPassword')}
                   </Link>
                 </div>
                 <Input 
@@ -127,7 +129,7 @@ export default function LoginPage() {
               </div>
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Login
+                {t('login.loginButton')}
               </Button>
             </form>
             <Separator className="my-6" />
@@ -138,12 +140,12 @@ export default function LoginPage() {
               disabled={isLoading}
             >
               <GoogleIcon className="mr-2 h-5 w-5" />
-              Sign in with Google
+              {t('login.googleSignIn')}
             </Button>
             <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
+              {t('login.noAccount')}{" "}
               <Link href="/signup" className="underline font-medium">
-                Sign up
+                {t('login.signUpLink')}
               </Link>
             </div>
           </CardContent>

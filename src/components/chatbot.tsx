@@ -10,42 +10,40 @@ import { Bot, X, Send, Loader2, Sparkles, CornerDownLeft, GripVertical } from 'l
 import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import { chat } from '@/ai/flows/chatbot-flow';
 import { Logo } from './logo';
+import { useLanguage } from '@/context/language-context';
 
 type Message = {
     role: 'user' | 'model';
     content: string;
 };
 
-const introPrompts = [
-    "How do I apply for a loan?",
-    "What is an ALT-SCORE?",
-    "What documents do I need to upload?",
-    "Give me some financial tips for my business."
-];
-
-function ChatIcon(props: React.SVGProps<SVGSVGElement>) {
-    return (
-        <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            {...props}
-        >
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10z"></path>
-            <circle cx="12" cy="10" r="1"></circle>
-            <circle cx="8" cy="10" r="1"></circle>
-            <circle cx="16" cy="10" r="1"></circle>
-        </svg>
-    );
-}
+const ChatIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    </svg>
+);
 
 export function Chatbot() {
+    const { t } = useLanguage();
+
+    const introPrompts = [
+        t('chatbot.prompt1'),
+        t('chatbot.prompt2'),
+        t('chatbot.prompt3'),
+        t('chatbot.prompt4')
+    ];
+
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
@@ -66,10 +64,10 @@ export function Chatbot() {
 
     const startNewChat = useCallback(() => {
         setMessages([
-            { role: 'model', content: 'Hello! I am SmartSetu-Bot. How can I help you today?' }
+            { role: 'model', content: t('chatbot.welcomeMessage') }
         ]);
         scrollToBottom();
-    }, [scrollToBottom]);
+    }, [scrollToBottom, t]);
 
     useEffect(() => {
         if (isOpen) {
@@ -98,7 +96,7 @@ export function Chatbot() {
             setMessages(prev => [...prev, botMessage]);
         } catch (error) {
             console.error('Chatbot error:', error);
-            const errorMessage: Message = { role: 'model', content: "Sorry, I'm having trouble connecting. Please try again later." };
+            const errorMessage: Message = { role: 'model', content: t('chatbot.errorMessage') };
             setMessages(prev => [...prev, errorMessage]);
         } finally {
             setIsLoading(false);
@@ -118,7 +116,7 @@ export function Chatbot() {
     const WelcomeScreen = () => (
         <div className="flex flex-col items-center justify-center h-full text-center p-4">
             <Logo className="h-10 w-auto mb-4" />
-            <h2 className="text-2xl font-bold font-serif text-foreground">How can I help you today?</h2>
+            <h2 className="text-2xl font-bold font-serif text-foreground">{t('chatbot.welcomeTitle')}</h2>
             <div className="grid grid-cols-2 gap-3 mt-8 w-full">
                 {introPrompts.map((prompt, i) => (
                     <Button
@@ -207,7 +205,7 @@ export function Chatbot() {
                                     <Input
                                         value={input}
                                         onChange={(e) => setInput(e.target.value)}
-                                        placeholder="Type a message..."
+                                        placeholder={t('chatbot.inputPlaceholder')}
                                         disabled={isLoading}
                                         className="h-12 text-base"
                                     />
@@ -242,7 +240,7 @@ export function Chatbot() {
                             {isOpen ? <X className="h-8 w-8" /> : <ChatIcon className="h-8 w-8" />}
                         </motion.div>
                     </AnimatePresence>
-                    <span className="sr-only">Toggle Chat</span>
+                    <span className="sr-only">{t('chatbot.toggleChat')}</span>
                 </Button>
             </motion.div>
         </>

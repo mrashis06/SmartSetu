@@ -27,5 +27,110 @@
             "toastErrorTitle": "Deletion Failed",
             "toastErrorDescription": "An unknown error occurred. Please try again."
         }
+    },
+    "header": {
+        "faq": "FAQs",
+        "login": "Login",
+        "signUp": "Sign Up",
+        "profile": "Profile",
+        "home": "Home",
+        "dashboard": "Dashboard",
+        "settings": "Settings",
+        "logout": "Log out",
+        "scrollToFaq": "Scroll to Frequently Asked Questions"
+    },
+    "hero": {
+        "headline": "Your Bridge to a Better Future",
+        "subheadline": "SmartSetu is your all-in-one platform for seamless collaboration, innovative solutions, and unparalleled growth. Connect, create, and conquer your goals with us.",
+        "getStarted": "Get Started",
+        "aboutUs": "About Us"
+    },
+    "about": {
+        "title": "About SmartSetu",
+        "paragraph1": "We believe in building bridges—not just with technology, but between people, ideas, and opportunities. SmartSetu was founded on the principle of simplifying complexity and empowering individuals and teams to achieve their full potential.",
+        "paragraph2": "Our platform is designed to be intuitive, powerful, and adaptable to your unique workflow, ensuring that you have the right tools to build your own bridge to success.",
+        "imageAlt": "A diverse team collaborating in a modern office"
+    },
+    "faq": {
+        "title": "Frequently Asked Questions",
+        "q1": "What is SmartSetu?",
+        "a1": "SmartSetu is a comprehensive platform designed to streamline collaboration, project management, and communication for teams of all sizes. It acts as a digital bridge, connecting different parts of your workflow into one cohesive experience.",
+        "q2": "Who is SmartSetu for?",
+        "a2": "SmartSetu is for anyone looking to improve their productivity and collaboration. This includes startups, established enterprises, freelancers, and students. Our flexible tools can be adapted to any industry or project type.",
+        "q3": "Can I integrate SmartSetu with other tools?",
+        "a3": "Yes! We are constantly expanding our library of integrations. SmartSetu is designed to work seamlessly with the tools you already use, creating a centralized hub for all your work.",
+        "q4": "Is there a free trial available?",
+        "a4": "Absolutely. You can sign up using the 'Get Started' button to explore the core features of SmartSetu with a 14-day free trial. No credit card required."
+    },
+    "footer": {
+        "language": "Language",
+        "social": "Social",
+        "company": "Company",
+        "aboutUs": "About us",
+        "contactUs": "Contact us",
+        "resources": "Resources",
+        "chatSupport": "Chat Support",
+        "safety": "Safety",
+        "feedback": "Feedback",
+        "policies": "Policies",
+        "terms": "Terms",
+        "privacy": "Privacy",
+        "cookieSettings": "Cookie Settings",
+        "guidelines": "Guidelines",
+        "acknowledgements": "Acknowledgements",
+        "licenses": "Licenses",
+        "companyInfo": "Company Information",
+        "goToTop": "Go to top"
+    },
+    "login": {
+        "backToHomepage": "Back to homepage",
+        "title": "Welcome Back",
+        "description": "Enter your credentials to access your account.",
+        "emailLabel": "Email",
+        "passwordLabel": "Password",
+        "forgotPassword": "Forgot your password?",
+        "loginButton": "Login",
+        "googleSignIn": "Sign in with Google",
+        "noAccount": "Don't have an account?",
+        "signUpLink": "Sign up",
+        "toastErrorTitle": "Login Failed",
+        "toastErrorDescription": "An unknown error occurred."
+    },
+    "signup": {
+        "backToHomepage": "Back to homepage",
+        "title": "Create an Account",
+        "description": "Join SmartSetu and start building your future.",
+        "firstNameLabel": "First name",
+        "firstNamePlaceholder": "Max",
+        "lastNameLabel": "Last name",
+        "lastNamePlaceholder": "Robinson",
+        "emailLabel": "Email",
+        "passwordLabel": "Password",
+        "createAccountButton": "Create an account",
+        "googleSignUp": "Sign up with Google",
+        "alreadyAccount": "Already have an account?",
+        "signInLink": "Sign in",
+        "toastMissingFieldsTitle": "Missing Fields",
+        "toastMissingFieldsDescription": "Please fill out all required fields.",
+        "toastErrorTitle": "Sign Up Failed",
+        "toastErrorDescription": "An unknown error occurred."
+    },
+    "auth": {
+        "errors": {
+            "requiresRecentLogin": "This operation is sensitive and requires recent authentication. Please log out and log back in before deleting your account.",
+            "deleteFailed": "Failed to delete account.",
+            "noUserSignedIn": "No user is currently signed in."
+        }
+    },
+    "chatbot": {
+        "prompt1": "How do I apply for a loan?",
+        "prompt2": "What is an ALT-SCORE?",
+        "prompt3": "What documents do I need to upload?",
+        "prompt4": "Give me some financial tips for my business.",
+        "welcomeMessage": "Hello! I am SmartSetu-Bot. How can I help you today?",
+        "errorMessage": "Sorry, I'm having trouble connecting. Please try again later.",
+        "welcomeTitle": "How can I help you today?",
+        "inputPlaceholder": "Type a message...",
+        "toggleChat": "Toggle Chat"
     }
 }

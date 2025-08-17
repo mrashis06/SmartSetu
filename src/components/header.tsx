@@ -17,6 +17,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { ThemeToggle } from "./theme-toggle";
 import { Home, LayoutDashboard, Settings, User as UserIcon } from "lucide-react";
+import { useLanguage } from "@/context/language-context";
 
 type HeaderProps = {
   onScrollToFaq: () => void;
@@ -24,6 +25,7 @@ type HeaderProps = {
 
 export default function Header({ onScrollToFaq }: HeaderProps) {
   const { user, loading, signOut } = useAuth();
+  const { t } = useLanguage();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -36,9 +38,9 @@ export default function Header({ onScrollToFaq }: HeaderProps) {
             <button
               onClick={onScrollToFaq}
               className="transition-colors hover:text-foreground/80 text-foreground/60"
-              aria-label="Scroll to Frequently Asked Questions"
+              aria-label={t('header.scrollToFaq')}
             >
-              FAQs
+              {t('header.faq')}
             </button>
             {loading ? (
               <Skeleton className="h-8 w-20" />
@@ -72,19 +74,19 @@ export default function Header({ onScrollToFaq }: HeaderProps) {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
-                    <Link href="/profile"><UserIcon className="mr-2 h-4 w-4" /><span>Profile</span></Link>
+                    <Link href="/profile"><UserIcon className="mr-2 h-4 w-4" /><span>{t('header.profile')}</span></Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/"><Home className="mr-2 h-4 w-4" /><span>Home</span></Link>
+                    <Link href="/"><Home className="mr-2 h-4 w-4" /><span>{t('header.home')}</span></Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/dashboard"><LayoutDashboard className="mr-2 h-4 w-4" /><span>Dashboard</span></Link>
+                    <Link href="/dashboard"><LayoutDashboard className="mr-2 h-4 w-4" /><span>{t('header.dashboard')}</span></Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/settings"><Settings className="mr-2 h-4 w-4" /><span>Settings</span></Link>
+                    <Link href="/settings"><Settings className="mr-2 h-4 w-4" /><span>{t('header.settings')}</span></Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={signOut}>Log out</DropdownMenuItem>
+                  <DropdownMenuItem onClick={signOut}>{t('header.logout')}</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
@@ -93,10 +95,10 @@ export default function Header({ onScrollToFaq }: HeaderProps) {
                   href="/login"
                   className="transition-colors hover:text-foreground/80 text-foreground/60"
                 >
-                  Login
+                  {t('header.login')}
                 </Link>
                 <Button asChild>
-                  <Link href="/signup">Sign Up</Link>
+                  <Link href="/signup">{t('header.signUp')}</Link>
                 </Button>
               </>
             )}

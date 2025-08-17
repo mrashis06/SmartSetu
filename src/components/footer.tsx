@@ -14,6 +14,8 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Instagram, Facebook, Youtube, X, LucideProps, ArrowUp } from "lucide-react";
 import { useEffect } from 'react';
+import { useLanguage } from "@/context/language-context";
+import type { Language } from "@/context/language-context";
 
 // A component for the TikTok icon as it's not in lucide-react
 const TikTokIcon = (props: LucideProps) => (
@@ -26,6 +28,7 @@ const TikTokIcon = (props: LucideProps) => (
 
 
 export default function Footer() {
+  const { t, setLanguage, language } = useLanguage();
   const socialIcons = [
     { href: "#", icon: <X className="h-5 w-5" /> },
     { href: "#", icon: <Instagram className="h-5 w-5" /> },
@@ -36,22 +39,22 @@ export default function Footer() {
 
   const footerLinks = {
     Company: [
-      { href: "#", text: "About us" },
-      { href: "#", text: "Contact us" },
+      { href: "#", text: t('footer.aboutUs') },
+      { href: "#", text: t('footer.contactUs') },
     ],
     Resources: [
-      { href: "#", text: "Chat Support" },
-      { href: "#", text: "Safety" },
-      { href: "#", text: "Feedback" },
+      { href: "#", text: t('footer.chatSupport') },
+      { href: "#", text: t('footer.safety') },
+      { href: "#", text: t('footer.feedback') },
     ],
     Policies: [
-      { href: "#", text: "Terms" },
-      { href: "#", text: "Privacy" },
-      { href: "#", text: "Cookie Settings" },
-      { href: "#", text: "Guidelines" },
-      { href: "#", text: "Acknowledgements" },
-      { href: "#", text: "Licenses" },
-      { href: "#", text: "Company Information" },
+      { href: "#", text: t('footer.terms') },
+      { href: "#", text: t('footer.privacy') },
+      { href: "#", text: t('footer.cookieSettings') },
+      { href: "#", text: t('footer.guidelines') },
+      { href: "#", text: t('footer.acknowledgements') },
+      { href: "#", text: t('footer.licenses') },
+      { href: "#", text: t('footer.companyInfo') },
     ],
   };
 
@@ -69,20 +72,20 @@ export default function Footer() {
           {/* Social and Language Column */}
           <div className="col-span-2 md:col-span-1">
              <div className="mb-4">
-              <p className="text-sm font-semibold mb-2">Language</p>
-              <Select defaultValue="english">
+              <p className="text-sm font-semibold mb-2">{t('footer.language')}</p>
+              <Select defaultValue={language} onValueChange={(value: Language) => setLanguage(value)}>
                 <SelectTrigger className="w-[150px]">
-                  <SelectValue placeholder="English" />
+                  <SelectValue placeholder={t('settings.language.english')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="english">English</SelectItem>
-                  <SelectItem value="hindi">Hindi</SelectItem>
-                  <SelectItem value="spanish">Spanish</SelectItem>
+                  <SelectItem value="english">{t('settings.language.english')}</SelectItem>
+                  <SelectItem value="hindi">{t('settings.language.hindi')}</SelectItem>
+                  <SelectItem value="bengali">{t('settings.language.bengali')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-                 <p className="text-sm font-semibold mb-2">Social</p>
+                 <p className="text-sm font-semibold mb-2">{t('footer.social')}</p>
                 <div className="flex space-x-4">
                     {socialIcons.map((social, index) => (
                         <Link href={social.href} key={index} className="text-secondary-foreground/80 hover:text-secondary-foreground">
@@ -95,7 +98,7 @@ export default function Footer() {
           {/* Navigation Columns */}
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
-              <h4 className="font-semibold text-primary mb-4">{title}</h4>
+              <h4 className="font-semibold text-primary mb-4">{t(`footer.${title.toLowerCase()}`)}</h4>
               <ul className="space-y-2">
                 {links.map((link) => (
                   <li key={link.text}>
@@ -116,7 +119,7 @@ export default function Footer() {
             <Logo className="h-8 w-auto" />
           </Link>
           <Button onClick={handleScrollToTop}>
-            Go to top <ArrowUp className="ml-2 h-4 w-4" />
+            {t('footer.goToTop')} <ArrowUp className="ml-2 h-4 w-4" />
           </Button>
         </div>
       </div>

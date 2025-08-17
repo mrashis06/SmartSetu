@@ -1,3 +1,6 @@
+
+"use client";
+
 import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
@@ -9,7 +12,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { Instagram, Facebook, Youtube, X, LucideProps } from "lucide-react";
+import { Instagram, Facebook, Youtube, X, LucideProps, ArrowUp } from "lucide-react";
+import { useEffect } from 'react';
 
 // A component for the TikTok icon as it's not in lucide-react
 const TikTokIcon = (props: LucideProps) => (
@@ -49,6 +53,13 @@ export default function Footer() {
       { href: "#", text: "Licenses" },
       { href: "#", text: "Company Information" },
     ],
+  };
+
+  const handleScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   return (
@@ -104,8 +115,8 @@ export default function Footer() {
           <Link href="/" className="flex items-center space-x-2">
             <Logo className="h-8 w-auto" />
           </Link>
-          <Button asChild>
-            <Link href="/signup">Sign up</Link>
+          <Button onClick={handleScrollToTop}>
+            Go to top <ArrowUp className="ml-2 h-4 w-4" />
           </Button>
         </div>
       </div>

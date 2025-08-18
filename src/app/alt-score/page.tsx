@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Popover,
   PopoverContent,
@@ -53,9 +53,16 @@ export default function AltScorePage() {
           if (docSnap.exists()) {
             const data = docSnap.data() as ApplicationData;
             
-            if (data.altScoreResult && data.altScoreResult.score) {
+            // This flag checks if the stored reasons are in the old, incorrect object format.
+            const isOldDataFormat = data.altScoreResult && Array.isArray(data.altScoreResult.reasons) && data.altScoreResult.reasons.length > 0 && typeof data.altScoreResult.reasons[0] === 'object';
+            
+            if (data.altScoreResult && data.altScoreResult.score && !isOldDataFormat) {
               setAltScoreResult(data.altScoreResult);
             } else {
+              // If data is in the old format or doesn't exist, clear it and re-fetch.
+              if (isOldDataFormat) {
+                await updateDoc(docRef, { altScoreResult: null });
+              }
               const result = await calculateAltScore({
                 financialInfo: data.financialInfo,
                 additionalInfo: data.additionalInfo,
@@ -80,11 +87,15 @@ export default function AltScorePage() {
     }
   }, [user, router, t]);
   
-  const getReasonIcon = (type: 'positive' | 'negative') => {
-    if (type === 'positive') {
-        return <CheckCircle2 className="h-6 w-6 text-green-500 mr-4 flex-shrink-0" />;
+  const getReasonIcon = (reasonKey: string) => {
+    if (!reasonKey || typeof reasonKey !== 'string') return null;
+    const negativeKeywords = ['lowProfit', 'highCash', 'lowCibil', 'shortDuration', 'noAssets', 'existingLoan'];
+    const isNegative = negativeKeywords.some(keyword => reasonKey.includes(keyword));
+
+    if (isNegative) {
+        return <AlertTriangle className="h-6 w-6 text-yellow-500 mr-4 flex-shrink-0" />;
     }
-    return <AlertTriangle className="h-6 w-6 text-yellow-500 mr-4 flex-shrink-0" />;
+    return <CheckCircle2 className="h-6 w-6 text-green-500 mr-4 flex-shrink-0" />;
   };
 
   if (authLoading || !user) {
@@ -158,12 +169,12 @@ export default function AltScorePage() {
                 >
                     <motion.h2 variants={itemVariants} className="text-2xl font-bold font-serif text-center">{t('altScore.reasonsTitle')}</motion.h2>
                     <div className="grid md:grid-cols-2 gap-4">
-                        {altScoreResult.reasons.map((r, i) => (
+                        {altScoreResult.reasons.filter(r => typeof r === 'string' && r).map((reasonKey, i) => (
                              <motion.div key={i} variants={itemVariants}>
                                 <Card className="h-full">
                                     <CardContent className="p-4 flex items-center">
-                                        {getReasonIcon(r.type)}
-                                        <span className="font-sans flex-1">{t(r.key)}</span>
+                                        {getReasonIcon(reasonKey)}
+                                        <span className="font-sans flex-1">{t(reasonKey)}</span>
                                         <Popover>
                                             <PopoverTrigger asChild>
                                                 <Button variant="ghost" size="icon" className="h-8 w-8 ml-2">
@@ -171,7 +182,7 @@ export default function AltScorePage() {
                                                 </Button>
                                             </PopoverTrigger>
                                             <PopoverContent className="w-64 text-sm font-sans">
-                                                <p>{t(r.key + '.explanation')}</p>
+                                                <p>{t(reasonKey + '.explanation')}</p>
                                             </PopoverContent>
                                         </Popover>
                                     </CardContent>

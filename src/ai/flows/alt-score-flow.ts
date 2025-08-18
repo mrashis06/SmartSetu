@@ -16,14 +16,9 @@ const AltScoreInputSchema = z.object({
 });
 export type AltScoreInput = z.infer<typeof AltScoreInputSchema>;
 
-const ReasonSchema = z.object({
-  key: z.string().describe('A localization key for the reason.'),
-  type: z.enum(['positive', 'negative']).describe('Whether the reason is a positive or negative factor.'),
-});
-
 const AltScoreOutputSchema = z.object({
   score: z.number().min(300).max(900).describe('The calculated ALT-SCORE, between 300 and 900.'),
-  reasons: z.array(ReasonSchema).describe('Top 3-4 reasons influencing the score, each represented by a localization key and type.'),
+  reasons: z.array(z.string()).describe('Top 3-4 localization keys influencing the score.'),
   tips: z.array(z.string()).describe('A list of actionable tip localization keys for the user to improve their score.'),
   isDataSufficient: z.boolean().describe('Whether enough data was provided to calculate a meaningful score.'),
 });
@@ -61,17 +56,14 @@ Scoring Guidelines:
 Your Task:
 1. Calculate ALT-SCORE in range 300–900.
 2. Check data sufficiency (if missing key financial fields like monthlyUpiTransactions or monthlyExpenses, set isDataSufficient to false).
-3. Provide 3–4 reasons for the score. For EACH reason, you MUST provide:
-   - A "key" property. This key MUST be one of the valid keys listed below. Do not use any other string. It is critical that every reason has a valid 'key'.
-   - A "type" property ("positive" or "negative").
-   - Valid keys:
-     - Positive: "altScore.reasons.highProfit", "altScore.reasons.highUpi", "altScore.reasons.goodCibil", "altScore.reasons.longDuration", "altScore.reasons.ownsAssets", "altScore.reasons.govtBenefits"
-     - Negative: "altScore.reasons.lowProfit", "altScore.reasons.highCash", "altScore.reasons.lowCibil", "altScore.reasons.shortDuration", "altScore.reasons.noAssets", "altScore.reasons.existingLoan"
+3. Provide 3–4 localization keys for the reasons. Use ONLY the following valid keys:
+   - Positive: "altScore.reasons.highProfit", "altScore.reasons.highUpi", "altScore.reasons.goodCibil", "altScore.reasons.longDuration", "altScore.reasons.ownsAssets", "altScore.reasons.govtBenefits"
+   - Negative: "altScore.reasons.lowProfit", "altScore.reasons.highCash", "altScore.reasons.lowCibil", "altScore.reasons.shortDuration", "altScore.reasons.noAssets", "altScore.reasons.existingLoan"
 4. Provide actionable tips for improvement. Each tip MUST be one of the following valid keys:
    - If data is insufficient, ONLY use: "altScore.tips.complete"
    - Otherwise, choose from: "altScore.tips.upi", "altScore.tips.cibil", "altScore.tips.pan", "altScore.tips.cashflow"
 
-Return ONLY JSON in the specified schema. It is absolutely mandatory that every reason object in the 'reasons' array contains a 'key' property with one of the specified valid string values.`,
+Return ONLY JSON in the specified schema.`,
 });
 
 const altScoreFlow = ai.defineFlow(

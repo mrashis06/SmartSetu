@@ -79,11 +79,14 @@ export default function AltScorePage() {
     }
   }, [user, router, t]);
   
-  const getReasonIcon = (type: 'positive' | 'negative') => {
-    if (type === 'positive') {
-        return <CheckCircle2 className="h-6 w-6 text-green-500 mr-4 flex-shrink-0" />;
+  const getReasonIcon = (reasonKey: string) => {
+    const negativeKeywords = ['lowProfit', 'highCash', 'lowCibil', 'shortDuration', 'noAssets', 'existingLoan'];
+    const isNegative = negativeKeywords.some(keyword => reasonKey.includes(keyword));
+
+    if (isNegative) {
+        return <AlertTriangle className="h-6 w-6 text-yellow-500 mr-4 flex-shrink-0" />;
     }
-    return <AlertTriangle className="h-6 w-6 text-yellow-500 mr-4 flex-shrink-0" />;
+    return <CheckCircle2 className="h-6 w-6 text-green-500 mr-4 flex-shrink-0" />;
   };
 
   if (authLoading || !user) {
@@ -157,12 +160,12 @@ export default function AltScorePage() {
                 >
                     <motion.h2 variants={itemVariants} className="text-2xl font-bold font-serif text-center">{t('altScore.reasonsTitle')}</motion.h2>
                     <div className="grid md:grid-cols-2 gap-4">
-                        {altScoreResult.reasons.filter(r => r.key).map((r, i) => (
+                        {altScoreResult.reasons.filter(r => r).map((reasonKey, i) => (
                              <motion.div key={i} variants={itemVariants}>
                                 <Card className="h-full">
                                     <CardContent className="p-4 flex items-center">
-                                        {getReasonIcon(r.type)}
-                                        <span className="font-sans flex-1">{t(r.key)}</span>
+                                        {getReasonIcon(reasonKey)}
+                                        <span className="font-sans flex-1">{t(reasonKey)}</span>
                                         <Popover>
                                             <PopoverTrigger asChild>
                                                 <Button variant="ghost" size="icon" className="h-8 w-8 ml-2">
@@ -170,7 +173,7 @@ export default function AltScorePage() {
                                                 </Button>
                                             </PopoverTrigger>
                                             <PopoverContent className="w-64 text-sm font-sans">
-                                                <p>{t(r.key + '.explanation')}</p>
+                                                <p>{t(reasonKey + '.explanation')}</p>
                                             </PopoverContent>
                                         </Popover>
                                     </CardContent>

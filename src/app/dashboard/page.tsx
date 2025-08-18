@@ -102,21 +102,21 @@ export default function DashboardPage() {
     {
       title: t('dashboard.tools.altScore.title'),
       description: t('dashboard.tools.altScore.description'),
-      image: "https://placehold.co/300x200.png",
+      image: "/images/alt-score.png",
       hint: "financial growth",
       path: "/calculating"
     },
     {
       title: t('dashboard.tools.riskScore.title'),
       description: t('dashboard.tools.riskScore.description'),
-      image: "https://placehold.co/300x200.png",
+      image: "/images/risk-score.png",
       hint: "risk assessment",
       path: "/risk-score"
     },
     {
       title: t('dashboard.tools.loanEligibility.title'),
       description: t('dashboard.tools.loanEligibility.description'),
-      image: "https://placehold.co/300x200.png",
+      image: "/images/loan-eligibility.png",
       hint: "loan document",
       path: "/loan-eligibility"
     },
@@ -178,9 +178,9 @@ export default function DashboardPage() {
                             <Image
                                 src={tool.image}
                                 alt={tool.title}
-                                width={200}
-                                height={150}
-                                className="rounded-md"
+                                width={300}
+                                height={200}
+                                className="rounded-md object-cover aspect-[3/2]"
                                 data-ai-hint={tool.hint}
                             />
                             </div>

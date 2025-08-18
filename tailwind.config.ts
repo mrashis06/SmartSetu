@@ -1,3 +1,4 @@
+
 import type {Config} from 'tailwindcss';
 
 export default {
@@ -97,10 +98,15 @@ export default {
             height: '0',
           },
         },
+        'glowing': {
+          '0%, 100%': { 'text-shadow': '0 0 2px hsl(var(--primary)), 0 0 5px hsl(var(--primary))' },
+          '50%': { 'text-shadow': '0 0 5px hsl(var(--primary)), 0 0 10px hsl(var(--primary))' },
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'glowing': 'glowing 4s ease-in-out infinite',
       },
     },
   },

@@ -2,6 +2,10 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import { useAuth } from "@/hooks/use-auth";
+
 
 export type PersonalInfoData = {
   firstName?: string;
@@ -55,16 +59,20 @@ interface QuestionnaireContextType {
   setFinancialInfo: (data: FinancialInfoData) => void;
   setAdditionalInfo: (data: AdditionalInfoData) => void;
   setDocuments: (data: DocumentUploadData) => void;
+  isLoading: boolean;
 }
 
 const QuestionnaireContext = createContext<QuestionnaireContextType | undefined>(undefined);
 
-export const QuestionnaireProvider = ({ children, user }: { children: ReactNode, user: { email: string | null; displayName: string | null; } }) => {
+export const QuestionnaireProvider = ({ children }: { children: ReactNode }) => {
+  const { user } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
+
   const [formData, setFormData] = useState<QuestionnaireData>({
     personalInfo: {
-      firstName: user.displayName?.split(" ")[0] || "",
-      lastName: user.displayName?.split(" ").slice(1).join(" ") || "",
-      email: user.email || "",
+      firstName: user?.displayName?.split(" ")[0] || "",
+      lastName: user?.displayName?.split(" ").slice(1).join(" ") || "",
+      email: user?.email || "",
     },
     financialInfo: {},
     additionalInfo: {},
@@ -72,40 +80,59 @@ export const QuestionnaireProvider = ({ children, user }: { children: ReactNode,
   });
 
   useEffect(() => {
-    try {
-      const savedData = localStorage.getItem("questionnaireFormData");
-      if (savedData) {
-        const parsedData = JSON.parse(savedData);
-        // Ensure email and name are from the authenticated user, but keep other saved data
-        setFormData((prevData) => ({
-            ...prevData,
-            ...parsedData,
-            personalInfo: {
-                ...prevData.personalInfo,
-                ...parsedData.personalInfo,
-                firstName: user.displayName?.split(" ")[0] || parsedData.personalInfo?.firstName,
-                lastName: user.displayName?.split(" ").slice(1).join(" ") || parsedData.personalInfo?.lastName,
-                email: user.email || parsedData.personalInfo?.email,
+    const loadFormData = async () => {
+        if (!user) {
+            setIsLoading(false);
+            return;
+        };
+
+        setIsLoading(true);
+        try {
+            // First, try to load from Firestore (for submitted applications)
+            const docRef = doc(db, "loan_applications", user.uid);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                const firestoreData = docSnap.data() as QuestionnaireData;
+                setFormData(firestoreData);
+            } else {
+                // If no Firestore data, fall back to localStorage (for in-progress applications)
+                const savedData = localStorage.getItem("questionnaireFormData");
+                if (savedData) {
+                    const parsedData = JSON.parse(savedData);
+                    setFormData((prevData) => ({
+                        ...prevData,
+                        ...parsedData,
+                        personalInfo: {
+                            ...prevData.personalInfo,
+                            ...parsedData.personalInfo,
+                            firstName: user.displayName?.split(" ")[0] || parsedData.personalInfo?.firstName,
+                            lastName: user.displayName?.split(" ").slice(1).join(" ") || parsedData.personalInfo?.lastName,
+                            email: user.email || parsedData.personalInfo?.email,
+                        }
+                    }));
+                }
             }
-        }));
-      }
-    } catch (error) {
-        console.error("Failed to parse questionnaire form data from localStorage", error);
-    }
-  // We only want to run this on initial load for the user, so we keep the dependency array limited.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user.email, user.displayName]);
+        } catch (error) {
+            console.error("Failed to load questionnaire form data:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    loadFormData();
+  }, [user]);
+
 
   useEffect(() => {
     // This effect runs whenever formData changes, saving it to localStorage.
     try {
-        if (Object.keys(formData.personalInfo).length > 2 || Object.keys(formData.financialInfo).length > 0 || Object.keys(formData.additionalInfo).length > 0) {
+        if (!isLoading && (Object.keys(formData.personalInfo).length > 2 || Object.keys(formData.financialInfo).length > 0 || Object.keys(formData.additionalInfo).length > 0)) {
             localStorage.setItem("questionnaireFormData", JSON.stringify(formData));
         }
     } catch (error) {
         console.error("Failed to save questionnaire form data to localStorage", error);
     }
-  }, [formData]);
+  }, [formData, isLoading]);
 
 
   const updateFormData = (data: Partial<QuestionnaireData>) => {
@@ -129,7 +156,7 @@ export const QuestionnaireProvider = ({ children, user }: { children: ReactNode,
   };
 
   return (
-    <QuestionnaireContext.Provider value={{ formData, updateFormData, setPersonalInfo, setFinancialInfo, setAdditionalInfo, setDocuments }}>
+    <QuestionnaireContext.Provider value={{ formData, updateFormData, setPersonalInfo, setFinancialInfo, setAdditionalInfo, setDocuments, isLoading }}>
       {children}
     </QuestionnaireContext.Provider>
   );

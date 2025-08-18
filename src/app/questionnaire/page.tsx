@@ -9,9 +9,10 @@ import { PersonalInfoForm } from "@/components/questionnaire/personal-info-form"
 import { FinancialInfoForm } from "@/components/questionnaire/financial-info-form";
 import { AdditionalInfoForm } from "@/components/questionnaire/additional-info-form";
 import { UploadDocumentsForm } from "@/components/questionnaire/upload-documents-form";
-import { QuestionnaireProvider } from "@/context/questionnaire-context";
+import { QuestionnaireProvider, useQuestionnaire } from "@/context/questionnaire-context";
 import { SubmitForm } from "@/components/questionnaire/submit-form";
 import AppHeader from "@/components/app-header";
+import { Loader2 } from "lucide-react";
 
 const steps = [
   { id: 1, name: "Personal Info" },
@@ -24,7 +25,7 @@ const steps = [
 function QuestionnaireContent() {
   const [currentStep, setCurrentStep] = useState(1);
   const { user } = useAuth();
-  const router = useRouter();
+  const { isLoading } = useQuestionnaire();
 
   const handleNext = () => {
     setCurrentStep((prev) => (prev < steps.length ? prev + 1 : prev));
@@ -38,6 +39,14 @@ function QuestionnaireContent() {
     if (stepNumber >= 1 && stepNumber <= steps.length) {
       setCurrentStep(stepNumber);
     }
+  }
+
+  if (isLoading) {
+    return (
+        <div className="flex items-center justify-center min-h-screen">
+            <Loader2 className="animate-spin h-8 w-8" />
+        </div>
+    );
   }
 
   return (
@@ -99,7 +108,7 @@ export default function QuestionnairePage() {
   }
   
   return (
-    <QuestionnaireProvider user={{email: user.email, displayName: user.displayName}}>
+    <QuestionnaireProvider>
       <QuestionnaireContent />
     </QuestionnaireProvider>
   )

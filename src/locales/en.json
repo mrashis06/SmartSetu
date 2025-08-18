@@ -1,310 +1,306 @@
-
 {
     "settings": {
-        "title": "Settings",
-        "language": {
-            "title": "Choose Language",
-            "description": "Select your preferred language for the application.",
-            "english": "English",
-            "hindi": "Hindi",
-            "bengali": "Bengali"
-        },
-        "support": {
-            "title": "Support & Links",
-            "description": "Contact us for help or more information.",
-            "email": "Email"
-        },
-        "deleteAccount": {
-            "title": "Delete My Account",
-            "description": "Permanently delete your account and all associated data. This action cannot be undone.",
-            "button": "Delete Account",
-            "dialogTitle": "Are you absolutely sure?",
-            "dialogDescription": "This action cannot be undone. This will permanently delete your account and remove your data from our servers.",
-            "dialogCancel": "Cancel",
-            "dialogContinue": "Continue",
-            "toastSuccessTitle": "Account Deleted",
-            "toastSuccessDescription": "Your account has been successfully deleted.",
-            "toastErrorTitle": "Deletion Failed",
-            "toastErrorDescription": "An unknown error occurred. Please try again."
-        }
+      "title": "Settings",
+      "language": {
+        "title": "Choose Language",
+        "description": "Select your preferred language for the application.",
+        "english": "English",
+        "hindi": "Hindi",
+        "bengali": "Bengali"
+      },
+      "support": {
+        "title": "Support & Links",
+        "description": "Contact us for help or more information.",
+        "email": "Email"
+      },
+      "deleteAccount": {
+        "title": "Delete My Account",
+        "description": "Permanently delete your account and all associated data. This action cannot be undone.",
+        "button": "Delete Account",
+        "dialogTitle": "Are you absolutely sure?",
+        "dialogDescription": "This action cannot be undone. This will permanently delete your account and remove your data from our servers.",
+        "dialogCancel": "Cancel",
+        "dialogContinue": "Continue",
+        "toastSuccessTitle": "Account Deleted",
+        "toastSuccessDescription": "Your account has been successfully deleted.",
+        "toastErrorTitle": "Deletion Failed",
+        "toastErrorDescription": "An unknown error occurred. Please try again."
+      }
     },
     "header": {
-        "faq": "FAQs",
-        "login": "Login",
-        "signUp": "Sign Up",
-        "profile": "Profile",
-        "home": "Home",
-        "dashboard": "Dashboard",
-        "settings": "Settings",
-        "logout": "Log out",
-        "scrollToFaq": "Scroll to Frequently Asked Questions"
+      "faq": "FAQs",
+      "login": "Login",
+      "signUp": "Sign Up",
+      "profile": "Profile",
+      "home": "Home",
+      "dashboard": "Dashboard",
+      "settings": "Settings",
+      "logout": "Log out",
+      "scrollToFaq": "Scroll to Frequently Asked Questions"
     },
     "hero": {
-        "headline": "Your Bridge to a Better Future",
-        "subheadline": "Our platform gives everyone a fair chance to prove their potential and access opportunities that were once out of reach.",
-        "getStarted": "Get Started",
-        "aboutUs": "About Us"
+      "headline": "Your Bridge to a Better Future",
+      "subheadline": "Our platform gives everyone a fair chance to prove their potential and access opportunities that were once out of reach.",
+      "getStarted": "Get Started",
+      "aboutUs": "About Us"
     },
     "about": {
-        "title": "About SmartSetu",
-        "paragraph1": "At SmartSetu, we believe that everyone deserves a fair chance to grow, succeed, and be recognized. Our platform is designed to unlock opportunities for individuals and small businesses who are often left behind in the traditional financial system.",
-        "paragraph2": "Our mission is to bridge the gap between ambition and opportunity, so that every vendor, small entrepreneur, and community member can build a stronger, more secure future.",
-        "imageAlt": "A diverse team collaborating in a modern office"
+      "title": "About SmartSetu",
+      "paragraph1": "At SmartSetu, we believe that everyone deserves a fair chance to grow, succeed, and be recognized. Our platform is designed to unlock opportunities for individuals and small businesses who are often left behind in the traditional financial system.",
+      "paragraph2": "Our mission is to bridge the gap between ambition and opportunity, so that every vendor, small entrepreneur, and community member can build a stronger, more secure future.",
+      "imageAlt": "A diverse team collaborating in a modern office"
     },
     "faq": {
-        "title": "Frequently Asked Questions",
-        "q1": "What is SmartSetu?",
-        "a1": "SmartSetu is a digital platform that helps small vendors and entrepreneurs access fair loans and financial opportunities. We use innovative scoring methods like Alt-Score and Risk Score to go beyond traditional CIBIL checks, giving everyone a chance to prove their potential.",
-        "q2": "Who is SmartSetu for?",
-        "a2": "SmartSetu is designed for small business owners, street vendors, and self-employed individuals who may not have a formal credit history but need quick access to loans and financial tools.",
-        "q3": "How does SmartSetu decide loan eligibility?",
-        "a3": "We calculate your loan eligibility using Alt-Score and Risk Score, which consider UPI transactions, repayment history, and business stability. Based on your profile, you get a fair loan limit with transparent EMI and repayment details.",
-        "q4": "Is my data safe with SmartSetu?",
-        "a4": "Yes. We follow strict security practices and only use your data to improve your loan eligibility and provide you better services. Your information is never shared without your consent."
+      "title": "Frequently Asked Questions",
+      "q1": "What is SmartSetu?",
+      "a1": "SmartSetu is a digital platform that helps small vendors and entrepreneurs access fair loans and financial opportunities. We use innovative scoring methods like Alt-Score and Risk Score to go beyond traditional CIBIL checks, giving everyone a chance to prove their potential.",
+      "q2": "Who is SmartSetu for?",
+      "a2": "SmartSetu is designed for small business owners, street vendors, and self-employed individuals who may not have a formal credit history but need quick access to loans and financial tools.",
+      "q3": "How does SmartSetu decide loan eligibility?",
+      "a3": "We calculate your loan eligibility using Alt-Score and Risk Score, which consider UPI transactions, repayment history, and business stability. Based on your profile, you get a fair loan limit with transparent EMI and repayment details.",
+      "q4": "Is my data safe with SmartSetu?",
+      "a4": "Yes. We follow strict security practices and only use your data to improve your loan eligibility and provide you better services. Your information is never shared without your consent."
     },
     "footer": {
-        "language": "Language",
-        "social": "Social",
-        "company": "Company",
-        "aboutUs": "About us",
-        "contactUs": "Contact us",
-        "resources": "Resources",
-        "chatSupport": "Chat Support",
-        "safety": "Safety",
-        "feedback": "Feedback",
-        "policies": "Policies",
-        "terms": "Terms",
-        "privacy": "Privacy",
-        "cookieSettings": "Cookie Settings",
-        "guidelines": "Guidelines",
-        "acknowledgements": "Acknowledgements",
-        "licenses": "Licenses",
-        "companyInfo": "Company Information",
-        "goToTop": "Go to top"
+      "language": "Language",
+      "social": "Social",
+      "company": "Company",
+      "aboutUs": "About us",
+      "contactUs": "Contact us",
+      "resources": "Resources",
+      "chatSupport": "Chat Support",
+      "safety": "Safety",
+      "feedback": "Feedback",
+      "policies": "Policies",
+      "terms": "Terms",
+      "privacy": "Privacy",
+      "cookieSettings": "Cookie Settings",
+      "guidelines": "Guidelines",
+      "acknowledgements": "Acknowledgements",
+      "licenses": "Licenses",
+      "companyInfo": "Company Information",
+      "goToTop": "Go to top"
     },
     "login": {
-        "backToHomepage": "Back to homepage",
-        "title": "Welcome Back",
-        "description": "Enter your credentials to access your account.",
-        "emailLabel": "Email",
-        "passwordLabel": "Password",
-        "forgotPassword": "Forgot your password?",
-        "loginButton": "Login",
-        "googleSignIn": "Sign in with Google",
-        "noAccount": "Don't have an account?",
-        "signUpLink": "Sign up",
-        "toastErrorTitle": "Login Failed",
-        "toastErrorDescription": "An unknown error occurred."
+      "backToHomepage": "Back to homepage",
+      "title": "Welcome Back",
+      "description": "Enter your credentials to access your account.",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "forgotPassword": "Forgot your password?",
+      "loginButton": "Login",
+      "googleSignIn": "Sign in with Google",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign up",
+      "toastErrorTitle": "Login Failed",
+      "toastErrorDescription": "An unknown error occurred."
     },
     "signup": {
-        "backToHomepage": "Back to homepage",
-        "title": "Create an Account",
-        "description": "Join SmartSetu and start building your future.",
-        "firstNameLabel": "First name",
-        "firstNamePlaceholder": "Max",
-        "lastNameLabel": "Last name",
-        "lastNamePlaceholder": "Robinson",
-        "emailLabel": "Email",
-        "passwordLabel": "Password",
-        "createAccountButton": "Create an account",
-        "googleSignUp": "Sign up with Google",
-        "alreadyAccount": "Already have an account?",
-        "signInLink": "Sign in",
-        "toastMissingFieldsTitle": "Missing Fields",
-        "toastMissingFieldsDescription": "Please fill out all required fields.",
-        "toastErrorTitle": "Sign Up Failed",
-        "toastErrorDescription": "An unknown error occurred."
+      "backToHomepage": "Back to homepage",
+      "title": "Create an Account",
+      "description": "Join SmartSetu and start building your future.",
+      "firstNameLabel": "First name",
+      "firstNamePlaceholder": "Max",
+      "lastNameLabel": "Last name",
+      "lastNamePlaceholder": "Robinson",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "createAccountButton": "Create an account",
+      "googleSignUp": "Sign up with Google",
+      "alreadyAccount": "Already have an account?",
+      "signInLink": "Sign in",
+      "toastMissingFieldsTitle": "Missing Fields",
+      "toastMissingFieldsDescription": "Please fill out all required fields.",
+      "toastErrorTitle": "Sign Up Failed",
+      "toastErrorDescription": "An unknown error occurred."
     },
     "auth": {
-        "errors": {
-            "requiresRecentLogin": "This operation is sensitive and requires recent authentication. Please log out and log back in before deleting your account.",
-            "deleteFailed": "Failed to delete account.",
-            "noUserSignedIn": "No user is currently signed in."
-        }
+      "errors": {
+        "requiresRecentLogin": "This operation is sensitive and requires recent authentication. Please log out and log back in before deleting your account.",
+        "deleteFailed": "Failed to delete account.",
+        "noUserSignedIn": "No user is currently signed in."
+      }
     },
     "chatbot": {
-        "prompt1": "How do I apply for a loan?",
-        "prompt2": "What is an ALT-SCORE?",
-        "prompt3": "What documents do I need to upload?",
-        "prompt4": "Give me some financial tips for my business.",
-        "welcomeMessage": "Hello! I am SmartSetu-Bot. How can I help you today?",
-        "errorMessage": "Sorry, I'm having trouble connecting. Please try again later.",
-        "welcomeTitle": "How can I help you today?",
-        "inputPlaceholder": "Type a message...",
-        "toggleChat": "Toggle Chat"
+      "prompt1": "How do I apply for a loan?",
+      "prompt2": "What is an ALT-SCORE?",
+      "prompt3": "What documents do I need to upload?",
+      "prompt4": "Give me some financial tips for my business.",
+      "welcomeMessage": "Hello! I am SmartSetu-Bot. How can I help you today?",
+      "errorMessage": "Sorry, I'm having trouble connecting. Please try again later.",
+      "welcomeTitle": "How can I help you today?",
+      "inputPlaceholder": "Type a message...",
+      "toggleChat": "Toggle Chat"
     },
     "dashboard": {
-        "welcome": "Welcome {{name}}",
-        "applicationStatusLabel": "YOUR LOAN APPLICATION:",
-        "applicationStatus": "UNDER REVIEW...",
-        "exploreTools": "Till then you can explore our smart AI tools",
-        "checkNowButton": "Check Now",
-        "tools": {
-            "altScore": {
-                "title": "ALT-SCORE",
-                "description": "Know your financial strength from UPI and cash flow"
-            },
-            "riskScore": {
-                "title": "RISK-SCORE",
-                "description": "Check your repayment profile and risk level."
-            },
-            "loanEligibility": {
-                "title": "LOAN ELIGIBILITY",
-                "description": "See your loan amount, interest, EMI, and tenure"
-            }
-        }
-    },
-    "calculating": {
-        "welcome": "Welcome {{name}}",
-        "analyzing": "SMARTSETU-AI IS ANALYZING YOUR DATA",
-        "preparing": "PREPARING YOUR REPORT",
-        "almostThere": "ALMOST THERE..."
-    },
-    "profile": {
-        "title": "User Profile",
-        "loading": "Loading your profile...",
-        "completeQuestionnaireButton": "Complete Questionnaire",
-        "progress": {
-            "title": "Application Progress",
-            "description": "This is how much of the application you have completed.",
-            "continueButton": "Continue Application",
-            "editButton": "Edit Application"
-        },
+      "welcome": "Welcome {{name}}",
+      "applicationStatusLabel": "YOUR LOAN APPLICATION:",
+      "applicationStatus": "UNDER REVIEW...",
+      "exploreTools": "Till then you can explore our smart AI tools",
+      "checkNowButton": "Check Now",
+      "tools": {
         "altScore": {
-            "title": "ALT-SCORE",
-            "description": "Your financial strength score.",
-            "notCalculated": "Not yet calculated. Complete your application to see your score."
+          "title": "ALT-SCORE",
+          "description": "Know your financial strength from UPI and cash flow"
         },
         "riskScore": {
-            "title": "RISK-SCORE",
-            "description": "Your loan repayment risk assessment.",
-            "notCalculated": "Not yet calculated. Complete the ALT-SCORE step first."
+          "title": "RISK-SCORE",
+          "description": "Check your repayment profile and risk level."
         },
-        "viewDetailsButton": "View Details",
-        "errors": {
-            "noApplication": "No application data found. Please complete the questionnaire.",
-            "fetchError": "An error occurred while fetching your data."
+        "loanEligibility": {
+          "title": "LOAN ELIGIBILITY",
+          "description": "See your loan amount, interest, EMI, and tenure"
         }
+      }
+    },
+    "calculating": {
+      "welcome": "Welcome {{name}}",
+      "analyzing": "SMARTSETU-AI IS ANALYZING YOUR DATA",
+      "preparing": "PREPARING YOUR REPORT",
+      "almostThere": "ALMOST THERE..."
+    },
+    "profile": {
+      "title": "User Profile",
+      "loading": "Loading your profile...",
+      "completeQuestionnaireButton": "Complete Questionnaire",
+      "progress": {
+        "title": "Application Progress",
+        "description": "This is how much of the application you have completed.",
+        "continueButton": "Continue Application",
+        "editButton": "Edit Application"
+      },
+      "altScore": {
+        "title": "ALT-SCORE",
+        "description": "Your financial strength score.",
+        "notCalculated": "Not yet calculated. Complete your application to see your score."
+      },
+      "riskScore": {
+        "title": "RISK-SCORE",
+        "description": "Your loan repayment risk assessment.",
+        "notCalculated": "Not yet calculated. Complete the ALT-SCORE step first."
+      },
+      "viewDetailsButton": "View Details",
+      "errors": {
+        "noApplication": "No application data found. Please complete the questionnaire.",
+        "fetchError": "An error occurred while fetching your data."
+      }
     },
     "altScore": {
-        "welcome": "Welcome {{name}}",
-        "loading": "Calculating your ALT-SCORE...",
-        "completeQuestionnaireButton": "Complete Questionnaire",
-        "title": "YOUR ALT-SCORE",
-        "reasonsTitle": "Why This Score?",
-        "tipsTitle": "Tips to Improve",
-        "proceedButton": "Proceed to Risk Score",
-        "errors": {
-            "noApplication": "Loan application not found. Please complete the questionnaire.",
-            "fetchError": "Failed to fetch application data or calculate score."
-        },
-        "reasons": {
-            "positive": {
-                "highProfit": "Strong positive monthly cash flow.",
-                "highProfit.explanation": "Showing that your income is consistently higher than your expenses is the most important factor for lenders. It proves your business is profitable and can handle loan repayments.",
-                "highUpi": "High volume of UPI transactions.",
-                "highUpi.explanation": "Higher UPI usage shows lenders that your business has consistent, digitally-verifiable income, which is seen as a major sign of stability.",
-                "goodCibil": "Good CIBIL score.",
-                "goodCibil.explanation": "A good CIBIL score is crucial for larger loans. It shows a history of responsible borrowing and timely repayments.",
-                "longDuration": "Stable business duration (more than 5 years).",
-                "longDuration.explanation": "A longer track record helps prove your business's reliability and stability over time.",
-                "ownsAssets": "Owning a house and/or the business.",
-                "ownsAssets.explanation": "Owning assets indicates financial stability and provides a form of security for lenders.",
-                "govtBenefits": "Receiving government benefits.",
-                "govtBenefits.explanation": "This shows integration with formal financial systems, which can be a positive indicator."
-            },
-            "negative": {
-                "lowProfit": "Negative or low monthly cash flow.",
-                "lowProfit.explanation": "When expenses are higher than income, it signals financial instability, which is a major concern for loan providers.",
-                "highCash": "High dependency on cash income.",
-                "highCash.explanation": "Lenders see high cash usage as a risk because it's harder to verify your income digitally. More digital transactions build trust.",
-                "lowCibil": "Low CIBIL score.",
-                "lowCibil.explanation": "A low CIBIL score suggests past difficulties with repayment, which increases perceived risk for lenders.",
-                "shortDuration": "Short business duration (less than 5 years).",
-                "shortDuration.explanation": "Newer businesses are often seen as less stable and therefore riskier than established ones.",
-                "noAssets": "Lack of personal or business assets.",
-                "noAssets.explanation": "Owning assets can act as security and shows stability. A lack of assets can increase the lender's risk.",
-                "existingLoan": "Having an existing loan.",
-                "existingLoan.explanation": "An existing loan means you already have repayment obligations, which can affect your ability to handle new debt."
-            }
-        },
-        "tips": {
-            "complete": "Complete the full questionnaire to get an accurate score.",
-            "complete.explanation": "Your score is an estimate. Providing all your financial details will give our AI a complete picture, leading to a more precise score and better loan options.",
-            "upi": "Increase the volume of UPI transactions.",
-            "upi.explanation": "Increase the use of UPI for business transactions to build a stronger digital financial history and demonstrate consistent income.",
-            "cibil": "Try to build a CIBIL credit history.",
-            "cibil.explanation": "Start by getting a credit card or a small loan and paying it back on time to build a positive record for future, larger loans.",
-            "pan": "Upload your PAN card for better identity verification.",
-            "pan.explanation": "A PAN card is a key identity document. Uploading it helps us verify your identity and credit history, which can significantly improve your score.",
-            "cashflow": "Maintain a positive monthly cash flow.",
-            "cashflow.explanation": "Focus on increasing your income and managing expenses to ensure your business remains profitable and can handle repayments."
-        }
+      "welcome": "Welcome {{name}}",
+      "loading": "Calculating your ALT-SCORE...",
+      "completeQuestionnaireButton": "Complete Questionnaire",
+      "title": "YOUR ALT-SCORE",
+      "reasonsTitle": "Why This Score?",
+      "tipsTitle": "Tips to Improve",
+      "proceedButton": "Proceed to Risk Score",
+      "errors": {
+        "noApplication": "Loan application not found. Please complete the questionnaire.",
+        "fetchError": "Failed to fetch application data or calculate score."
+      },
+      "reasons": {
+        "highProfit": "Strong positive monthly cash flow.",
+        "highProfit.explanation": "Showing that your income is consistently higher than your expenses is the most important factor for lenders. It proves your business is profitable and can handle loan repayments.",
+        "highUpi": "High volume of UPI transactions.",
+        "highUpi.explanation": "Higher UPI usage shows lenders that your business has consistent, digitally-verifiable income, which is seen as a major sign of stability.",
+        "goodCibil": "Good CIBIL score.",
+        "goodCibil.explanation": "A good CIBIL score is crucial for larger loans. It shows a history of responsible borrowing and timely repayments.",
+        "longDuration": "Stable business duration (more than 5 years).",
+        "longDuration.explanation": "A longer track record helps prove your business's reliability and stability over time.",
+        "ownsAssets": "Owning a house and/or the business.",
+        "ownsAssets.explanation": "Owning assets indicates financial stability and provides a form of security for lenders.",
+        "govtBenefits": "Receiving government benefits.",
+        "govtBenefits.explanation": "This shows integration with formal financial systems, which can be a positive indicator.",
+        "lowProfit": "Negative or low monthly cash flow.",
+        "lowProfit.explanation": "When expenses are higher than income, it signals financial instability, which is a major concern for loan providers.",
+        "highCash": "High dependency on cash income.",
+        "highCash.explanation": "Lenders see high cash usage as a risk because it's harder to verify your income digitally. More digital transactions build trust.",
+        "lowCibil": "Low CIBIL score.",
+        "lowCibil.explanation": "A low CIBIL score suggests past difficulties with repayment, which increases perceived risk for lenders.",
+        "shortDuration": "Short business duration (less than 5 years).",
+        "shortDuration.explanation": "Newer businesses are often seen as less stable and therefore riskier than established ones.",
+        "noAssets": "Lack of personal or business assets.",
+        "noAssets.explanation": "Owning assets can act as security and shows stability. A lack of assets can increase the lender's risk.",
+        "existingLoan": "Having an existing loan.",
+        "existingLoan.explanation": "An existing loan means you already have repayment obligations, which can affect your ability to handle new debt."
+      },
+      "tips": {
+        "complete": "Complete the full questionnaire to get an accurate score.",
+        "complete.explanation": "Your score is an estimate. Providing all your financial details will give our AI a complete picture, leading to a more precise score and better loan options.",
+        "upi": "Increase the volume of UPI transactions.",
+        "upi.explanation": "Increase the use of UPI for business transactions to build a stronger digital financial history and demonstrate consistent income.",
+        "cibil": "Try to build a CIBIL credit history.",
+        "cibil.explanation": "Start by getting a credit card or a small loan and paying it back on time to build a positive record for future, larger loans.",
+        "pan": "Upload your PAN card for better identity verification.",
+        "pan.explanation": "A PAN card is a key identity document. Uploading it helps us verify your identity and credit history, which can significantly improve your score.",
+        "cashflow": "Maintain a positive monthly cash flow.",
+        "cashflow.explanation": "Focus on increasing your income and managing expenses to ensure your business remains profitable and can handle repayments."
+      }
     },
     "riskScore": {
-        "welcome": "Welcome {{name}}",
-        "loading": "Calculating your RISK-SCORE...",
-        "completeQuestionnaireButton": "Complete Questionnaire",
-        "title": "YOUR RISK-SCORE",
-        "reasonsTitle": "Why This Score?",
-        "tipsTitle": "Tips to Improve",
-        "proceedButton": "Proceed to Loan Eligibility",
-        "errors": {
-            "noApplication": "Loan application not found. Please complete the questionnaire first.",
-            "fetchError": "Failed to fetch application data or calculate score."
-        },
-        "reasons": {
-            "cashflow": "Negative monthly cash flow.",
-            "cashflow.explanation": "When expenses are higher than income, it signals financial instability, which is a major concern for loan providers.",
-            "cash": "High dependency on cash income.",
-            "cash.explanation": "Lenders see high cash usage as a risk because it's harder to verify your income digitally. More digital transactions build trust.",
-            "loan": "Existing loan adds to debt burden.",
-            "loan.explanation": "An existing loan means you already have repayment obligations, which can affect your ability to handle new debt.",
-            "duration": "Short business duration is riskier.",
-            "duration.explanation": "Newer businesses are often seen as less stable. A longer track record helps prove your business's reliability.",
-            "cibil": "Absence of a CIBIL score increases uncertainty.",
-            "cibil.explanation": "Without a credit history, it's difficult for lenders to predict your repayment behavior, which increases their risk.",
-            "assets": "Lack of personal or business assets.",
-            "assets.explanation": "Owning assets like a house or shop can act as security and shows stability, reducing the lender's risk."
-        },
-        "tips": {
-            "upi": "Increase UPI transactions to build a digital footprint.",
-            "upi.explanation": "A strong digital transaction history provides verifiable proof of your business activity and income stability.",
-            "repay": "Repay existing loans on time to improve creditworthiness.",
-            "repay.explanation": "A consistent history of on-time payments is the best way to show lenders you are a reliable borrower.",
-            "pan": "Upload your PAN card for better identity and credit verification.",
-            "pan.explanation": "A PAN card allows for more thorough identity and credit checks, which can reduce uncertainty and lower your risk score."
-        }
+      "welcome": "Welcome {{name}}",
+      "loading": "Calculating your RISK-SCORE...",
+      "completeQuestionnaireButton": "Complete Questionnaire",
+      "title": "YOUR RISK-SCORE",
+      "reasonsTitle": "Why This Score?",
+      "tipsTitle": "Tips to Improve",
+      "proceedButton": "Proceed to Loan Eligibility",
+      "errors": {
+        "noApplication": "Loan application not found. Please complete the questionnaire first.",
+        "fetchError": "Failed to fetch application data or calculate score."
+      },
+      "reasons": {
+        "cashflow": "Negative monthly cash flow.",
+        "cashflow.explanation": "When expenses are higher than income, it signals financial instability, which is a major concern for loan providers.",
+        "cash": "High dependency on cash income.",
+        "cash.explanation": "Lenders see high cash usage as a risk because it's harder to verify your income digitally. More digital transactions build trust.",
+        "loan": "Existing loan adds to debt burden.",
+        "loan.explanation": "An existing loan means you already have repayment obligations, which can affect your ability to handle new debt.",
+        "duration": "Short business duration is riskier.",
+        "duration.explanation": "Newer businesses are often seen as less stable. A longer track record helps prove your business's reliability.",
+        "cibil": "Absence of a CIBIL score increases uncertainty.",
+        "cibil.explanation": "Without a credit history, it's difficult for lenders to predict your repayment behavior, which increases their risk.",
+        "assets": "Lack of personal or business assets.",
+        "assets.explanation": "Owning assets like a house or shop can act as security and shows stability, reducing the lender's risk."
+      },
+      "tips": {
+        "upi": "Increase UPI transactions to build a digital footprint.",
+        "upi.explanation": "A strong digital transaction history provides verifiable proof of your business activity and income stability.",
+        "repay": "Repay existing loans on time to improve creditworthiness.",
+        "repay.explanation": "A consistent history of on-time payments is the best way to show lenders you are a reliable borrower.",
+        "pan": "Upload your PAN card for better identity and credit verification.",
+        "pan.explanation": "A PAN card allows for more thorough identity and credit checks, which can reduce uncertainty and lower your risk score."
+      }
     },
     "loanEligibility": {
-        "welcome": "Hey, {{name}}",
-        "subtitle": "HERE ARE YOUR LOAN ELIGIBILITY DETAILS",
-        "loading": "Determining your loan eligibility...",
-        "completeQuestionnaireButton": "Complete Questionnaire",
-        "resultTitle": "Loan Eligibility Result",
-        "loanAmountLabel": "Slide how much loan do you want. (Max: {{amount}})",
-        "tenureLabel": "Slide your tenure.",
-        "banksTitle": "Bank Chances",
-        "tipsTitle": "Tips to Improve",
-        "applyButton": "APPLY NOW",
-        "backButton": "BACK TO DASHBOARD",
-        "chances": {
-            "high": "High Chance",
-            "medium": "Medium Chance",
-            "low": "Low Chance"
-        },
-        "details": {
-            "loanAmount": "Loan Amount",
-            "interest": "Interest",
-            "tenure": "Tenure",
-            "months": "{{count}} Months",
-            "emi": "Monthly EMI",
-            "repayment": "Total Repayment"
-        },
-        "errors": {
-            "missingScores": "ALT-SCORE or RISK-SCORE is missing. Please complete the previous steps.",
-            "noApplication": "Loan application not found. Please complete the questionnaire first.",
-            "fetchError": "Failed to fetch application data or determine eligibility."
-        }
+      "welcome": "Hey, {{name}}",
+      "subtitle": "HERE ARE YOUR LOAN ELIGIBILITY DETAILS",
+      "loading": "Determining your loan eligibility...",
+      "completeQuestionnaireButton": "Complete Questionnaire",
+      "resultTitle": "Loan Eligibility Result",
+      "loanAmountLabel": "Slide how much loan do you want. (Max: {{amount}})",
+      "tenureLabel": "Slide your tenure.",
+      "banksTitle": "Bank Chances",
+      "tipsTitle": "Tips to Improve",
+      "applyButton": "APPLY NOW",
+      "backButton": "BACK TO DASHBOARD",
+      "chances": {
+        "high": "High Chance",
+        "medium": "Medium Chance",
+        "low": "Low Chance"
+      },
+      "details": {
+        "loanAmount": "Loan Amount",
+        "interest": "Interest",
+        "tenure": "Tenure",
+        "months": "{{count}} Months",
+        "emi": "Monthly EMI",
+        "repayment": "Total Repayment"
+      },
+      "errors": {
+        "missingScores": "ALT-SCORE or RISK-SCORE is missing. Please complete the previous steps.",
+        "noApplication": "Loan application not found. Please complete the questionnaire first.",
+        "fetchError": "Failed to fetch application data or determine eligibility."
+      }
     }
-}
+  }
+  

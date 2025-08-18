@@ -41,7 +41,11 @@ const AnimatedBridge = () => (
          {/* Vertical Supports */}
         {Array.from({ length: 15 }).map((_, i) => {
             const x = 50 + i * 50;
-            const y = 10 + 3.8e-4 * Math.pow(x - 400, 2) * 1.25; // Adjusted quadratic formula for the curve
+            // This quadratic formula calculates the y-position on the arc for a given x.
+            // It's derived from the Bézier curve's properties to ensure the pillars meet the arc.
+            const t = (x - 10) / (790 - 10);
+            const y = Math.pow(1 - t, 2) * 140 + 2 * (1 - t) * t * 10 + Math.pow(t, 2) * 140;
+
             return (
                  <motion.path
                     key={i}
@@ -63,7 +67,7 @@ export default function HeroSection({ onScrollToAbout }: HeroSectionProps) {
   const { t } = useLanguage();
 
   return (
-    <section className="relative container mx-auto flex flex-col items-center justify-center text-center py-32 sm:py-48">
+    <section className="relative container mx-auto flex flex-col items-center justify-center text-center py-48 sm:py-64">
       <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4 font-headline animate-glowing">
         {t('hero.headline')}
       </h1>

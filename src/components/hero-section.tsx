@@ -11,28 +11,48 @@ type HeroSectionProps = {
   onScrollToAbout: () => void;
 };
 
-const AnimatedWave = () => (
-    <div className="absolute bottom-0 left-0 w-full h-40 overflow-hidden">
+const AnimatedBridge = () => (
+    <div className="absolute bottom-0 left-0 w-full h-48 overflow-hidden">
       <motion.svg
         className="w-full h-full"
-        viewBox="0 0 1440 120"
+        viewBox="0 0 800 120"
         preserveAspectRatio="none"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
+        {/* Bridge Arch */}
         <motion.path
-          initial={{ d: "M0,60 C240,110 480,10 720,60 S960,110 1200,60 S1440,10 1440,60 V120 H0 Z" }}
-          animate={{ d: "M0,60 C240,10 480,110 720,60 S960,10 1200,60 S1440,110 1440,60 V120 H0 Z" }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            repeatType: "reverse",
-            ease: "easeInOut",
-          }}
+          d="M10 110 Q 400 10 790 110"
           stroke="hsl(var(--primary))"
-          strokeWidth="1"
-          fill="transparent"
+          strokeWidth="1.5"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 2, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
         />
+        {/* Bridge Deck */}
+        <motion.path
+          d="M10 110 H 790"
+          stroke="hsl(var(--primary))"
+          strokeWidth="1.5"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 2, ease: "easeInOut", delay: 0.5, repeat: Infinity, repeatType: "reverse" }}
+        />
+         {/* Vertical Supports */}
+        {[100, 200, 300, 500, 600, 700].map((x, i) => {
+            const y = 10 + 3.8e-4 * Math.pow(x - 400, 2);
+            return (
+                 <motion.path
+                    key={i}
+                    d={`M ${x} 110 V ${y}`}
+                    stroke="hsl(var(--primary))"
+                    strokeWidth="1"
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: 1.5, ease: "easeInOut", delay: 0.2 * i, repeat: Infinity, repeatType: "reverse" }}
+                 />
+            )
+        })}
       </motion.svg>
     </div>
   );
@@ -57,7 +77,7 @@ export default function HeroSection({ onScrollToAbout }: HeroSectionProps) {
           {t('hero.aboutUs')}
         </Button>
       </div>
-      <AnimatedWave />
+      <AnimatedBridge />
     </section>
   );
 }

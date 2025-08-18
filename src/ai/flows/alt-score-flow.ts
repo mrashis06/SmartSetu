@@ -64,21 +64,21 @@ Scoring Guidelines:
 Your Task:
 1.  Calculate the final ALT-SCORE after considering all factors, with a strong emphasis on Net Income. Ensure it is within the 300-900 range.
 2.  Determine if there is enough data. If crucial fields like monthlyUpiTransactions, monthlyCashIncome, or monthlyExpenses are missing, set isDataSufficient to false. Otherwise, set it to true.
-3.  Provide the top 3-4 most influential reasons for the calculated score. Use the following localization keys for the 'key' field:
+3.  Provide the top 3-4 most influential reasons for the calculated score. You MUST use one of the following localization keys for the 'key' field in each reason object:
     - Positive Reasons:
-        - 'altScore.reasons.positive.highProfit': For strong positive net income.
-        - 'altScore.reasons.positive.highUpi': For a high percentage of UPI transactions.
-        - 'altScore.reasons.positive.goodCibil': For a good CIBIL score.
-        - 'altScore.reasons.positive.longDuration': For business duration over 5 years.
-        - 'altScore.reasons.positive.ownsAssets': For owning a house or business.
-        - 'altScore.reasons.positive.govtBenefits': For receiving government benefits.
+        - 'altScore.reasons.positive.highProfit'
+        - 'altScore.reasons.positive.highUpi'
+        - 'altScore.reasons.positive.goodCibil'
+        - 'altScore.reasons.positive.longDuration'
+        - 'altScore.reasons.positive.ownsAssets'
+        - 'altScore.reasons.positive.govtBenefits'
     - Negative Reasons:
-        - 'altScore.reasons.negative.lowProfit': For negative or low net income.
-        - 'altScore.reasons.negative.highCash': For high dependency on cash income.
-        - 'altScore.reasons.negative.lowCibil': For a low CIBIL score.
-        - 'altScore.reasons.negative.shortDuration': For business duration less than 5 years.
-        - 'altScore.reasons.negative.noAssets': For not owning a house or business.
-        - 'altScore.reasons.negative.existingLoan': For having an existing loan.
+        - 'altScore.reasons.negative.lowProfit'
+        - 'altScore.reasons.negative.highCash'
+        - 'altScore.reasons.negative.lowCibil'
+        - 'altScore.reasons.negative.shortDuration'
+        - 'altScore.reasons.negative.noAssets'
+        - 'altScore.reasons.negative.existingLoan'
 4.  Provide a list of actionable tip localization keys.
     - If isDataSufficient is false, your primary tip key MUST be 'altScore.tips.complete'.
     - Other tip keys: 'altScore.tips.upi', 'altScore.tips.cibil', 'altScore.tips.pan', 'altScore.tips.cashflow'.

@@ -53,9 +53,16 @@ export default function AltScorePage() {
           if (docSnap.exists()) {
             const data = docSnap.data() as ApplicationData;
             
-            if (data.altScoreResult && data.altScoreResult.score) {
+            // This flag checks if the stored reasons are in the old, incorrect object format.
+            const isOldDataFormat = data.altScoreResult && Array.isArray(data.altScoreResult.reasons) && data.altScoreResult.reasons.length > 0 && typeof data.altScoreResult.reasons[0] === 'object';
+            
+            if (data.altScoreResult && data.altScoreResult.score && !isOldDataFormat) {
               setAltScoreResult(data.altScoreResult);
             } else {
+              // If data is in the old format or doesn't exist, clear it and re-fetch.
+              if (isOldDataFormat) {
+                await updateDoc(docRef, { altScoreResult: null });
+              }
               const result = await calculateAltScore({
                 financialInfo: data.financialInfo,
                 additionalInfo: data.additionalInfo,
@@ -81,6 +88,7 @@ export default function AltScorePage() {
   }, [user, router, t]);
   
   const getReasonIcon = (reasonKey: string) => {
+    if (!reasonKey || typeof reasonKey !== 'string') return null;
     const negativeKeywords = ['lowProfit', 'highCash', 'lowCibil', 'shortDuration', 'noAssets', 'existingLoan'];
     const isNegative = negativeKeywords.some(keyword => reasonKey.includes(keyword));
 
@@ -161,7 +169,7 @@ export default function AltScorePage() {
                 >
                     <motion.h2 variants={itemVariants} className="text-2xl font-bold font-serif text-center">{t('altScore.reasonsTitle')}</motion.h2>
                     <div className="grid md:grid-cols-2 gap-4">
-                        {altScoreResult.reasons.filter(r => r).map((reasonKey, i) => (
+                        {altScoreResult.reasons.filter(r => typeof r === 'string' && r).map((reasonKey, i) => (
                              <motion.div key={i} variants={itemVariants}>
                                 <Card className="h-full">
                                     <CardContent className="p-4 flex items-center">

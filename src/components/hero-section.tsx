@@ -12,44 +12,45 @@ type HeroSectionProps = {
 };
 
 const AnimatedBridge = () => (
-    <div className="absolute bottom-0 left-0 w-full h-48 overflow-hidden">
+    <div className="absolute bottom-0 left-0 w-full h-64 overflow-hidden">
       <motion.svg
         className="w-full h-full"
-        viewBox="0 0 800 120"
+        viewBox="0 0 800 150"
         preserveAspectRatio="none"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         {/* Bridge Arch */}
         <motion.path
-          d="M10 110 Q 400 10 790 110"
+          d="M10 140 Q 400 10 790 140"
           stroke="hsl(var(--primary))"
           strokeWidth="1.5"
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
-          transition={{ duration: 2, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ pathLength: 1, opacity: 1 }}
+          transition={{ duration: 2.5, ease: "easeInOut", repeat: Infinity, repeatDelay: 1 }}
         />
         {/* Bridge Deck */}
         <motion.path
-          d="M10 110 H 790"
+          d="M10 140 H 790"
           stroke="hsl(var(--primary))"
           strokeWidth="1.5"
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
-          transition={{ duration: 2, ease: "easeInOut", delay: 0.5, repeat: Infinity, repeatType: "reverse" }}
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ pathLength: 1, opacity: 1 }}
+          transition={{ duration: 2.5, ease: "easeInOut", delay: 0.5, repeat: Infinity, repeatDelay: 1 }}
         />
          {/* Vertical Supports */}
-        {[100, 200, 300, 500, 600, 700].map((x, i) => {
-            const y = 10 + 3.8e-4 * Math.pow(x - 400, 2);
+        {Array.from({ length: 15 }).map((_, i) => {
+            const x = 50 + i * 50;
+            const y = 10 + 3.8e-4 * Math.pow(x - 400, 2) * 1.25; // Adjusted quadratic formula for the curve
             return (
                  <motion.path
                     key={i}
-                    d={`M ${x} 110 V ${y}`}
+                    d={`M ${x} 140 V ${y}`}
                     stroke="hsl(var(--primary))"
                     strokeWidth="1"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 1.5, ease: "easeInOut", delay: 0.2 * i, repeat: Infinity, repeatType: "reverse" }}
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 1 }}
+                    transition={{ duration: 1.5, ease: "easeOut", delay: 0.8 + i * 0.1, repeat: Infinity, repeatDelay: 2 }}
                  />
             )
         })}
@@ -62,7 +63,7 @@ export default function HeroSection({ onScrollToAbout }: HeroSectionProps) {
   const { t } = useLanguage();
 
   return (
-    <section className="relative container mx-auto flex flex-col items-center justify-center text-center py-24 sm:py-32">
+    <section className="relative container mx-auto flex flex-col items-center justify-center text-center py-32 sm:py-48">
       <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4 font-headline animate-glowing">
         {t('hero.headline')}
       </h1>

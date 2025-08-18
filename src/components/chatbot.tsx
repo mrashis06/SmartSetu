@@ -122,11 +122,11 @@ export function Chatbot() {
                     <Button
                         key={i}
                         variant="outline"
-                        className="h-auto text-left py-2 px-3 justify-between"
+                        className="h-auto text-left py-2 px-3 justify-between flex-col items-start"
                         onClick={() => handleSendMessage(prompt)}
                     >
-                        <p className="text-sm font-normal text-foreground/80">{prompt}</p>
-                        <CornerDownLeft className="h-4 w-4 text-muted-foreground" />
+                        <p className="text-sm font-normal text-foreground/80 whitespace-normal">{prompt}</p>
+                        <CornerDownLeft className="h-4 w-4 text-muted-foreground self-end" />
                     </Button>
                 ))}
             </div>

@@ -11,56 +11,70 @@ type HeroSectionProps = {
   onScrollToAbout: () => void;
 };
 
-const AnimatedBridge = () => (
+const AnimatedBridge = () => {
+  const numSuspenders = 18;
+  return (
     <div className="absolute bottom-0 left-0 w-full h-64 overflow-hidden">
       <motion.svg
         className="w-full h-full"
-        viewBox="0 0 800 150"
+        viewBox="0 0 800 200"
         preserveAspectRatio="none"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        {/* Bridge Arch */}
-        <motion.path
-          d="M10 140 Q 400 10 790 140"
-          stroke="hsl(var(--primary))"
-          strokeWidth="1.5"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 1 }}
-          transition={{ duration: 2.5, ease: "easeInOut", repeat: Infinity, repeatDelay: 1 }}
-        />
-        {/* Bridge Deck */}
-        <motion.path
-          d="M10 140 H 790"
-          stroke="hsl(var(--primary))"
-          strokeWidth="1.5"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 1 }}
-          transition={{ duration: 2.5, ease: "easeInOut", delay: 0.5, repeat: Infinity, repeatDelay: 1 }}
-        />
-         {/* Vertical Supports */}
-        {Array.from({ length: 15 }).map((_, i) => {
-            const x = 50 + i * 50;
-            // This quadratic formula calculates the y-position on the arc for a given x.
-            // It's derived from the Bézier curve's properties to ensure the pillars meet the arc.
-            const t = (x - 10) / (790 - 10);
-            const y = Math.pow(1 - t, 2) * 140 + 2 * (1 - t) * t * 10 + Math.pow(t, 2) * 140;
-
+        <g stroke="hsl(var(--primary))" strokeWidth="1.5">
+          {/* Main Towers */}
+          <motion.path
+            d="M 150 200 V 80"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 1 }}
+            transition={{ duration: 1, delay: 0.5, ease: "easeInOut", repeat: Infinity, repeatDelay: 4 }}
+          />
+          <motion.path
+            d="M 650 200 V 80"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 1 }}
+            transition={{ duration: 1, delay: 0.5, ease: "easeInOut", repeat: Infinity, repeatDelay: 4 }}
+          />
+          {/* Main Suspension Cable */}
+          <motion.path
+            d="M 150 80 Q 400 180 650 80"
+            strokeWidth="1"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 1 }}
+            transition={{ duration: 1.5, delay: 1, ease: "easeInOut", repeat: Infinity, repeatDelay: 3.5 }}
+          />
+          {/* Bridge Deck */}
+          <motion.path
+            d="M 10 160 H 790"
+            strokeWidth="1.5"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 1 }}
+            transition={{ duration: 2, delay: 1.5, ease: "easeInOut", repeat: Infinity, repeatDelay: 3 }}
+          />
+          {/* Vertical Suspenders */}
+          {Array.from({ length: numSuspenders }).map((_, i) => {
+            const t = (i + 1) / (numSuspenders + 1);
+            const x = 150 + t * (650 - 150);
+            // Quadratic Bézier curve formula: y = (1-t)^2*P0y + 2(1-t)*t*P1y + t^2*P2y
+            const y = Math.pow(1 - t, 2) * 80 + 2 * (1 - t) * t * 180 + Math.pow(t, 2) * 80;
             return (
-                 <motion.path
-                    key={i}
-                    d={`M ${x} 140 V ${y}`}
-                    stroke="hsl(var(--primary))"
-                    strokeWidth="1"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
-                    transition={{ duration: 1.5, ease: "easeOut", delay: 0.8 + i * 0.1, repeat: Infinity, repeatDelay: 2 }}
-                 />
-            )
-        })}
+              <motion.path
+                key={i}
+                d={`M ${x} ${y} V 160`}
+                strokeWidth="0.5"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{ pathLength: 1, opacity: 1 }}
+                transition={{ duration: 1, ease: "easeOut", delay: 2 + i * 0.1, repeat: Infinity, repeatDelay: 4 }}
+              />
+            );
+          })}
+        </g>
       </motion.svg>
     </div>
   );
+};
+
 
 export default function HeroSection({ onScrollToAbout }: HeroSectionProps) {
   const { user } = useAuth();

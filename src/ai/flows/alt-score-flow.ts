@@ -21,14 +21,9 @@ const AltScoreInputSchema = z.object({
 });
 export type AltScoreInput = z.infer<typeof AltScoreInputSchema>;
 
-const ReasonSchema = z.object({
-  key: z.string().describe('A localization key for the reason.'),
-  type: z.enum(['positive', 'negative']).describe('Whether the reason is a positive or negative factor.'),
-});
-
 const AltScoreOutputSchema = z.object({
   score: z.number().min(300).max(900).describe('The calculated ALT-SCORE, between 300 and 900.'),
-  reasons: z.array(ReasonSchema).describe('A list of the top 3-4 reasons influencing the score, represented by localization keys.'),
+  reasons: z.array(z.string()).describe('A list of localization keys for the top 3-4 reasons influencing the score.'),
   tips: z.array(z.string()).describe('A list of actionable tip localization keys for the user to improve their score.'),
   isDataSufficient: z.boolean().describe('Whether enough data was provided to calculate a meaningful score.'),
 });
@@ -64,7 +59,7 @@ Scoring Guidelines:
 Your Task:
 1.  Calculate the final ALT-SCORE after considering all factors, with a strong emphasis on Net Income. Ensure it is within the 300-900 range.
 2.  Determine if there is enough data. If crucial fields like monthlyUpiTransactions, monthlyCashIncome, or monthlyExpenses are missing, set isDataSufficient to false. Otherwise, set it to true.
-3.  Provide the top 3-4 most influential reasons for the calculated score. You MUST use one of the following localization keys for the 'key' field in each reason object:
+3.  Provide the top 3-4 most influential reasons for the calculated score. You MUST use one of the following localization keys for each reason in the 'reasons' array:
     - Positive Reasons:
         - 'altScore.reasons.positive.highProfit'
         - 'altScore.reasons.positive.highUpi'

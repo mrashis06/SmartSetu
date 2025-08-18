@@ -62,16 +62,16 @@ Your Task:
 1. Calculate ALT-SCORE in range 300–900.
 2. Check data sufficiency (if missing key financial fields like monthlyUpiTransactions or monthlyExpenses, set isDataSufficient to false).
 3. Provide 3–4 reasons for the score. For EACH reason, you MUST provide:
-   - A "key" property. This key MUST be one of the valid keys listed below. Do not use any other string.
+   - A "key" property. This key MUST be one of the valid keys listed below. Do not use any other string. It is critical that every reason has a valid 'key'.
    - A "type" property ("positive" or "negative").
    - Valid keys:
-     - Positive: altScore.reasons.highProfit, altScore.reasons.highUpi, altScore.reasons.goodCibil, altScore.reasons.longDuration, altScore.reasons.ownsAssets, altScore.reasons.govtBenefits
-     - Negative: altScore.reasons.lowProfit, altScore.reasons.highCash, altScore.reasons.lowCibil, altScore.reasons.shortDuration, altScore.reasons.noAssets, altScore.reasons.existingLoan
+     - Positive: "altScore.reasons.highProfit", "altScore.reasons.highUpi", "altScore.reasons.goodCibil", "altScore.reasons.longDuration", "altScore.reasons.ownsAssets", "altScore.reasons.govtBenefits"
+     - Negative: "altScore.reasons.lowProfit", "altScore.reasons.highCash", "altScore.reasons.lowCibil", "altScore.reasons.shortDuration", "altScore.reasons.noAssets", "altScore.reasons.existingLoan"
 4. Provide actionable tips for improvement. Each tip MUST be one of the following valid keys:
    - If data is insufficient, ONLY use: "altScore.tips.complete"
    - Otherwise, choose from: "altScore.tips.upi", "altScore.tips.cibil", "altScore.tips.pan", "altScore.tips.cashflow"
 
-Return ONLY JSON in the specified schema. It is critical that every reason has a valid 'key'.`,
+Return ONLY JSON in the specified schema. It is absolutely mandatory that every reason object in the 'reasons' array contains a 'key' property with one of the specified valid string values.`,
 });
 
 const altScoreFlow = ai.defineFlow(

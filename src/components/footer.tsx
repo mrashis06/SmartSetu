@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Instagram, Facebook, Youtube, X, LucideProps, ArrowUp } from "lucide-react";
-import { useEffect } from 'react';
 import { useLanguage } from "@/context/language-context";
 import type { Language } from "@/context/language-context";
 
@@ -70,8 +69,8 @@ export default function Footer() {
       <div className="container mx-auto pt-16 pb-8">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
           {/* Social and Language Column */}
-          <div className="col-span-2 md:col-span-1">
-             <div className="mb-4">
+          <div className="col-span-2 md:col-span-1 space-y-8">
+             <div>
               <p className="text-sm font-semibold mb-2">{t('footer.language')}</p>
               <Select defaultValue={language} onValueChange={(value: Language) => setLanguage(value)}>
                 <SelectTrigger className="w-[150px]">
@@ -88,7 +87,7 @@ export default function Footer() {
                  <p className="text-sm font-semibold mb-2">{t('footer.social')}</p>
                 <div className="flex space-x-4">
                     {socialIcons.map((social, index) => (
-                        <Link href={social.href} key={index} className="text-secondary-foreground/80 hover:text-secondary-foreground">
+                        <Link href={social.href} key={index} className="text-secondary-foreground/60 hover:text-secondary-foreground transition-transform duration-200 hover:scale-110">
                             {social.icon}
                         </Link>
                     ))}
@@ -102,7 +101,7 @@ export default function Footer() {
               <ul className="space-y-2">
                 {links.map((link) => (
                   <li key={link.text}>
-                    <Link href={link.href} className="text-secondary-foreground/80 hover:text-secondary-foreground text-sm">
+                    <Link href={link.href} className="text-secondary-foreground/80 hover:text-secondary-foreground text-sm transition-colors duration-200">
                       {link.text}
                     </Link>
                   </li>
@@ -118,7 +117,7 @@ export default function Footer() {
           <Link href="/" className="flex items-center space-x-2">
             <Logo className="h-8 w-auto" />
           </Link>
-          <Button onClick={handleScrollToTop}>
+          <Button onClick={handleScrollToTop} variant="outline">
             {t('footer.goToTop')} <ArrowUp className="ml-2 h-4 w-4" />
           </Button>
         </div>

@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Chatbot } from '@/components/chatbot';
 import { LanguageProvider } from '@/context/language-context';
 import { PT_Sans } from 'next/font/google';
+import { FooterContentProvider } from '@/components/footer-content';
 
 const ptSans = PT_Sans({
   subsets: ['latin'],
@@ -43,9 +44,11 @@ export default function RootLayout({
         >
           <LanguageProvider>
             <AuthProvider>
-              {children}
-              <Toaster />
-              <Chatbot />
+              <FooterContentProvider>
+                {children}
+                <Toaster />
+                <Chatbot />
+              </FooterContentProvider>
             </AuthProvider>
           </LanguageProvider>
         </ThemeProvider>

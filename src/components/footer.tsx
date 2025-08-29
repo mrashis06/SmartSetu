@@ -15,6 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import { Instagram, Facebook, Youtube, X, LucideProps, ArrowUp } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
 import type { Language } from "@/context/language-context";
+import { useFooterContent } from "./footer-content";
 
 // A component for the TikTok icon as it's not in lucide-react
 const TikTokIcon = (props: LucideProps) => (
@@ -28,6 +29,8 @@ const TikTokIcon = (props: LucideProps) => (
 
 export default function Footer() {
   const { t, setLanguage, language } = useLanguage();
+  const { openContent } = useFooterContent();
+
   const socialIcons = [
     { href: "#", icon: <X className="h-5 w-5" /> },
     { href: "#", icon: <Instagram className="h-5 w-5" /> },
@@ -38,22 +41,22 @@ export default function Footer() {
 
   const footerLinks = {
     Company: [
-      { href: "#", text: t('footer.aboutUs') },
-      { href: "#", text: t('footer.contactUs') },
+      { id: 'aboutUs', text: t('footer.aboutUs') },
+      { id: 'contactUs', text: t('footer.contactUs') },
     ],
     Resources: [
-      { href: "#", text: t('footer.chatSupport') },
-      { href: "#", text: t('footer.safety') },
-      { href: "#", text: t('footer.feedback') },
+      { id: 'chatSupport', text: t('footer.chatSupport') },
+      { id: 'safety', text: t('footer.safety') },
+      { id: 'feedback', text: t('footer.feedback') },
     ],
     Policies: [
-      { href: "#", text: t('footer.terms') },
-      { href: "#", text: t('footer.privacy') },
-      { href: "#", text: t('footer.cookieSettings') },
-      { href: "#", text: t('footer.guidelines') },
-      { href: "#", text: t('footer.acknowledgements') },
-      { href: "#", text: t('footer.licenses') },
-      { href: "#", text: t('footer.companyInfo') },
+      { id: 'terms', text: t('footer.terms') },
+      { id: 'privacy', text: t('footer.privacy') },
+      { id: 'cookieSettings', text: t('footer.cookieSettings') },
+      { id: 'guidelines', text: t('footer.guidelines') },
+      { id: 'acknowledgements', text: t('footer.acknowledgements') },
+      { id: 'licenses', text: t('footer.licenses') },
+      { id: 'companyInfo', text: t('footer.companyInfo') },
     ],
   };
 
@@ -63,6 +66,11 @@ export default function Footer() {
       behavior: "smooth",
     });
   };
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLButtonElement>, contentId: string) => {
+    e.preventDefault();
+    openContent(contentId);
+  }
 
   return (
     <footer className="bg-secondary text-secondary-foreground">
@@ -100,10 +108,10 @@ export default function Footer() {
               <h4 className="font-semibold text-primary mb-4">{t(`footer.${title.toLowerCase()}`)}</h4>
               <ul className="space-y-2">
                 {links.map((link) => (
-                  <li key={link.text}>
-                    <Link href={link.href} className="text-secondary-foreground/80 hover:text-secondary-foreground text-sm transition-colors duration-200">
+                  <li key={link.id}>
+                    <button onClick={(e) => handleLinkClick(e, link.id)} className="text-secondary-foreground/80 hover:text-secondary-foreground text-sm transition-colors duration-200 text-left">
                       {link.text}
-                    </Link>
+                    </button>
                   </li>
                 ))}
               </ul>

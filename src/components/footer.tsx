@@ -13,9 +13,9 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Instagram, Facebook, Youtube, X, LucideProps, ArrowUp } from "lucide-react";
-import { useEffect } from 'react';
 import { useLanguage } from "@/context/language-context";
 import type { Language } from "@/context/language-context";
+import { useFooterContent } from "./footer-content";
 
 // A component for the TikTok icon as it's not in lucide-react
 const TikTokIcon = (props: LucideProps) => (
@@ -29,6 +29,8 @@ const TikTokIcon = (props: LucideProps) => (
 
 export default function Footer() {
   const { t, setLanguage, language } = useLanguage();
+  const { openContent } = useFooterContent();
+
   const socialIcons = [
     { href: "#", icon: <X className="h-5 w-5" /> },
     { href: "#", icon: <Instagram className="h-5 w-5" /> },
@@ -39,22 +41,22 @@ export default function Footer() {
 
   const footerLinks = {
     Company: [
-      { href: "#", text: t('footer.aboutUs') },
-      { href: "#", text: t('footer.contactUs') },
+      { id: 'aboutUs', text: t('footer.aboutUs') },
+      { id: 'contactUs', text: t('footer.contactUs') },
     ],
     Resources: [
-      { href: "#", text: t('footer.chatSupport') },
-      { href: "#", text: t('footer.safety') },
-      { href: "#", text: t('footer.feedback') },
+      { id: 'chatSupport', text: t('footer.chatSupport') },
+      { id: 'safety', text: t('footer.safety') },
+      { id: 'feedback', text: t('footer.feedback') },
     ],
     Policies: [
-      { href: "#", text: t('footer.terms') },
-      { href: "#", text: t('footer.privacy') },
-      { href: "#", text: t('footer.cookieSettings') },
-      { href: "#", text: t('footer.guidelines') },
-      { href: "#", text: t('footer.acknowledgements') },
-      { href: "#", text: t('footer.licenses') },
-      { href: "#", text: t('footer.companyInfo') },
+      { id: 'terms', text: t('footer.terms') },
+      { id: 'privacy', text: t('footer.privacy') },
+      { id: 'cookieSettings', text: t('footer.cookieSettings') },
+      { id: 'guidelines', text: t('footer.guidelines') },
+      { id: 'acknowledgements', text: t('footer.acknowledgements') },
+      { id: 'licenses', text: t('footer.licenses') },
+      { id: 'companyInfo', text: t('footer.companyInfo') },
     ],
   };
 
@@ -65,13 +67,18 @@ export default function Footer() {
     });
   };
 
+  const handleLinkClick = (e: React.MouseEvent<HTMLButtonElement>, contentId: string) => {
+    e.preventDefault();
+    openContent(contentId);
+  }
+
   return (
     <footer className="bg-secondary text-secondary-foreground">
       <div className="container mx-auto pt-16 pb-8">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
           {/* Social and Language Column */}
-          <div className="col-span-2 md:col-span-1">
-             <div className="mb-4">
+          <div className="col-span-2 md:col-span-1 space-y-8">
+             <div>
               <p className="text-sm font-semibold mb-2">{t('footer.language')}</p>
               <Select defaultValue={language} onValueChange={(value: Language) => setLanguage(value)}>
                 <SelectTrigger className="w-[150px]">
@@ -88,7 +95,7 @@ export default function Footer() {
                  <p className="text-sm font-semibold mb-2">{t('footer.social')}</p>
                 <div className="flex space-x-4">
                     {socialIcons.map((social, index) => (
-                        <Link href={social.href} key={index} className="text-secondary-foreground/80 hover:text-secondary-foreground">
+                        <Link href={social.href} key={index} className="text-secondary-foreground/60 hover:text-secondary-foreground transition-transform duration-200 hover:scale-110">
                             {social.icon}
                         </Link>
                     ))}
@@ -101,10 +108,10 @@ export default function Footer() {
               <h4 className="font-semibold text-primary mb-4">{t(`footer.${title.toLowerCase()}`)}</h4>
               <ul className="space-y-2">
                 {links.map((link) => (
-                  <li key={link.text}>
-                    <Link href={link.href} className="text-secondary-foreground/80 hover:text-secondary-foreground text-sm">
+                  <li key={link.id}>
+                    <button onClick={(e) => handleLinkClick(e, link.id)} className="text-secondary-foreground/80 hover:text-secondary-foreground text-sm transition-colors duration-200 text-left">
                       {link.text}
-                    </Link>
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -118,7 +125,7 @@ export default function Footer() {
           <Link href="/" className="flex items-center space-x-2">
             <Logo className="h-8 w-auto" />
           </Link>
-          <Button onClick={handleScrollToTop}>
+          <Button onClick={handleScrollToTop} variant="outline">
             {t('footer.goToTop')} <ArrowUp className="ml-2 h-4 w-4" />
           </Button>
         </div>
